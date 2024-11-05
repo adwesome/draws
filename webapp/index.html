@@ -43,18 +43,22 @@
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
     <link rel="stylesheet" href="src/first_screen.css"/>
+    <link rel="stylesheet" href="src/second_screen.css"/>
 
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css">
-      
+
     </style>
 
     <script type="text/javascript" src="src/first_screen.js?v=1"></script>
+    <script type="text/javascript" src="src/second_screen.js?v=1"></script>
 
     <!--script type="text/javascript" src="src/play.js?v=1"></script-->
     <script type="text/javascript">
-      //window.onload = function() {
-      //}
+      window.onload = function() {
+        first_screen();
+        second_screen();
+      }
     </script>
   </head>
   <body>
@@ -127,8 +131,23 @@
                 <button id="to_second" class="btn btn-primary" disabled>Далее</button>
               </div>
             </div>
+          </div>
+          <div class="col-lg-6 offset-lg-3 col-10 offset-1">
             <div id="second_screen">
-              dd
+              <img id="logo_mk" style="border-radius: 8px 8px 0 0;" src="https://leonardo.edadeal.io/dyn/re/coupons/retailers/logos/sq/c378b8c860914bf3abdf8fd186e8ad33.png">
+              <img id="logo_lenta" style="border-radius: 0 0 8px 8px;" src="https://nlp-murmansk.ru/storage/app/media//%D0%BB%D0%B5%D0%BD%D1%82%D0%B0.png">
+            </div>
+          </div>
+          <div id="second_screen_explain">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-6 offset-lg-3 col-10 offset-1">
+                  <p style="text-align: center;">Выберите 1 или 2 бренда, для которых вы хотите поучаствовать в розыгрыше подарков.</p>
+                  <div class="d-grid gap-2">
+                    <button id="to_third" class="btn btn-primary" disabled>Далее</button>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

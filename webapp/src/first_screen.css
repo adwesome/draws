@@ -6,7 +6,5 @@ label {
 }
 #first_screen {
   padding-top: 10vh;
-}
-#second_screen {
   display: none;
 }

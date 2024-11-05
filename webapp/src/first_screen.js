@@ -3,7 +3,7 @@ function set_cities_display_attr(display) {
   document.getElementById('city_label').style.display = display;
 }
 
-window.onload = function() {
+function first_screen() {
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
     if (region.value == '10')
@@ -39,5 +39,6 @@ window.onload = function() {
   btn_go_to_second.addEventListener('click', function () {
     document.getElementById('first_screen').style.display = 'none';
     document.getElementById('second_screen').style.display = 'unset';
-  })
+    document.getElementById('second_screen_explain').style.display = 'unset';
+  });
 }

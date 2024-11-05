@@ -1,0 +1,18 @@
+#second_screen, #second_screen_explain {
+  display-: none;
+}
+img {
+  width: 50vw;
+  filter: brightness(3) grayscale(1);
+}
+#second_screen {
+  transform: translate(-50%,-50%);
+  left: 50% !important;
+  position: absolute;
+  top: 40%;
+}
+#second_screen_explain {
+  position: absolute;
+  bottom: 10%;
+  left: 0;
+}
