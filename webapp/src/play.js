@@ -378,6 +378,8 @@ async function calculate_percent(cid) {
 async function play() {
   'use strict';
 
+  start_countdown();
+
   const this_screen = document.getElementById('third_screen');
   if (this_screen.style.display != 'block')
     this_screen.style.display = 'block';
