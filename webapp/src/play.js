@@ -1,5 +1,5 @@
 var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-if (location.hostname == 'alexeyhimself.github.io')
+if (location.hostname == 'adwesome.github.io')
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
 var campaigns = [];
@@ -17,19 +17,7 @@ const category_map = {
   'participants': [],
 };
 
-const uids_to_names = {
-  1096170666: "Кирилл",
-  5322015870: "Саша",
-  359070623: "Лёша",
-  5026988889: "Аксинья",
-  1967872358: "Егор",
-  1563924371: "Даша",
-  1636956987: "Ксюша",
-  6371357131: "Рома",
-  5262399557: "Таня",
-  1016952170: "Наташа",
-  5838588705: "Алёна",
-};
+const uids_to_names = {};
 
 window.onload = function() {
   play();
