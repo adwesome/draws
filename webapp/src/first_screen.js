@@ -4,6 +4,7 @@ function set_cities_display_attr(display) {
 }
 
 function first_screen() {
+  document.getElementById('first_screen').style.display = 'unset';
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
     if (region.value == '10')

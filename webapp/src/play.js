@@ -19,6 +19,7 @@ const category_map = {
 
 const uids_to_names = {};
 
+/*
 window.onload = function() {
   play();
   start_countdown();
@@ -28,6 +29,7 @@ window.onload = function() {
   //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
   window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 }
+*/
 
 function today() {
   const date = new Date();
@@ -375,6 +377,10 @@ async function calculate_percent(cid) {
 
 async function play() {
   'use strict';
+
+  const this_screen = document.getElementById('third_screen');
+  if (this_screen.style.display != 'block')
+    this_screen.style.display = 'block';
 
   const ad_element = document.getElementById('ad');
   await get_all('campaigns'); // need some stub if no ad
