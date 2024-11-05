@@ -31,6 +31,16 @@ const uids_to_names = {
   5838588705: "Алёна",
 };
 
+window.onload = function() {
+  play();
+  start_countdown();
+
+  window.Telegram.WebApp.ready();
+  window.Telegram.WebApp.expand();
+  //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
+  window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
+}
+
 function today() {
   const date = new Date();
   if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30)) {

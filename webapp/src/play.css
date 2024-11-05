@@ -1,0 +1,204 @@
+body {
+  background-: red;
+  width: 100vw !important;
+  height: 100vh !important;
+
+  font-family: "Nunito", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: floralwhite;
+}
+p, h2, h3, h4 {
+  padding: 0 20px;
+  line-height: 1.5em !important;
+}
+p {
+  margin: 0 0 0.5em 0;
+}
+h3 {
+  margin: 0.8em 0 0.4em 0;
+}
+
+.canvas {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+}
+.form {
+  padding: 20px;
+}
+#ad {
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  background: no-repeat center url(img/nike.jpg);
+  background-size: auto 100% !important;
+  visibility: hidden;
+}
+
+.nanobar {
+  width: 100%;
+  height: 2px;
+  z-index: 9999;
+  top:0;
+  background: transparent;
+}
+.bar {
+  background: url('nanobar/img/rainbow.gif') 100%;
+  height: 2px;
+  filter: blur(0.5px);
+}
+
+.swiper-outer, .swiper-inner {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+.swiper-button-prev, .swiper-button-next {
+  display: none;
+}
+.non-white-bg {
+  background: floralwhite;
+}
+
+.swiper-pagination {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border-radius: 20px;
+}
+.swiper-pagination-vertical {
+  padding: 0px 5px;
+  top: calc(50% + 10px) !important;
+}
+.swiper-pagination-horizontal {
+  display: flex;
+  padding: 5px 4px 0;
+  width: auto !important;
+  height: 13px;
+  left: 50% !important;
+  transform: translate(-50%,-50%);
+  bottom: 0px !important;
+  z-index: 100;
+}
+.swiper-pagination-horizontal .swiper-pagination-bullet {
+  margin: 0 3px !important;
+}
+
+#flipdown {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 43%;
+  left: 50%;
+  backface-visibility: hidden;
+  width: max-content;
+}
+#flipdown_header {
+  position: absolute;
+  top: calc(45% - 95px);
+  width: 100%;
+  display-: none;
+  padding: 0;
+}
+#flipdown_explain {
+  position: absolute;
+  top: calc(45% + 50px);
+  width: 100%;
+}
+#flipdown_explain p {
+  padding: 0 15%;
+  font-size-: 0.85em;
+  color-: gray;
+}
+
+.swiper-transition {
+  .swiper-wrapper {
+    -webkit-transition-timing-function: linear;
+    -o-transition-timing-function: linear;
+    transition-timing-function: linear;
+  }
+}
+
+#js-canvas-explain {
+  z-index: 150;
+  position: absolute;
+  padding: 0;
+  color: floralwhite;
+  left: 50%;
+  top: 6%;
+  transform: translate(-50%,-50%);
+  width-: 60%;
+  text-align: center;
+}
+.center {
+  text-align: center;
+}
+
+.conditions {
+  font-weight: bold;
+  color: black;
+}
+#confirm {
+  position: absolute;
+  width: 100%;
+  top: calc(40% - 140px);
+}
+
+.status {
+  padding: 2px 6px;
+  border-radius: 5px;
+  margin: 0 3px;
+}
+.status.ongoing {
+  border: 1px solid gray;
+}
+.status.processing {
+  background: darkseagreen;
+}
+.status.lost {
+  background: deepskyblue;
+}
+.status.won {
+  background: limegreen;
+}
+.status.not {
+  background: orangered;
+}
+
+.animate {
+  opacity: 0;
+  transition: opacity 1s linear;
+}
+
+#list {
+  overflow-y: scroll;
+}
+
+#chart-wrapper {
+  padding: 0 5% 5% 5%;
+}
+#hidden-history {
+  display: none;
+}
+
+#chart-stats {
+  max-width: 430px;
+  max-height: 430px;
+}
+.stats-clarify {
+  margin-bottom: 1.5em;
+}
+
+#ad_explain {
+  position: absolute;
+  color: white;
+  z-index: 50;
+  top: 40vh;
+  text-align: center;
+  padding: 0 5%;
+  font-size: 0.95em;
+}
