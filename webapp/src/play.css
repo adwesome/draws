@@ -14,8 +14,18 @@ html, body {
   background: floralwhite;
 }
 p, h2, h3, h4 {
-  padding: 0 20px;
+  padding: 0 20px !important;
   line-height: 1.5em !important;
+}
+h2, h3, h4 {
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.5em;
+  margin-top: 20px;
+}
+h3 {
+  font-size: 1.17em;
 }
 p {
   margin: 0 0 0.5em 0;
@@ -79,7 +89,7 @@ h3 {
   display: flex;
   padding: 5px 4px 0;
   width: auto !important;
-  height: 13px;
+  height: 18px;
   left: 50% !important;
   transform: translate(-50%,-50%);
   bottom: 0px !important;
@@ -110,7 +120,7 @@ h3 {
   width: 100%;
 }
 #flipdown_explain p {
-  padding: 0 15%;
+  padding: 0 15% !important;
   font-size-: 0.85em;
   color-: gray;
 }
