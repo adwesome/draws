@@ -42,58 +42,19 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
+    <link rel="stylesheet" href="src/first_screen.css"/>
+
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css">
-      select {
-        margin-bottom: 1em;
-      }
-      label {
-        font-weight: bold;
-      }
-      .section {
-        padding-top: 10vh;
-      }
+      
     </style>
 
-    <script type="text/javascript" src="src/play.js?v=1"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=1"></script>
+
+    <!--script type="text/javascript" src="src/play.js?v=1"></script-->
     <script type="text/javascript">
-      function set_cities_display_attr(display) {
-        document.getElementById('city').style.display = display;
-        document.getElementById('city_label').style.display = display;
-      }
-
-      window.onload = function() {
-        const region = document.getElementById('region');
-        region.addEventListener('change', function() {
-          if (region.value == '10')
-            set_cities_display_attr('unset');
-          else
-            set_cities_display_attr('none');
-        });
-
-        const all_selects = document.querySelectorAll('select');
-        all_selects.forEach((select) => {
-          select.addEventListener('change', function() {
-            var ready_to_go = true;
-            const region = document.getElementById('region');
-            for (let i = 0; i < all_selects.length; i++) {
-              const s = all_selects[i];
-
-              if (s.style.display == 'none')
-                continue;
-              if (s.value == '-1') {
-                ready_to_go = false;
-                break;
-              }
-            }
-
-            if (ready_to_go)
-              document.getElementById('next').disabled = false;
-            else
-              document.getElementById('next').disabled = true;
-          });
-        });
-      }
+      //window.onload = function() {
+      //}
     </script>
   </head>
   <body>
@@ -102,7 +63,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-6 offset-lg-3 col-10 offset-1">
-            <div class="section">
+            <div id="first_screen">
               <h2>О вас</h2>
               <p style="margin-bottom: 1em;">Прежде чем продолжить, расскажите нам, пожалуйста, немного о себе</p>
               <label>Регион, в котором вы живете:</label>
@@ -134,7 +95,7 @@
                 <option value="11">Сегежа</option>
                 <option value="12">Сортавала</option>
                 <option value="13">Суоярви</option>
-                <option value="-1">- другой населенный пункт -</option>
+                <option value="-2">- другой населенный пункт -</option>
               </select>
 
               <label>Ваш пол:</label>
@@ -163,8 +124,11 @@
               </select>
 
               <div class="d-grid gap-2">
-                <button id="next" class="btn btn-primary" disabled>Далее</button>
+                <button id="to_second" class="btn btn-primary" disabled>Далее</button>
               </div>
+            </div>
+            <div id="second_screen">
+              dd
             </div>
           </div>
         </div>
@@ -208,7 +172,7 @@
             <h3>Сегодня</h3>
             <div id="now"><p>Нет</p></div>
             <h3>Завтра</h3>
-            <div id="next"><p>Нет</p></div>
+            <div id="to_second"><p>Нет</p></div>
           <h2 style="margin: 1.5em 0 0.3em 0">Ваша история и аналитика</h2>
             <div id="past"><p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать. Сегодня здесь пусто, но завтра уже что-то появится!</p></div>
             <br><br>

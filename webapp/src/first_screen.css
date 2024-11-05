@@ -1,0 +1,12 @@
+select {
+  margin-bottom: 1em;
+}
+label {
+  font-weight: bold;
+}
+#first_screen {
+  padding-top: 10vh;
+}
+#second_screen {
+  display: none;
+}
