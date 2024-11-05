@@ -13,10 +13,12 @@ html, body {
   padding: 0 !important;
   background: floralwhite;
 }
+/*
 p, h2, h3, h4 {
   padding: 0 20px !important;
   line-height: 1.5em !important;
 }
+*/
 h2, h3, h4 {
   font-weight: 700;
 }

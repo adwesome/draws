@@ -43,22 +43,143 @@
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
     <link rel="stylesheet" href="src/play.css"/>
-    <style type="text/css"></style>
+    <style type="text/css">
+      select {
+        margin-bottom: 1em;
+      }
+      label {
+        font-weight: bold;
+      }
+      .section {
+        padding-top: 10vh;
+      }
+    </style>
 
     <script type="text/javascript" src="src/play.js?v=1"></script>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+      function set_cities_display_attr(display) {
+        document.getElementById('city').style.display = display;
+        document.getElementById('city_label').style.display = display;
+      }
+
+      window.onload = function() {
+        const region = document.getElementById('region');
+        region.addEventListener('change', function() {
+          if (region.value == '10')
+            set_cities_display_attr('unset');
+          else
+            set_cities_display_attr('none');
+        });
+
+        const all_selects = document.querySelectorAll('select');
+        all_selects.forEach((select) => {
+          select.addEventListener('change', function() {
+            var ready_to_go = true;
+            const region = document.getElementById('region');
+            for (let i = 0; i < all_selects.length; i++) {
+              const s = all_selects[i];
+
+              if (s.style.display == 'none')
+                continue;
+              if (s.value == '-1') {
+                ready_to_go = false;
+                break;
+              }
+            }
+
+            if (ready_to_go)
+              document.getElementById('next').disabled = false;
+            else
+              document.getElementById('next').disabled = true;
+          });
+        });
+      }
+    </script>
   </head>
   <body>
 
-    <div class="swiper-outer" pagination="true">
+    <div id="intro">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-6 offset-lg-3 col-10 offset-1">
+            <div class="section">
+              <h2>О вас</h2>
+              <p style="margin-bottom: 1em;">Прежде чем продолжить, расскажите нам, пожалуйста, немного о себе</p>
+              <label>Регион, в котором вы живете:</label>
+              <select id="region" class="form-select">
+                <option value="-1" selected>- выберите -</option>
+                <option value="51">Мурманская обл.</option>
+                <option value="10">респ. Карелия</option>
+                <option value="29">Архангельская обл.</option>
+                <option value="47">г. Санкт-Петербург и ЛО</option>
+                <option value="35">Вологодская обл.</option>
+                <option value="53">Новгородская обл.</option>
+                <option value="50">г. Москва и МО</option>
+                <option value="-2">- другой регион -</option>
+              </select>
+
+              <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
+              <select id="city" class="form-select" style="display: none;">
+                <option value="-1" selected>- выберите -</option>
+                <option value="1">Беломорск</option>
+                <option value="2">Кемь</option>
+                <option value="3">Кондопога</option>
+                <option value="4">Костомукша</option>
+                <option value="5">Лахденпохья</option>
+                <option value="6">Медвежьегорск</option>
+                <option value="7">Олонец</option>
+                <option value="8">Петрозаводск</option>
+                <option value="9">Питкяранта</option>
+                <option value="10">Пудож</option>
+                <option value="11">Сегежа</option>
+                <option value="12">Сортавала</option>
+                <option value="13">Суоярви</option>
+                <option value="-1">- другой населенный пункт -</option>
+              </select>
+
+              <label>Ваш пол:</label>
+              <select id="sex" class="form-select">
+                <option value="-1" selected>- выберите -</option>
+                <option value="1">Женский</option>
+                <option value="2">Мужской</option>
+              </select>
+
+              <label>Ваш возраст:</label>
+              <select id="age" class="form-select">
+                <option value="-1" selected>- выберите -</option>
+                <option value="1">до 14 лет включительно</option>
+                <option value="2">15-19 лет</option>
+                <option value="3">20-24 лет</option>
+                <option value="4">25-29 лет</option>
+                <option value="5">30-34 лет</option>
+                <option value="6">35-39 лет</option>
+                <option value="7">40-44 лет</option>
+                <option value="8">45-49 лет</option>
+                <option value="9">50-54 лет</option>
+                <option value="10">55-59 лет</option>
+                <option value="11">60-64 лет</option>
+                <option value="12">65-69 лет</option>
+                <option value="13">от 70 лет включительно</option>
+              </select>
+
+              <div class="d-grid gap-2">
+                <button id="next" class="btn btn-primary" disabled>Далее</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--div class="swiper-outer" pagination="true">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <div class="swiper-inner">
             <div class="swiper-wrapper">
 
               <div class="swiper-slide">
-                <!-- https://codepen.io/Totati/pen/pPXrJV -->
-                <!-- https://github.com/andreruffert/scratchie.js -->
+                <!- https://codepen.io/Totati/pen/pPXrJV ->
+                <!- https://github.com/andreruffert/scratchie.js ->
                 <div class="container-" id="js-container">
                   <p id="js-canvas-explain">сотрите защитный слой<br>полностью</p>
                   <canvas class="canvas" id="js-canvas"></canvas>
