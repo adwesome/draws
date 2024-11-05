@@ -22,11 +22,9 @@ function second_screen() {
     });
   });
 
-/*
   btn_go_to_third.addEventListener('click', function () {
-    document.getElementById('first_screen').style.display = 'none';
-    document.getElementById('second_screen').style.display = 'unset';
-    document.getElementById('second_screen_explain').style.display = 'unset';
+    document.getElementById('second_screen').style.display = 'none';
+    document.getElementById('second_screen_explain').style.display = 'none';
+    document.getElementById('third_screen').style.display = 'block';
   });
-*/
 }

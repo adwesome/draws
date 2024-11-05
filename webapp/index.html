@@ -53,11 +53,18 @@
     <script type="text/javascript" src="src/first_screen.js?v=1"></script>
     <script type="text/javascript" src="src/second_screen.js?v=1"></script>
 
-    <!--script type="text/javascript" src="src/play.js?v=1"></script-->
+    <script type="text/javascript" src="src/play.js?v=1"></script>
     <script type="text/javascript">
       window.onload = function() {
+        window.Telegram.WebApp.ready();
+        window.Telegram.WebApp.expand();
+        //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
+        window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
+
         first_screen();
         second_screen();
+        play();
+        start_countdown();
       }
     </script>
   </head>
@@ -154,7 +161,7 @@
       </div>
     </div>
 
-    <!--div class="swiper-outer" pagination="true">
+    <div id="third_screen" class="swiper-outer" pagination="true">
       <div class="swiper-wrapper">
         <div class="swiper-slide">
           <div class="swiper-inner">

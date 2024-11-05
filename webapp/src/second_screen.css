@@ -1,5 +1,5 @@
 #second_screen, #second_screen_explain {
-  display-: none;
+  display: none;
 }
 img {
   width: 50vw;
