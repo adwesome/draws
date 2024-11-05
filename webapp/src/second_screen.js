@@ -1,5 +1,5 @@
 function second_screen() {
-  const all_images = document.querySelectorAll('img');
+  const all_images = document.querySelectorAll('.brand');
   const btn_go_to_third = document.getElementById('to_third');
   all_images.forEach((img) => {
     img.addEventListener('click', function(event) {
@@ -25,6 +25,6 @@ function second_screen() {
   btn_go_to_third.addEventListener('click', function () {
     document.getElementById('second_screen').style.display = 'none';
     document.getElementById('second_screen_explain').style.display = 'none';
-    document.getElementById('third_screen').style.display = 'block';
+    play();
   });
 }

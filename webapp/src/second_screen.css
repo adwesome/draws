@@ -1,7 +1,7 @@
 #second_screen, #second_screen_explain {
   display: none;
 }
-img {
+#logo_mk, #logo_lenta {
   width: 50vw;
   filter: brightness(3) grayscale(1);
 }

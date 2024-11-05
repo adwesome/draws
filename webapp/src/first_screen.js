@@ -4,7 +4,7 @@ function set_cities_display_attr(display) {
 }
 
 function first_screen() {
-  document.getElementById('first_screen').style.display = 'unset';
+  document.getElementById('first_screen').style.display = 'block';
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
     if (region.value == '10')
@@ -41,5 +41,6 @@ function first_screen() {
     document.getElementById('first_screen').style.display = 'none';
     document.getElementById('second_screen').style.display = 'unset';
     document.getElementById('second_screen_explain').style.display = 'unset';
+    second_screen();
   });
 }
