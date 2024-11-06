@@ -46,7 +46,7 @@ h3 {
 }
 #ad {
   height: 100vh;
-  width: 100vw;
+  width-: 100vw;
   margin: 0;
   padding: 0;
   background-: no-repeat center url(img/nike.jpg);
@@ -68,7 +68,7 @@ h3 {
 }
 
 .swiper-outer, .swiper-inner {
-  width: 100vw;
+  width-: 100vw;
   height: 100vh;
   overflow: hidden;
 }

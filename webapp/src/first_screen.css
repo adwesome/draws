@@ -1,5 +1,6 @@
 select {
   margin-bottom: 1em;
+  cursor: pointer;
 }
 label {
   font-weight: bold;
