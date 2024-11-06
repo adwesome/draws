@@ -6,7 +6,7 @@ label {
   font-weight: bold;
 }
 #first_screen {
-  padding-top: 3vh;
+  padding: 3vh 4px 0 4px;
   display: none;
   overflow: hidden;
   height: 100vh;

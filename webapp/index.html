@@ -47,9 +47,9 @@
 
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css">
-
     </style>
 
+    <script type="text/javascript" src="src/common.js?v=1"></script>
     <script type="text/javascript" src="src/first_screen.js?v=1"></script>
     <script type="text/javascript" src="src/second_screen.js?v=1"></script>
 
@@ -61,9 +61,12 @@
         //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
         window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
-        first_screen();
-        //second_screen();
-        //play();
+        if (!get_item_from_local_storage('first_screen_passed'))
+          first_screen();
+        else if (!get_item_from_local_storage('second_screen_passed'))
+          second_screen();
+        else
+          play();
       }
     </script>
   </head>
@@ -153,7 +156,7 @@
                 <img class="brand mk" src="img/mk.png"><br>
                 <img class="brand lenta" src="img/lenta.png">
                 
-                <p style="font-size: 1em; margin-top: 1em;"><b>Предпринимателям:</b> начиная с декабря, среди десятков других брендов, здесь может быть и ваш бренд</p>
+                <p style="font-size: 1em; margin-top: 1em;"><b>Предпринимателям:</b> начиная с декабря, среди многих других брендов, здесь может быть и ваш бренд</p>
                 <div class="d-grid gap-2" style="margin-top: 1em;">
                   <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
                 </div>

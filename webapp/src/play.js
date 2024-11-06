@@ -1,6 +1,6 @@
-var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-if (location.hostname == 'adwesome.github.io')
-  SERVER_HOSTNAME = 'https://scratchit.cards';
+//var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
+//if (location.hostname == 'adwesome.github.io')
+//  SERVER_HOSTNAME = 'https://scratchit.cards';
 
 var campaigns = [];
 const campaigns_cid_id = 1;

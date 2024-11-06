@@ -37,10 +37,18 @@ function first_screen() {
     });
   });
 
-  btn_go_to_second.addEventListener('click', function () {
+  btn_go_to_second.addEventListener('click', async function () {
+    const data_saved = await collect_demography_data_from_form();
+    if (!data_saved)
+      return;
+    if (data_saved.status != 0) // 200 OK for no-cors
+      return;
+
     document.getElementById('first_screen').style.display = 'none';
     document.getElementById('second_screen').style.display = 'block';
-    //document.getElementById('second_screen_explain').style.display = 'block';
+    save_into_local_storage('first_screen_passed', true);
     second_screen();
   });
+
+  set_existing_choises();
 }

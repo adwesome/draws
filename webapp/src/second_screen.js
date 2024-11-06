@@ -31,9 +31,16 @@ function second_screen() {
     });
   });
 
-  btn_go_to_third.addEventListener('click', function () {
+  btn_go_to_third.addEventListener('click', async function () {
+    const data_saved = await collect_brands_data_from_form();
+    if (!data_saved)
+      return;
+    if (data_saved.status != 0) // 200 OK for no-cors
+      return;
+
     document.getElementById('second_screen').style.display = 'none';
     //document.getElementById('second_screen_explain').style.display = 'none';
+    save_into_local_storage('second_screen_passed', true);
     play();
   });
 }
