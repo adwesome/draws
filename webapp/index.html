@@ -65,8 +65,15 @@
           first_screen();
         else if (!get_item_from_local_storage('second_screen_passed'))
           second_screen();
-        else
+        else {
+          // submit for any case not submitted regularly
+          const demography = get_items_from_local_storage('choices3');
+          save_into_remote_storage('/register/player/demography', demography);
+          const brands = get_items_from_local_storage('choices4');
+          save_into_remote_storage('/register/player/brands', brands);
+
           play();
+        }
       }
     </script>
   </head>

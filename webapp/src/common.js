@@ -14,12 +14,12 @@ function get_item_from_local_storage(item) {
   return localStorage.getItem(item);
 }
 
-function set_existing_choises() {
-  var existing_choises = get_items_from_local_storage('choises3');
-  if (Object.keys(existing_choises).length != 0) {  // pizdec
+function set_existing_choices() {
+  var existing_choices = get_items_from_local_storage('choices3');
+  if (Object.keys(existing_choices).length != 0) {  // pizdec
     ['region', 'city', 'sex', 'age'].forEach((item) => {
       const element = document.getElementById(item);
-      element.value = existing_choises.demography[item];
+      element.value = existing_choices.demography[item];
       const event = new Event('change');
       element.dispatchEvent(event);
     });
@@ -27,12 +27,12 @@ function set_existing_choises() {
   }
 
   // load possible data from poll
-  existing_choises = get_items_from_local_storage('choises2');
-  if (Object.keys(existing_choises).length == 0)  // pizdec
+  existing_choices = get_items_from_local_storage('choises2');
+  if (Object.keys(existing_choices).length == 0)  // pizdec
     return;
 
-  document.getElementById(`sex`).value = existing_choises.demography[1];
-  document.getElementById(`age`).value = existing_choises.demography[2];
+  document.getElementById(`sex`).value = existing_choices.demography[1];
+  document.getElementById(`age`).value = existing_choices.demography[2];
 }
 
 async function save_into_remote_storage(to, data) {
@@ -61,7 +61,7 @@ async function collect_demography_data_from_form() {
   });
 
   const result = JSON.stringify({'uid': get_uid(), 'demography': d});
-  save_into_local_storage('choises3', result);
+  save_into_local_storage('choices3', result);
   return await save_into_remote_storage('/register/player/demography', result);
 }
 
@@ -73,15 +73,14 @@ async function collect_brands_data_from_form() {
   });
 
   const result = JSON.stringify({'uid': get_uid(), 'brands': brands});
-  console.log(result);
-  save_into_local_storage('choises4', result);
+  save_into_local_storage('choices4', result);
   return await save_into_remote_storage('/register/player/brands', result);
 }
 
 function get_uid() {
   var uid = localStorage.getItem('uid');
   if (uid)
-    return uid;
+    return parseInt(uid);
 
   uid = Date.now();
   localStorage.setItem('uid', uid);
