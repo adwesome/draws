@@ -3,16 +3,16 @@
 }
 
 #second_screen {
-  overflow: hidden;
-  height: 100vh;
+  overflow-: hidden;
+  height-: 100vh;
   text-align: center;
-  padding-top: 6vh;
+  padding-top: 8vh;
 }
 .brand {
   float-: left;
 }
 .brand.mk, .brand.lenta {
-  width: 50vw;
+  width: 25vh;
   filter: brightness(3) grayscale(1);
   margin-bottom: 5px;
 }
