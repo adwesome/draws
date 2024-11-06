@@ -15,6 +15,7 @@
   width: 25vh;
   filter: brightness(3) grayscale(1);
   margin-bottom: 5px;
+  border-radius: 6px;
 }
 /*
 #second_screen_explain {
