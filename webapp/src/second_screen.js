@@ -3,10 +3,15 @@ function second_screen() {
   const btn_go_to_third = document.getElementById('to_third');
   all_images.forEach((img) => {
     img.addEventListener('click', function(event) {
-      if (event.target.style.filter != 'unset')
-        event.target.style.filter = 'unset';
-      else
-        event.target.style.filter = 'brightness(3) grayscale(1)';
+      const brand = event.target.classList[1];
+      const all_brand_images = document.querySelectorAll('.brand.' + brand);
+      var filter = 'unset';
+      if (event.target.style.filter == 'unset')
+        filter = 'brightness(3) grayscale(1)';
+
+      all_brand_images.forEach((ab) => {
+        ab.style.filter = filter;
+      });
 
       var ready_to_go = 0;
       for (let i = 0; i < all_images.length; i++) {
