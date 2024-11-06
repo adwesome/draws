@@ -29,7 +29,7 @@ function second_screen() {
 
   btn_go_to_third.addEventListener('click', function () {
     document.getElementById('second_screen').style.display = 'none';
-    document.getElementById('second_screen_explain').style.display = 'none';
+    //document.getElementById('second_screen_explain').style.display = 'none';
     play();
   });
 }

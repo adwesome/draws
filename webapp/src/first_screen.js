@@ -39,8 +39,8 @@ function first_screen() {
 
   btn_go_to_second.addEventListener('click', function () {
     document.getElementById('first_screen').style.display = 'none';
-    document.getElementById('second_screen').style.display = 'unset';
-    document.getElementById('second_screen_explain').style.display = 'unset';
+    document.getElementById('second_screen').style.display = 'block';
+    //document.getElementById('second_screen_explain').style.display = 'block';
     second_screen();
   });
 }

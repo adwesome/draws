@@ -5,14 +5,18 @@
 #second_screen {
   overflow: hidden;
   height: 100vh;
+  text-align: center;
+  padding-top: 10vh;
 }
 .brand {
-  float: left;
+  float-: left;
 }
 .brand.mk, .brand.lenta {
-  width: 33.33vw;
+  width: 50vw;
   filter: brightness(3) grayscale(1);
+  margin-bottom: 5px;
 }
+/*
 #second_screen_explain {
   position: absolute;
   bottom: 0;
@@ -23,3 +27,4 @@
   padding-top: 5%;
   padding-bottom: 5%;
 }
+*/

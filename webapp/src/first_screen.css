@@ -7,4 +7,6 @@ label {
 #first_screen {
   padding-top: 3vh;
   display: none;
+  overflow: hidden;
+  height: 100vh;
 }
