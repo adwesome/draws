@@ -15,11 +15,11 @@
 }
 #second_screen_explain {
   position: absolute;
-  top: 75%;
+  bottom: 0;
   left: 0;
   text-align: center;
   width: 100%;
-  height: -webkit-fill-available;
   background: floralwhite;
   padding-top: 5%;
+  padding-bottom: 5%;
 }
