@@ -11,3 +11,10 @@ label {
   overflow: hidden;
   height: 100vh;
 }
+.screen {
+  background: floralwhite;
+  padding-: 1em;
+}
+.row>* {
+  padding: 0;
+}

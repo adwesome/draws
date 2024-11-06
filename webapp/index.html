@@ -61,9 +61,9 @@
         //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
         window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
-        //first_screen();
+        first_screen();
         //second_screen();
-        play();
+        //play();
       }
     </script>
   </head>
@@ -72,86 +72,91 @@
     <div id="intro">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 offset-lg-4 col-10 offset-1">
-            <div id="first_screen">
-              <h2>Добро пожаловать!</h2>
-              <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе.</p>
-              <label>Регион, в котором вы живете:</label>
-              <select id="region" class="form-select">
-                <option value="-1" selected>- выберите -</option>
-                <option value="51">Мурманская обл.</option>
-                <option value="10">респ. Карелия</option>
-                <option value="29">Архангельская обл.</option>
-                <option value="47">г. Санкт-Петербург и ЛО</option>
-                <option value="35">Вологодская обл.</option>
-                <option value="53">Новгородская обл.</option>
-                <option value="50">г. Москва и МО</option>
-                <option value="-2">- другой -</option>
-              </select>
+          <div class="col-lg-4 offset-lg-4 col-10 offset-1 screen">
+            <div class="col-10 offset-1">
+              <div id="first_screen">
+                <h2>Добро пожаловать!</h2>
+                <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе.</p>
+                <label>Регион, в котором вы живете:</label>
+                <select id="region" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="51">Мурманская обл.</option>
+                  <option value="10">респ. Карелия</option>
+                  <option value="29">Архангельская обл.</option>
+                  <option value="47">г. Санкт-Петербург и ЛО</option>
+                  <option value="35">Вологодская обл.</option>
+                  <option value="53">Новгородская обл.</option>
+                  <option value="50">г. Москва и МО</option>
+                  <option value="-2">- другой -</option>
+                </select>
 
-              <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
-              <select id="city" class="form-select" style="display: none;">
-                <option value="-1" selected>- выберите -</option>
-                <option value="1">Беломорск</option>
-                <option value="2">Кемь</option>
-                <option value="3">Кондопога</option>
-                <option value="4">Костомукша</option>
-                <option value="5">Лахденпохья</option>
-                <option value="6">Медвежьегорск</option>
-                <option value="7">Олонец</option>
-                <option value="8">Петрозаводск</option>
-                <option value="9">Питкяранта</option>
-                <option value="10">Пудож</option>
-                <option value="11">Сегежа</option>
-                <option value="12">Сортавала</option>
-                <option value="13">Суоярви</option>
-                <option value="-2">- другой -</option>
-              </select>
+                <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
+                <select id="city" class="form-select" style="display: none;">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">Беломорск</option>
+                  <option value="2">Кемь</option>
+                  <option value="3">Кондопога</option>
+                  <option value="4">Костомукша</option>
+                  <option value="5">Лахденпохья</option>
+                  <option value="6">Медвежьегорск</option>
+                  <option value="7">Олонец</option>
+                  <option value="8">Петрозаводск</option>
+                  <option value="9">Питкяранта</option>
+                  <option value="10">Пудож</option>
+                  <option value="11">Сегежа</option>
+                  <option value="12">Сортавала</option>
+                  <option value="13">Суоярви</option>
+                  <option value="-2">- другой -</option>
+                </select>
 
-              <label>Ваш пол:</label>
-              <select id="sex" class="form-select">
-                <option value="-1" selected>- выберите -</option>
-                <option value="1">Женский</option>
-                <option value="2">Мужской</option>
-              </select>
+                <label>Ваш пол:</label>
+                <select id="sex" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">Женский</option>
+                  <option value="2">Мужской</option>
+                </select>
 
-              <label>Ваш возраст:</label>
-              <select id="age" class="form-select">
-                <option value="-1" selected>- выберите -</option>
-                <option value="1">до 14 лет включительно</option>
-                <option value="2">15-19 лет</option>
-                <option value="3">20-24 лет</option>
-                <option value="4">25-29 лет</option>
-                <option value="5">30-34 лет</option>
-                <option value="6">35-39 лет</option>
-                <option value="7">40-44 лет</option>
-                <option value="8">45-49 лет</option>
-                <option value="9">50-54 лет</option>
-                <option value="10">55-59 лет</option>
-                <option value="11">60-64 лет</option>
-                <option value="12">65-69 лет</option>
-                <option value="13">от 70 лет включительно</option>
-              </select>
+                <label>Ваш возраст:</label>
+                <select id="age" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">до 14 лет включительно</option>
+                  <option value="2">15-19 лет</option>
+                  <option value="3">20-24 лет</option>
+                  <option value="4">25-29 лет</option>
+                  <option value="5">30-34 лет</option>
+                  <option value="6">35-39 лет</option>
+                  <option value="7">40-44 лет</option>
+                  <option value="8">45-49 лет</option>
+                  <option value="9">50-54 лет</option>
+                  <option value="10">55-59 лет</option>
+                  <option value="11">60-64 лет</option>
+                  <option value="12">65-69 лет</option>
+                  <option value="13">от 70 лет включительно</option>
+                </select>
 
-              <div class="d-grid gap-2">
-                <button id="to_second" class="btn btn-primary" disabled>Далее</button>
-                <p style="font-size: 0.8em;"><i>Далее: выбор брендов</i></p>
+                <div class="d-grid gap-2">
+                  <button id="to_second" class="btn btn-primary" disabled>Далее</button>
+                  <p style="font-size: 0.8em;"><i>Далее: выбор брендов</i></p>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div id="second_screen">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4 offset-lg-4 col-10 offset-1">
-              <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в розыгрыше подарков от которых вы хотите поучаствовать на этих выходных</p>
-              <img class="brand mk" src="img/mk.png"><br>
-              <img class="brand lenta" src="img/lenta.png">
-              
-              <p style="font-size: 0.8em; margin-top: 1em;"><b>Предпринимателям:</b> в этом декабре, среди 40+ других брендов, здесь может быть и ваш!</p>
-              <div class="d-grid gap-2" style="margin-top: 1em;">
-                <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
+      
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 offset-lg-4 col-10 offset-1 screen">
+            <div class="col-10 offset-1">
+              <div id="second_screen">
+                <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в розыгрыше подарков от которых вы хотите поучаствовать на этих выходных</p>
+                <img class="brand mk" src="img/mk.png"><br>
+                <img class="brand lenta" src="img/lenta.png">
+                
+                <p style="font-size: 1em; margin-top: 1em;"><b>Предпринимателям:</b> в этом декабре, среди 40+ других брендов, здесь может быть и ваш!</p>
+                <div class="d-grid gap-2" style="margin-top: 1em;">
+                  <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
+                </div>
               </div>
             </div>
           </div>

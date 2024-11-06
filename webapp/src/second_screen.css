@@ -3,8 +3,8 @@
 }
 
 #second_screen {
-  overflow-: hidden;
-  height-: 100vh;
+  overflow: hidden;
+  height: 100vh;
   text-align: center;
   padding-top: 5vh;
 }
@@ -16,6 +16,7 @@
   filter: brightness(3) grayscale(1);
   margin-bottom: 5px;
   border-radius: 6px;
+  cursor: pointer;
 }
 /*
 #second_screen_explain {
