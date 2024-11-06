@@ -1,4 +1,8 @@
 function second_screen() {
+  const this_screen = document.getElementById('second_screen');
+  if (this_screen.style.display != 'block')
+    this_screen.style.display = 'block';
+
   const all_images = document.querySelectorAll('.brand');
   const btn_go_to_third = document.getElementById('to_third');
   all_images.forEach((img) => {
