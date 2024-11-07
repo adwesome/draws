@@ -32,11 +32,20 @@ DB_INIT_COMMANDS = [
   CREATE TABLE IF NOT EXISTS participants(uid, cid);
   CREATE TABLE IF NOT EXISTS winners(cid, uid);
   CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize);
+
   CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, tguid INTEGER);
   CREATE TABLE IF NOT EXISTS brands (name TEXT);
   CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
   INSERT INTO brands VALUES ('mk');
   INSERT INTO brands VALUES ('lenta');
+  
+  CREATE TABLE IF NOT EXISTS org (name TEXT, bid INTEGER);
+  INSERT INTO org VALUES ('Магнит Косметик', 1);
+  INSERT INTO org VALUES ('Лента', 2);
+  CREATE TABLE IF NOT EXISTS cam (oid INTEGER, date_start INTEGER, date_end INTEGER, ad TEXT, winners INTEGER);
+  INSERT INTO cam VALUES (1, 0, 0, '/img/ad-mk.jpg', 3);
+  INSERT INTO cam VALUES (2, 0, 0, '/img/ad-lenta.jpg', 3);
+  CREATE TABLE IF NOT EXISTS par (cid INTEGER, pid INTEGER, status INTEGER);
   """
 ]
 for each_command in DB_INIT_COMMANDS:
@@ -300,8 +309,18 @@ def create_or_update_player_brands(data):
 
   query = "DELETE FROM playersbrands WHERE pid = {pid}".format(pid = player_id)
   db_write(query)
+
+  query = "SELECT name FROM brands"
+  brands = db_read(query)
+  available_brands_names = []
+  for each in brands:
+    available_brands_names.append(each[0])
   
   for brand_name in data['brands']:
+    if brand_name not in available_brands_names:
+      print(brand_name, 'not in', available_brands_names)
+      continue
+
     query = "SELECT rowid, * FROM brands WHERE name = '{brand_name}'".format(brand_name = brand_name)
     brand = db_read(query)[0]
     brand_id = brand[0]
