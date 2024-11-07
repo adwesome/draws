@@ -436,8 +436,9 @@ async function play() {
   }
 
   var canvas = document.getElementById('js-canvas');
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const canvas_container = document.getElementById('js-container');
+  canvas.width = canvas_container.offsetWidth; //window.innerWidth;
+  canvas.height = canvas_container.offsetHeight; //window.innerHeight;
 
   var isDrawing, lastPoint;
   var container    = document.getElementById('js-container'),
