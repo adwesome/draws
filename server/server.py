@@ -31,7 +31,7 @@ DB_INIT_COMMANDS = [
   # CREATE TABLE IF NOT EXISTS participants(uid, cid),
   # CREATE TABLE IF NOT EXISTS winners(cid, uid),
   # CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize),
-  # CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER),
+  # CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, tguid INTEGER),
   # CREATE TABLE IF NOT EXISTS brands (name TEXT);
   # CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
   # INSERT INTO brands VALUES ('mk');
@@ -53,7 +53,7 @@ def db_read(command):
   con.close()
   return result
 
-'''
+
 def already_participates_today(uid, cid):
   command = "SELECT * FROM participants WHERE uid = {uid} AND cid = {cid}".format(uid = uid, cid = cid)
   participants = db_read(command)
@@ -223,7 +223,7 @@ def get_campaigns():
 
 
 
-
+"""
 @app.route('/orgs', methods=['POST'])
 def submit_vote():
   data = json.loads(json.loads(request.data))
@@ -255,7 +255,7 @@ def get_votes():
   votes = db_read("SELECT rowid, * FROM voters")
   result = {"code": 200, "votes": votes}
   return send_response(result)
-'''
+"""
 
 def send_response(result):
   response = jsonify(result)
@@ -270,13 +270,14 @@ def create_or_update_player(data):
   command = ""
   if not player_exists:
     date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
-    command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, '')".format(
+    command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid})".format(
       uid = uid,
       date_created = date_created,
       region = int(data['demography']['region']),
       city = int(data['demography']['city']),
       sex = int(data['demography']['sex']),
       age = int(data['demography']['age']),
+      tguid = int(data.get('tguid', 0)),
     )
   else:
     command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age} WHERE uid = {uid}".format(
@@ -314,7 +315,7 @@ def create_or_update_player_brands(data):
 def register_player_demography():
   data = json.loads(request.data)
   if not isinstance(data, dict):
-    json.loads(data)
+    data = json.loads(data)
   create_or_update_player(data)
   result = {"code": 200}
   return send_response(result)
@@ -324,7 +325,7 @@ def register_player_demography():
 def register_player_brands():
   data = json.loads(request.data)
   if not isinstance(data, dict):
-    json.loads(data)
+    data = json.loads(data)
   create_or_update_player_brands(data)
   result = {"code": 200}
   return send_response(result)

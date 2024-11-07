@@ -74,7 +74,12 @@ async function collect_demography_data_from_form() {
     d[el.id] = parseInt(el.value);
   });
 
-  const result = JSON.stringify({'uid': get_uid(), 'demography': d});
+  const r = {'uid': get_uid(), 'demography': d}
+  tguid = get_uid_from_url();
+  if (tguid)
+    r['tguid'] = tguid;
+
+  const result = JSON.stringify(r);
   save_into_local_storage('choices3', result);
   return await save_into_remote_storage('/register/player/demography', result);
 }
