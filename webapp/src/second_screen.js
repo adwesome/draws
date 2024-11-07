@@ -43,4 +43,6 @@ function second_screen() {
     //save_into_local_storage('second_screen_passed', true);
     play();
   });
+
+  set_existing_brands_choices();
 }

@@ -50,5 +50,5 @@ function first_screen() {
     second_screen();
   });
 
-  set_existing_choices();
+  set_existing_demography_choices();
 }

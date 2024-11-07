@@ -14,7 +14,7 @@ function get_item_from_local_storage(item) {
   return localStorage.getItem(item);
 }
 
-function set_existing_choices() {
+function set_existing_demography_choices() {
   var existing_choices = get_items_from_local_storage('choices3');
   if (Object.keys(existing_choices).length != 0) {  // pizdec
     ['region', 'city', 'sex', 'age'].forEach((item) => {
@@ -33,6 +33,20 @@ function set_existing_choices() {
 
   document.getElementById(`sex`).value = existing_choices.demography[1];
   document.getElementById(`age`).value = existing_choices.demography[2];
+}
+
+function set_existing_brands_choices() {
+  var existing_choices = get_items_from_local_storage('choices4').brands;
+  if (Object.keys(existing_choices).length != 0) {  // pizdec
+    ['mk', 'lenta'].forEach((item) => {
+      const element = document.getElementById('brand-' + item);
+      if (existing_choices.includes(item)) {
+        element.style.filter == 'unset';
+        const event = new Event('click');
+        element.dispatchEvent(event);
+      }
+    });
+  }
 }
 
 async function save_into_remote_storage(to, data) {
