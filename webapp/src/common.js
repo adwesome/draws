@@ -36,11 +36,11 @@ function set_existing_demography_choices() {
 }
 
 function set_existing_brands_choices() {
-  var existing_choices = get_items_from_local_storage('choices4').brands;
+  var existing_choices = get_items_from_local_storage('choices4');
   if (Object.keys(existing_choices).length != 0) {  // pizdec
     ['mk', 'lenta'].forEach((item) => {
       const element = document.getElementById('brand-' + item);
-      if (existing_choices.includes(item)) {
+      if (existing_choices.brands.includes(item)) {
         element.style.filter == 'unset';
         const event = new Event('click');
         element.dispatchEvent(event);
