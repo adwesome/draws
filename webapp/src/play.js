@@ -459,7 +459,7 @@ async function play() {
   image.src = images[0];
   const shift = 0;
   image.onload = function() {
-    ctx.drawImage(image, -window.innerWidth * shift, 0, window.innerWidth * (1 + 2 * shift), window.innerHeight);
+    ctx.drawImage(image, -canvasWidth * shift, 0, canvasWidth * (1 + 2 * shift), canvasHeight);
     ad_element.style.visibility = 'visible';
     ad_explain.style.visibility = 'visible';
   };
