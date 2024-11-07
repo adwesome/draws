@@ -28,14 +28,16 @@ def db_write(command):
   con.close()
 
 DB_INIT_COMMANDS = [
-  # CREATE TABLE IF NOT EXISTS participants(uid, cid),
-  # CREATE TABLE IF NOT EXISTS winners(cid, uid),
-  # CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize),
-  # CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, tguid INTEGER),
-  # CREATE TABLE IF NOT EXISTS brands (name TEXT);
-  # CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
-  # INSERT INTO brands VALUES ('mk');
-  # INSERT INTO brands VALUES ('lenta');
+  """
+  CREATE TABLE IF NOT EXISTS participants(uid, cid);
+  CREATE TABLE IF NOT EXISTS winners(cid, uid);
+  CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize);
+  CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, tguid INTEGER);
+  CREATE TABLE IF NOT EXISTS brands (name TEXT);
+  CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
+  INSERT INTO brands VALUES ('mk');
+  INSERT INTO brands VALUES ('lenta');
+  """
 ]
 for each_command in DB_INIT_COMMANDS:
   try:
