@@ -46,7 +46,7 @@ function first_screen() {
 
     document.getElementById('first_screen').style.display = 'none';
     document.getElementById('second_screen').style.display = 'block';
-    //save_into_local_storage('first_screen_passed', true);
+    save_into_local_storage('first_screen_passed', true);
     second_screen();
   });
 

@@ -31,7 +31,7 @@ DB_INIT_COMMANDS = [
   # CREATE TABLE IF NOT EXISTS participants(uid, cid),
   # CREATE TABLE IF NOT EXISTS winners(cid, uid),
   # CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize),
-  # CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, brands TEXT),
+  # CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER),
   # CREATE TABLE IF NOT EXISTS brands (name TEXT);
   # CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
   # INSERT INTO brands VALUES ('mk');
@@ -267,6 +267,7 @@ def create_or_update_player(data):
   uid = int(data['uid'])
   query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
   player_exists = db_read(query)
+  command = ""
   if not player_exists:
     date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
     command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, '')".format(
@@ -277,7 +278,15 @@ def create_or_update_player(data):
       sex = int(data['demography']['sex']),
       age = int(data['demography']['age']),
     )
-    db_write(command)
+  else:
+    command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age} WHERE uid = {uid}".format(
+      uid = uid,
+      region = int(data['demography']['region']),
+      city = int(data['demography']['city']),
+      sex = int(data['demography']['sex']),
+      age = int(data['demography']['age']),
+    )
+  db_write(command)
 
 
 def create_or_update_player_brands(data):
@@ -303,7 +312,9 @@ def create_or_update_player_brands(data):
 
 @app.route('/register/player/demography', methods=['POST'])
 def register_player_demography():
-  data = json.loads(json.loads(request.data))
+  data = json.loads(request.data)
+  if not isinstance(data, dict):
+    json.loads(data)
   create_or_update_player(data)
   result = {"code": 200}
   return send_response(result)
@@ -311,7 +322,9 @@ def register_player_demography():
 
 @app.route('/register/player/brands', methods=['POST'])
 def register_player_brands():
-  data = json.loads(json.loads(request.data))
+  data = json.loads(request.data)
+  if not isinstance(data, dict):
+    json.loads(data)
   create_or_update_player_brands(data)
   result = {"code": 200}
   return send_response(result)
