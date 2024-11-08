@@ -281,7 +281,7 @@ def read_player(data):
   return db_read(query)
 
 def convert_to_dict(data):
-  data = json.loads(request.data)
+  data = json.loads(data)
   if not isinstance(data, dict):
     data = json.loads(data)
   return data
@@ -333,18 +333,18 @@ def create_or_update_player_brands(data):
 
     query = "SELECT rowid, * FROM brands WHERE name = '{brand_name}'".format(brand_name = brand_name)
     brand = db_read(query)[0]
-    brand_id = brand[0]
+    bid = brand[0]
 
     command = "INSERT INTO playersbrands VALUES ({pid}, {bid})".format(
-      pid = player_id,
-      bid = brand_id,
+      pid = pid,
+      bid = bid,
     )
     db_write(command)
 
 
 @app.route('/register/player/demography', methods=['POST'])
 def register_player_demography():
-  data = convert_to_dict(data)
+  data = convert_to_dict(request.data)
   create_or_update_player(data)
   result = {"code": 200}
   return send_response(result)
@@ -352,7 +352,7 @@ def register_player_demography():
 
 @app.route('/register/player/brands', methods=['POST'])
 def register_player_brands():
-  data = convert_to_dict(data)
+  data = convert_to_dict(request.data)
   create_or_update_player_brands(data)
   result = {"code": 200}
   return send_response(result)
@@ -369,7 +369,7 @@ def create_player_participation(data):
 
 @app.route('/register/player/participation', methods=['POST'])
 def register_player_participation():
-  data = convert_to_dict(data)
+  data = convert_to_dict(request.data)
   create_player_participation(data)
   result = {"code": 200}
   return send_response(result)
