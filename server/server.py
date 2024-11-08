@@ -271,13 +271,27 @@ def get_votes():
 def send_response(result):
   response = jsonify(result)
   response.headers.add('Access-Control-Allow-Origin', '*')
+  # response.headers.remove('Content-Type')
+  # response.headers.add('Content-Type', 'text/css; charset=utf-8')  # to no-cors
   return response
 
-
-def create_or_update_player(data):
+def read_player(data):
   uid = int(data['uid'])
   query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
-  player_exists = db_read(query)
+  return db_read(query)
+
+def convert_to_dict(data):
+  data = json.loads(request.data)
+  if not isinstance(data, dict):
+    data = json.loads(data)
+  return data
+
+###
+# REGISTER PLAYER AND SELECT BRANDS
+###
+def create_or_update_player(data):
+  uid = int(data['uid'])
+  player_exists = read_player(data)
   command = ""
   if not player_exists:
     date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
@@ -302,12 +316,8 @@ def create_or_update_player(data):
 
 
 def create_or_update_player_brands(data):
-  uid = int(data['uid'])
-  query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
-  player = db_read(query)[0]
-  player_id = player[0]
-
-  query = "DELETE FROM playersbrands WHERE pid = {pid}".format(pid = player_id)
+  pid = read_player(data)[0][0]
+  query = "DELETE FROM playersbrands WHERE pid = {pid}".format(pid = pid)
   db_write(query)
 
   query = "SELECT name FROM brands"
@@ -318,7 +328,7 @@ def create_or_update_player_brands(data):
   
   for brand_name in data['brands']:
     if brand_name not in available_brands_names:
-      print(brand_name, 'not in', available_brands_names)
+      print(brand_name, 'is not in:', available_brands_names)
       continue
 
     query = "SELECT rowid, * FROM brands WHERE name = '{brand_name}'".format(brand_name = brand_name)
@@ -334,9 +344,7 @@ def create_or_update_player_brands(data):
 
 @app.route('/register/player/demography', methods=['POST'])
 def register_player_demography():
-  data = json.loads(request.data)
-  if not isinstance(data, dict):
-    data = json.loads(data)
+  data = convert_to_dict(data)
   create_or_update_player(data)
   result = {"code": 200}
   return send_response(result)
@@ -344,9 +352,24 @@ def register_player_demography():
 
 @app.route('/register/player/brands', methods=['POST'])
 def register_player_brands():
-  data = json.loads(request.data)
-  if not isinstance(data, dict):
-    data = json.loads(data)
+  data = convert_to_dict(data)
   create_or_update_player_brands(data)
+  result = {"code": 200}
+  return send_response(result)
+
+
+###
+# REGISTER PLAYER PARTICIPATION
+##
+def create_player_participation(data):
+  pid = read_player(data)[0][0]
+  cid = int(data['cid'])
+  command = "INSERT INTO par VALUES ({cid}, {pid}, 0)".format(cid = cid, pid = pid)
+  db_write(command)
+
+@app.route('/register/player/participation', methods=['POST'])
+def register_player_participation():
+  data = convert_to_dict(data)
+  create_player_participation(data)
   result = {"code": 200}
   return send_response(result)
