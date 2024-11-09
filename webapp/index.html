@@ -56,6 +56,8 @@
     <script type="text/javascript" src="src/play.js?v=4"></script>
     <script type="text/javascript">
       window.onload = function() {
+        get_uid();  // create in case not exists yet
+
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
         //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
@@ -70,11 +72,11 @@
           var demography = get_items_from_local_storage('choices3');
           if (!demography)
             demography = get_items_from_local_storage('choises3');
-          save_into_remote_storage('/register/player/demography', demography);
+          //save_into_remote_storage('/register/player/demography', demography);
           var brands = get_items_from_local_storage('choices4');
           if (!brands)
             brands = get_items_from_local_storage('choises4');
-          save_into_remote_storage('/register/player/brands', brands);
+          //save_into_remote_storage('/register/player/brands', brands);
 
           play();
         }
@@ -164,8 +166,8 @@
             <div class="col-10 offset-1">
               <div id="second_screen">
                 <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в пробном розыгрыше подарков от которых вы хотите поучаствовать на выходных 9&nbsp;и&nbsp;10&nbsp;ноября:</p>
-                <img id="brand-mk" class="brand mk" src="img/mk.png"><br>
-                <img id="brand-lenta" class="brand lenta" src="img/lenta.png">
+                <img id="brand-mk" class="brand mk" src="img/brands/logos/mk.png"><br>
+                <img id="brand-lenta" class="brand lenta" src="img/brands/logos/lenta.png">
                 
                 <div class="d-grid gap-2" style="margin-top: 1.3em;">
                   <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
@@ -181,7 +183,7 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-12">
+    <div class="col-xl-4 offset-xl-4 col-lg-8 offset-lg-2 col-12">
 
     <div id="third_screen" class="swiper-outer" pagination="true">
       <div class="swiper-wrapper">
@@ -222,7 +224,7 @@
             <h3>Завтра</h3>
             <div id="next"><p>Нет</p></div>
           <h2 style="margin: 1.5em 0 0.3em 0">Ваша история и аналитика</h2>
-            <div id="past"><p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать. Сегодня здесь пусто, но завтра уже что-то появится!</p></div>
+            <div id="past"><p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать.</p></div>
             <br><br>
           </div>
         </div>

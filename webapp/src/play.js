@@ -23,12 +23,13 @@ const uids_to_names = {
   359070623: "Лёша",
   5026988889: "Аксинья",
   1967872358: "Егор",
-  1563924371: "Даша",
+  1563924371: "Даша 1",
   1636956987: "Ксюша",
   6371357131: "Рома",
   5262399557: "Таня",
   1016952170: "Наташа",
   5838588705: "Алёна",
+  6160219684: "Даша 2",
 };
 
 /*
@@ -93,7 +94,7 @@ function started_participate_since_campaign(uid) {
 }
 
 function create_drawings_list() {
-  const uid = get_uid_from_url();
+  const uid = get_uid();
 
   const campaigns = category_map['campaigns'];
   const winners = category_map['winners'];
@@ -190,8 +191,8 @@ function create_drawings_list() {
 
   if (html_just)
     document.getElementById('just').innerHTML = html_just;
-  else if (!html_just && !past_counter)
-    document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
+  //else if (!html_just && !past_counter)
+  //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
   if (html_next)
     document.getElementById('next').innerHTML = html_next;
   if (html_now)
@@ -234,7 +235,7 @@ async function play_demo() {
   swiper_outer.slideTo(0, 2000, false);
 }
 
-function get_uid_from_url() {  // https://www.sitepoint.com/get-url-parameters-with-javascript/
+function get_tguid_from_url() {  // https://www.sitepoint.com/get-url-parameters-with-javascript/
   const queryString = window.location.search;
   const urlParams = new URLSearchParams(queryString);
   const id = urlParams.get('a');
@@ -244,7 +245,7 @@ function get_uid_from_url() {  // https://www.sitepoint.com/get-url-parameters-w
 }
 
 async function submit_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
-  const response = await fetch(SERVER_HOSTNAME + '/participants', {
+  const response = await fetch(SERVER_HOSTNAME + '/register/player/participation', {
     mode: 'no-cors',
     method: 'POST',
     headers: {
@@ -253,17 +254,28 @@ async function submit_participation(data) {  // https://stackoverflow.com/questi
     },
     body: JSON.stringify(data)
   });
-  //return await response.json();
+  //const result = await response.json();
+  //console.log(result);
+  //return result
 }
 async function get_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
-  const response = await fetch(SERVER_HOSTNAME + '/participants?uid=' + data.uid + '&cid=' + data.cid, {
-    //mode: 'no-cors',
-  });
+  const response = await fetch(SERVER_HOSTNAME + '/get/player/participation?uid=' + data.uid + '&cid=' + data.cid, {});
   return await response.json();
 }
 
-async function get_all(category) {
-  const response = await fetch(SERVER_HOSTNAME + `/${category}/all`, {});
+async function get_campaign_for_me_today() {
+  const uid = get_uid();
+  const response = await fetch(SERVER_HOSTNAME + `/get/campaign?uid=${uid}`, {});
+  const data = await response.json();
+  if (data.code != 200)
+    return;
+
+  category_map['campaigns'] = data.result;
+}
+
+
+async function get_all(category, params) {
+  const response = await fetch(SERVER_HOSTNAME + `/get/${category}?${params}`, {});
   const data = await response.json();
   if (data.code != 200)
     return;
@@ -311,7 +323,6 @@ async function run_progress_bar(seconds) {
   const interval = setInterval(async () => {
     simplebar.go(i);
 
-
     ad.style.opacity = Math.cos(i * 10 / rad_to_degree) * 0.1 + 0.9;
     i += 1;
     if (i > 100) {
@@ -328,11 +339,9 @@ async function run_progress_bar(seconds) {
       swiper_inner.slideTo(1, 2000, false);
       await sleep(2000);
       ad.style.opacity = 1;
-      //const bar = document.getElementsByClassName('nanobar')[0];
-      //bar.style.display = 'none';
-      //swiper_inner.slideTo(0, 2000, false);
     }
   }, seconds * 1000 / 100);
+  await sleep(seconds);
 }
 
 function enable_flip() {
@@ -389,7 +398,6 @@ async function calculate_percent(cid) {
 
 async function play() {
   'use strict';
-
   start_countdown();
 
   const this_screen = document.getElementById('third_screen');
@@ -398,32 +406,33 @@ async function play() {
 
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
-  await get_all('campaigns'); // need some stub if no ad
-  const campaign = get_campaign_for_date(today());
-  await get_all('winners');
+  //await get_all('campaigns', 'uid=' + get_uid()); // need some stub if no ad
+  await get_campaign_for_me_today();
+  const campaign = category_map['campaigns'];
+  //await get_all('winners', 'uid=' + get_uid());
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = 'Сегодня нет розыгрыша';
+    explain.innerHTML = 'Сегодня нет розыгрыша.';
     explain.style.color = 'black';
     explain.style.paddingTop = '95vh';
     enable_swipe();
     await sleep(2000);
     swiper_outer.slideTo(1, 2000, false);
-    await get_all('participants');
+    //await get_all('participants');
     create_drawings_list();
     return;
   }
 
-  const ad = campaign[0];
+  const ad = campaign[4];
   ad_element.style.background = `no-repeat center url("${ad}")`;
-  const cid = campaign[1];
-  const who = campaign[2];
+  const cid = campaign[0];
+  const who = campaign[1];
   document.getElementById('who').innerHTML = who;
   // const percent = campaign[3];
-  const prize = campaign[4];
+  const prize = campaign[5];
 
-  const participates = await get_participation({'uid': get_uid_from_url(), 'cid': cid});
+  const participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
   if (participates.result == true) {  // if participated already
     if (document.getElementById('js-canvas-explain'))
       document.getElementById('js-canvas-explain').remove();
@@ -474,9 +483,9 @@ async function play() {
 
   canvas.addEventListener('transitionend', async function() {
     remove_canvas(canvas);
-    await submit_participation({'uid': get_uid_from_url(), 'cid': cid});
+    await run_progress_bar();
+    await submit_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
     await calculate_percent(cid);
-    run_progress_bar();  
   });
 
   function distanceBetween(point1, point2) {

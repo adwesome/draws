@@ -7,9 +7,19 @@ DB_NAME = 'adte.db'
 
 import datetime
 
-def get_today_date():
+
+def get_today_epoch():
+  # return int(get_today_datetime().timestamp())
+  return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
+
+
+def get_today_datetime():
   now = datetime.datetime.now(datetime.timezone.utc)
-  today = now - datetime.timedelta(hours = 1) - datetime.timedelta(minutes = 30)
+  return now - datetime.timedelta(hours = 1) - datetime.timedelta(minutes = 30)
+
+
+def get_today_date():
+  today = get_today_datetime()
   return str(today.date())
 
 
@@ -27,33 +37,6 @@ def db_write(command):
   con.commit()
   con.close()
 
-DB_INIT_COMMANDS = [
-  """
-  CREATE TABLE IF NOT EXISTS participants(uid, cid);
-  CREATE TABLE IF NOT EXISTS winners(cid, uid);
-  CREATE TABLE IF NOT EXISTS campaigns (cid, date_go, ad, who, percent, prize);
-
-  CREATE TABLE IF NOT EXISTS players (uid INTEGER, date_created INTEGER, region INTEGER, city INTEGER, sex INTEGER, age INTEGER, tguid INTEGER);
-  CREATE TABLE IF NOT EXISTS brands (name TEXT);
-  CREATE TABLE IF NOT EXISTS playersbrands (pid INTEGER, bid INTEGER);
-  INSERT INTO brands VALUES ('mk');
-  INSERT INTO brands VALUES ('lenta');
-  
-  CREATE TABLE IF NOT EXISTS org (name TEXT, bid INTEGER);
-  INSERT INTO org VALUES ('Магнит Косметик', 1);
-  INSERT INTO org VALUES ('Лента', 2);
-  CREATE TABLE IF NOT EXISTS cam (oid INTEGER, date_start INTEGER, date_end INTEGER, ad TEXT, winners INTEGER);
-  INSERT INTO cam VALUES (1, 0, 0, '/img/ad-mk.jpg', 3);
-  INSERT INTO cam VALUES (2, 0, 0, '/img/ad-lenta.jpg', 3);
-  CREATE TABLE IF NOT EXISTS par (cid INTEGER, pid INTEGER, status INTEGER);
-  """
-]
-for each_command in DB_INIT_COMMANDS:
-  try:
-    db_write(each_command)
-  except Exception as why:
-    print(str(why))
-
 
 def db_read(command):
   con = sqlite3.connect(DB_NAME)
@@ -65,6 +48,7 @@ def db_read(command):
   return result
 
 
+"""
 def already_participates_today(uid, cid):
   command = "SELECT * FROM participants WHERE uid = {uid} AND cid = {cid}".format(uid = uid, cid = cid)
   participants = db_read(command)
@@ -72,13 +56,13 @@ def already_participates_today(uid, cid):
   if not participants:
     return False
   return True
-
+"""
 
 def submit_new_participant(uid, cid):
   command = "INSERT INTO participants VALUES ({uid}, {cid})".format(uid = uid, cid = cid)
   db_write(command)
 
-
+"""
 @app.route('/participants', methods=['GET'])
 def get_uid():
   uid = request.args.get('uid')
@@ -88,6 +72,7 @@ def get_uid():
   else:
     result = {"code": 400, "description": "UID and CID are required"}
   return send_response(result)
+"""
 
 @app.route('/participants/all', methods=['GET'])
 def get_all_participants():
@@ -280,6 +265,15 @@ def read_player(data):
   query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
   return db_read(query)
 
+def read_pid(data):
+  player = read_player(data)
+  if not player:
+    return
+  if not player[0]:
+    return
+
+  return player[0][0]
+
 def convert_to_dict(data):
   data = json.loads(data)
   if not isinstance(data, dict):
@@ -316,11 +310,11 @@ def create_or_update_player(data):
 
 
 def create_or_update_player_brands(data):
-  pid = read_player(data)[0][0]
+  pid = read_pid(data)
   query = "DELETE FROM playersbrands WHERE pid = {pid}".format(pid = pid)
   db_write(query)
 
-  query = "SELECT name FROM brands"
+  query = "SELECT webapp_code FROM brands"
   brands = db_read(query)
   available_brands_names = []
   for each in brands:
@@ -331,7 +325,7 @@ def create_or_update_player_brands(data):
       print(brand_name, 'is not in:', available_brands_names)
       continue
 
-    query = "SELECT rowid, * FROM brands WHERE name = '{brand_name}'".format(brand_name = brand_name)
+    query = "SELECT rowid, * FROM brands WHERE webapp_code = '{brand_name}'".format(brand_name = brand_name)
     brand = db_read(query)[0]
     bid = brand[0]
 
@@ -362,10 +356,31 @@ def register_player_brands():
 # REGISTER PLAYER PARTICIPATION
 ##
 def create_player_participation(data):
-  pid = read_player(data)[0][0]
+  pid = read_pid(data)
   cid = int(data['cid'])
+  if check_if_pid_participates(pid, cid):  # do not duplicate records
+    return
+  if not pid or not cid:
+    return
   command = "INSERT INTO par VALUES ({cid}, {pid}, 0)".format(cid = cid, pid = pid)
   db_write(command)
+
+
+def check_if_pid_participates(pid, cid):
+  if not pid or not cid:
+    return False
+
+  command = "SELECT * FROM par WHERE pid = {pid} AND cid = {cid}".format(pid = pid, cid = cid)
+  participants = db_read(command)
+  if not participants:
+    return False
+  return True
+
+
+def check_if_uid_participates(uid, cid):
+  pid = read_pid({'uid': uid})
+  return check_if_pid_participates(pid, cid)
+
 
 @app.route('/register/player/participation', methods=['POST'])
 def register_player_participation():
@@ -373,3 +388,90 @@ def register_player_participation():
   create_player_participation(data)
   result = {"code": 200}
   return send_response(result)
+
+
+@app.route('/get/player/participation', methods=['GET'])
+def get_player_participation():
+  uid = request.args.get('uid')
+  cid = request.args.get('cid')
+  if uid and cid:
+    result = {"code": 200, "result": check_if_uid_participates(uid, cid)}
+  else:
+    result = {"code": 400, "description": "UID and CID are required"}
+  return send_response(result)
+
+##
+# CAMPAIGNS
+##
+def get_brands_for_me_for_today(pid):
+  date_now = get_today_epoch()
+  query = "select distinct b.rowid, b.name from cam c \
+           join org o on c.oid = o.rowid \
+           join playersbrands pb on pb.bid = o.bid \
+           join brands b on b.rowid = pb.bid \
+           where pb.pid = {pid} \
+           and c.date_start < {date_now} \
+           and c.date_end > {date_now} \
+           ".format(pid = pid, date_now = date_now)
+  return db_read(query)
+
+
+def get_campaigns_for_brand_and_pid_for_today(pid, bid):
+  date_now = get_today_epoch()
+  query = "select c.rowid, c.* from cam c \
+           join org o on c.oid = o.rowid \
+           join playersbrands pb on pb.bid = o.bid \
+           join brands b on b.rowid = pb.bid \
+           where pb.pid = {pid} \
+           and b.rowid = {bid} \
+           and c.date_start < {date_now} \
+           and c.date_end > {date_now} \
+           ".format(pid = pid, bid = bid, date_now = date_now)
+  return db_read(query)
+
+
+@app.route('/get/campaign', methods=['GET'])
+def get_campaigns_for_player():
+  uid = request.args.get('uid')
+  pid = read_pid({'uid': uid})
+  
+  brands = get_brands_for_me_for_today(pid)
+  # add brands weights here
+  brand = secrets.choice(brands)
+  bid = brand[0]
+  campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
+  campaign = secrets.choice(campaigns)
+  if campaign:
+    result = {"code": 200, "result": campaign}
+  else:
+    result = {"code": 404, "description": "No ongoing campaign"}
+  return send_response(result)
+
+"""
+def get_campaigns_for_pid(pid):
+  date_now = get_today_epoch()
+  query = "select c.rowid, c.ad, c.winners, b.name from cam c \
+           join org o on c.oid = o.rowid \
+           join playersbrands pb on pb.bid = o.bid \
+           join brands b on b.rowid = pb.bid \
+           where pb.pid = {pid} \
+           and c.date_start < {date_now} \
+           and c.date_end > {date_now} \
+           ".format(pid = pid, date_now = date_now)
+  campaigns = db_read(query)
+  return campaigns
+
+@app.route('/get/campaigns', methods=['GET'])
+def get_campaigns_for_player():
+  uid = request.args.get('uid')
+  pid = read_pid({'uid': uid})
+  
+  # get_winners_and_calculate_em_if_needed()  # temp
+  campaigns = get_campaigns_for_pid(pid)
+  if campaigns:
+    result = {"code": 200, "result": campaigns}
+  else:
+    result = {"code": 404, "description": "No ongoing campaigns"}
+  return send_response(result)
+"""
+

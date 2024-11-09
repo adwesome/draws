@@ -75,7 +75,7 @@ async function collect_demography_data_from_form() {
   });
 
   const r = {'uid': get_uid(), 'demography': d}
-  tguid = get_uid_from_url();
+  tguid = get_tguid_from_url();
   if (tguid)
     r['tguid'] = tguid;
 
