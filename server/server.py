@@ -386,11 +386,8 @@ def check_if_pid_participates_today(pid):
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day, 4, 30, 0).timestamp())
   date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1, 4, 30, 0).timestamp() - 1)
 
-  command = "SELECT c.rowid, c.* FROM par p JOIN cam c on p.cid = c.rowid WHERE p.pid = {pid} AND p.date > {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
-  participants = db_read(command)
-  if not participants:
-    return []
-  return participants
+  command = "SELECT c.rowid, c.* FROM par p JOIN cam c on p.cid = c.rowid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
+  return db_read(command)
 
 
 def check_if_uid_participates_today(uid):
@@ -425,9 +422,10 @@ def get_brands_for_me_for_today(pid):
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
-           left join par p on p.cid = NULL \
+           LEFT join par p on p.cid = c.rowid \
            where pb.pid = {pid} \
-           and c.date_start < {date_now} \
+           AND p.cid IS null \
+           and c.date_start <= {date_now} \
            and c.date_end > {date_now} \
            ".format(pid = pid, date_now = date_now)
   return db_read(query)
@@ -439,10 +437,11 @@ def get_campaigns_for_brand_and_pid_for_today(pid, bid):
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
-           left join par p on p.cid = NULL \
+           LEFT join par p on p.cid = c.rowid \
            where pb.pid = {pid} \
+           AND p.cid IS null \
            and b.rowid = {bid} \
-           and c.date_start < {date_now} \
+           and c.date_start <= {date_now} \
            and c.date_end > {date_now} \
            ".format(pid = pid, bid = bid, date_now = date_now)
   return db_read(query)
@@ -454,6 +453,10 @@ def get_campaigns_for_player():
   pid = read_pid({'uid': uid})
   
   brands = get_brands_for_me_for_today(pid)
+  if not brands:
+    result = {"code": 404, "description": "No ongoing campaign"}
+    return send_response(result)
+
   # add brands weights here
   brand = secrets.choice(brands)
   bid = brand[0]
