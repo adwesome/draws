@@ -383,9 +383,9 @@ def check_if_pid_participates_today(pid):
     return False
 
   date_now = get_today_datetime().date()
-  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day, 4, 30, 0).timestamp())
-  date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1, 4, 30, 0).timestamp() - 1)
-
+  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
+  date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)
+  # print(111)
   command = "SELECT c.rowid, c.* FROM par p JOIN cam c on p.cid = c.rowid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
   return db_read(command)
 
