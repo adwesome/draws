@@ -259,7 +259,7 @@ async function submit_participation(data) {  // https://stackoverflow.com/questi
   //return result
 }
 async function get_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
-  const response = await fetch(SERVER_HOSTNAME + '/get/player/participation?uid=' + data.uid + '&cid=' + data.cid, {});
+  const response = await fetch(SERVER_HOSTNAME + '/get/player/participation?uid=' + data.uid, {});
   return await response.json();
 }
 
@@ -406,6 +406,29 @@ async function play() {
 
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
+
+  const participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
+  if (participates.result.length != 0) {  // if participated already
+    if (document.getElementById('js-canvas-explain'))
+      document.getElementById('js-canvas-explain').remove();
+    ad_element.style.visibility = 'visible';
+    ad_explain.style.visibility = 'visible';
+    //await calculate_percent(cid);
+    enable_swipe();
+    enable_flip();
+
+    const campaign = participates.result[0];
+    const ad = campaign[4];
+  const prize = campaign[5];
+  ad_element.style.background = `no-repeat center url("${ad}?v=${prize}")`;
+  const cid = campaign[0];
+  const who = campaign[1];
+  document.getElementById('who').innerHTML = who;
+  
+    return;
+  }
+
+
   //await get_all('campaigns', 'uid=' + get_uid()); // need some stub if no ad
   await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
@@ -425,24 +448,12 @@ async function play() {
   }
 
   const ad = campaign[4];
-  ad_element.style.background = `no-repeat center url("${ad}")`;
+  const prize = campaign[5];
+  ad_element.style.background = `no-repeat center url("${ad}?v=${prize}")`;
   const cid = campaign[0];
   const who = campaign[1];
   document.getElementById('who').innerHTML = who;
   // const percent = campaign[3];
-  const prize = campaign[5];
-
-  const participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
-  if (participates.result == true) {  // if participated already
-    if (document.getElementById('js-canvas-explain'))
-      document.getElementById('js-canvas-explain').remove();
-    ad_element.style.visibility = 'visible';
-    ad_explain.style.visibility = 'visible';
-    await calculate_percent(cid);
-    enable_swipe();
-    enable_flip();
-    return;
-  }
 
   var canvas = document.getElementById('js-canvas');
   const canvas_container = document.getElementById('js-container');
@@ -460,8 +471,8 @@ async function play() {
       // console.log(canvasWidth, canvasHeight)
   // base64 Workaround because Same-Origin-Policy
   const images = [ // https://www.vecteezy.com/free-vector/scratch-texture
-    //'img/scratch-silver.jpg',
-    'img/scratch-rainbow.jpg',
+    'img/scratch-silver.jpg',
+    //'img/scratch-rainbow.jpg',
   ];
   //const b = choice(images.length);
   //image.src = images[b];
@@ -485,7 +496,7 @@ async function play() {
     remove_canvas(canvas);
     await run_progress_bar();
     await submit_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
-    await calculate_percent(cid);
+    //await calculate_percent(cid);
   });
 
   function distanceBetween(point1, point2) {

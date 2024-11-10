@@ -9,8 +9,8 @@ import datetime
 
 
 def get_today_epoch():
-  # return int(get_today_datetime().timestamp())
-  return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
+  return int(get_today_datetime().timestamp())
+  # return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
 
 
 def get_today_datetime():
@@ -358,15 +358,16 @@ def register_player_brands():
 def create_player_participation(data):
   pid = read_pid(data)
   cid = int(data['cid'])
-  if check_if_pid_participates(pid, cid):  # do not duplicate records
+  if check_if_pid_participates_in_cid(pid, cid):  # do not duplicate records
     return
   if not pid or not cid:
     return
-  command = "INSERT INTO par VALUES ({cid}, {pid}, 0)".format(cid = cid, pid = pid)
+  date_now = get_today_epoch()
+  command = "INSERT INTO par VALUES ({cid}, {pid}, 0, {date_now})".format(cid = cid, pid = pid, date_now = date_now)
   db_write(command)
 
 
-def check_if_pid_participates(pid, cid):
+def check_if_pid_participates_in_cid(pid, cid):
   if not pid or not cid:
     return False
 
@@ -377,9 +378,24 @@ def check_if_pid_participates(pid, cid):
   return True
 
 
-def check_if_uid_participates(uid, cid):
+def check_if_pid_participates_today(pid):
+  if not pid:
+    return False
+
+  date_now = get_today_datetime().date()
+  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day, 4, 30, 0).timestamp())
+  date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1, 4, 30, 0).timestamp() - 1)
+
+  command = "SELECT c.rowid, c.* FROM par p JOIN cam c on p.cid = c.rowid WHERE p.pid = {pid} AND p.date > {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
+  participants = db_read(command)
+  if not participants:
+    return []
+  return participants
+
+
+def check_if_uid_participates_today(uid):
   pid = read_pid({'uid': uid})
-  return check_if_pid_participates(pid, cid)
+  return check_if_pid_participates_today(pid)
 
 
 @app.route('/register/player/participation', methods=['POST'])
@@ -393,9 +409,9 @@ def register_player_participation():
 @app.route('/get/player/participation', methods=['GET'])
 def get_player_participation():
   uid = request.args.get('uid')
-  cid = request.args.get('cid')
-  if uid and cid:
-    result = {"code": 200, "result": check_if_uid_participates(uid, cid)}
+  # cid = request.args.get('cid')
+  if uid:
+    result = {"code": 200, "result": check_if_uid_participates_today(uid)}
   else:
     result = {"code": 400, "description": "UID and CID are required"}
   return send_response(result)
@@ -409,6 +425,7 @@ def get_brands_for_me_for_today(pid):
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
+           left join par p on p.cid = NULL \
            where pb.pid = {pid} \
            and c.date_start < {date_now} \
            and c.date_end > {date_now} \
@@ -422,6 +439,7 @@ def get_campaigns_for_brand_and_pid_for_today(pid, bid):
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
+           left join par p on p.cid = NULL \
            where pb.pid = {pid} \
            and b.rowid = {bid} \
            and c.date_start < {date_now} \
@@ -446,6 +464,7 @@ def get_campaigns_for_player():
   else:
     result = {"code": 404, "description": "No ongoing campaign"}
   return send_response(result)
+
 
 """
 def get_campaigns_for_pid(pid):
