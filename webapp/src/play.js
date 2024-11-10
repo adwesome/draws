@@ -419,13 +419,13 @@ async function play() {
 
     const campaign = participates.result[0];
     const ad = campaign[1];
-  const percent = campaign[2];
-  ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
-  const cid = campaign[0];
-  const who = campaign[3];
-  document.getElementById('who').innerHTML = who;
-  
-  document.getElementById('percent').innerHTML = percent;
+    const percent = campaign[2];
+    ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
+    const cid = campaign[0];
+    const who = campaign[3];
+    document.getElementById('who').innerHTML = who;
+    document.getElementById('percent').innerHTML = percent;
+    
     return;
   }
 
@@ -448,12 +448,13 @@ async function play() {
     return;
   }
 
-  const ad = campaign[4];
-  const prize = campaign[5];
-  ad_element.style.background = `no-repeat center url("${ad}?v=${prize}")`;
+  const ad = campaign[1];
+  const percent = campaign[2];
+  ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
   const cid = campaign[0];
-  const who = campaign[1];
+  const who = campaign[3];
   document.getElementById('who').innerHTML = who;
+  document.getElementById('percent').innerHTML = percent;
   // const percent = campaign[3];
 
   var canvas = document.getElementById('js-canvas');

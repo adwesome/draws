@@ -355,6 +355,18 @@ def register_player_brands():
 ###
 # REGISTER PLAYER PARTICIPATION
 ##
+def get_status_by_chance(chance):
+  coin = secrets.choice(range(1, 101))
+  if coin <= int(chance):
+    return 1  # win
+  return 0  # not win
+
+
+def get_chance_from_cam_by_cid(cid):
+  query = "SELECT chance FROM cam WHERE rowid = {cid}".format(cid = cid)
+  return db_read(query)[0][0]
+
+
 def create_player_participation(data):
   pid = read_pid(data)
   cid = int(data['cid'])
@@ -362,8 +374,10 @@ def create_player_participation(data):
     return
   if not pid or not cid:
     return
+  chance = get_chance_from_cam_by_cid(cid)
+  status = get_status_by_chance(chance)
   date_now = get_today_epoch()
-  command = "INSERT INTO par VALUES ({cid}, {pid}, 0, {date_now})".format(cid = cid, pid = pid, date_now = date_now)
+  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now})".format(cid = cid, pid = pid, date_now = date_now, status = status)
   db_write(command)
 
 
@@ -386,7 +400,7 @@ def check_if_pid_participates_today(pid):
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
   date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)
   # print(111)
-  command = "SELECT c.rowid, c.ad, c.winners, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN org o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
+  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN org o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
   return db_read(command)
 
 
@@ -433,7 +447,7 @@ def get_brands_for_me_for_today(pid):
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
   date_now = get_today_epoch()
-  query = "select c.rowid, c.* from cam c \
+  query = "select c.rowid, c.ad, c.chance, o.name from cam c \
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
@@ -472,7 +486,7 @@ def get_campaigns_for_player():
 """
 def get_campaigns_for_pid(pid):
   date_now = get_today_epoch()
-  query = "select c.rowid, c.ad, c.winners, b.name from cam c \
+  query = "select c.rowid, c.ad, c.chance, b.name from cam c \
            join org o on c.oid = o.rowid \
            join playersbrands pb on pb.bid = o.bid \
            join brands b on b.rowid = pb.bid \
@@ -488,7 +502,7 @@ def get_campaigns_for_player():
   uid = request.args.get('uid')
   pid = read_pid({'uid': uid})
   
-  # get_winners_and_calculate_em_if_needed()  # temp
+  # get_chance_and_calculate_em_if_needed()  # temp
   campaigns = get_campaigns_for_pid(pid)
   if campaigns:
     result = {"code": 200, "result": campaigns}
