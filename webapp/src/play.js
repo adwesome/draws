@@ -1,13 +1,4 @@
-//var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
-//if (location.hostname == 'adwesome.github.io')
-//  SERVER_HOSTNAME = 'https://scratchit.cards';
-
 var campaigns = [];
-const campaigns_cid_id = 1;
-const campaigns_who_id = 2;
-const campaigns_percent_id = 3;
-const campaigns_prize_id = 4;
-const campaigns_date_go_id = 5;
 var participants = [];
 var winners = [];
 
@@ -32,77 +23,16 @@ const uids_to_names = {
   6160219684: "Даша 2",
 };
 
-/*
-window.onload = function() {
-  play();
-  start_countdown();
-
-  window.Telegram.WebApp.ready();
-  window.Telegram.WebApp.expand();
-  //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
-  window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
-}
-*/
-
-function today() {
-  const date = new Date();
-  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30)) {
-    date.setDate(date.getDate() - 1);
-    return date.toISOString().split('T')[0];
-  }
-  else {
-    return date.toISOString().split('T')[0];
-  }
-}
-function tomorrow() {
-  const date = new Date();
-  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30))
-    return date.toISOString().split('T')[0];
-  else {
-    date.setDate(date.getDate() + 1);
-    return date.toISOString().split('T')[0];
-  }
-}
-function yesterday() {
-  const date = new Date();
-  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30)) {
-    date.setDate(date.getDate() - 2);
-    return date.toISOString().split('T')[0];
-  }
-  else {
-    date.setDate(date.getDate() - 1);
-    return date.toISOString().split('T')[0];
-  }
-}
-
 function show_history() {
   document.getElementById('show_history').style.display = 'none';
   document.getElementById('hidden-history').style.display = 'unset';
 }
 
-function started_participate_since_campaign(uid) {
-  if (uid == -1)
-    return;
 
-  const participants = category_map['participants'];
 
-  for (cid in participants) {
-    const p = participants[cid];
-    if (p.includes(uid))
-      return parseInt(cid);
-  }
-}
-
-function create_drawings_list() {
+async function create_drawings_list() {
   const uid = get_uid();
 
-  const campaigns = category_map['campaigns'];
-  const winners = category_map['winners'];
-  const participants = category_map['participants'];
-  const today_date = today();
-  const yesterday_date = yesterday();
-  const cid_start = started_participate_since_campaign(uid);
-  
   let html_next = '';
   let html_now = '';
   let html_past = '';
@@ -114,71 +44,53 @@ function create_drawings_list() {
 
   let past_counter = 0;
 
-  for (let i = 0; i < campaigns.length; i++) {
-    const date = campaigns[i][campaigns_date_go_id];
-    const month = date.split('-')[1];
-    const day = date.split('-')[2];
-    
-    const cid = campaigns[i][campaigns_cid_id];
-    if (cid < cid_start)
-      continue;
+  const date_today = today();
+  const date_yesterday = yesterday();
+  const history = await get_participation_history();
+  for (let i = 0; i < history.length; i++) {
+    const campaign = history[i];
+    const date = new Date(parseInt(campaign[5]) * 1000);
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const date_participated = date.toISOString().split('T')[0];
+    const chance = campaign[2];
+    const brand = campaign[3];
+    const status = campaign[4];
 
-    const campaign_winners = winners[cid] || [];
-    const campaign_participants = participants[cid] || [];
-    var percent = 0;
-    if (campaign_participants.length != 0)
-      percent = Math.ceil(1 * 100 / campaign_participants.length);
 
-    if (date > today_date) // = instead of += to get only 1 closest
-      html_next = `<p>${day}.${month} <span class="status ongoing">👍 Приходите!</span> Будет розыгрыш от одного из ваших любимых брендов</span></p>`;
+    if (date_participated == date_today) {
+      html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете</span>`;
+      html_now += `${chance}% участников выиграют подарки от ${brand}</p>`;
+    }
     else {
-      if (date == today_date) {
-        html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете`;
-        html_now += `</span> ${campaigns[i][campaigns_who_id]}, `;
-        //html_now += `${percent}% участников (1 человек) выиграют по ${campaigns[i][campaigns_prize_id]}</p>`;
-        html_now += `1 из ${campaign_participants.length} участников выиграет по ${campaigns[i][campaigns_prize_id]}</p>`;
+      past_counter += 1;
+      if (past_counter == 4)
+        html_past += '<p id="show_history"><a href="#" onclick="show_history();">Открыть всю историю</a></p> <div id="hidden-history">';
+
+      html_past += `<p>${day}.${month} <span class="status `;
+
+      if (status == 2) {
+        html_past += 'won">🎉 Вы выиграли';
+        wins += 1;
       }
       else {
-        past_counter += 1;
-        if (past_counter == 4)
-          html_past += '<p id="show_history"><a href="#" onclick="show_history();">Открыть всю историю</a></p> <div id="hidden-history">';
-
-        html_past += `<p>${day}.${month} <span class="status `;
-
-        if (campaign_winners.includes(uid)) {
-          html_past += 'won">🎉 Вы выиграли';
-          wins += 1;
+        if (status == 0) {
+          html_past += 'lost">🙁 Вы не выиграли';
+          lost += 1;
         }
         else {
-          if (campaign_participants.includes(uid)) {
-            html_past += 'lost">🙁 Вы не выиграли';
-            lost += 1;
-          }
-          else {
-            html_past += 'not">😐 Вы не участвовали';
-            not += 1;
-          }
+          html_past += 'not">😐 Вы не участвовали';
+          not += 1;
         }
       }
-      if (date < today_date) {
-        html_past += `</span> ${campaigns[i][campaigns_who_id]}, `;
-        //const percent = campaigns[i][campaigns_percent_id];
-        html_past += `${percent}% участников `;
-        winners_names = [];
-        campaign_winners.forEach((uid) => {
-          winners_names.push(uids_to_names[uid]);
-        })
-        html_past += `(${campaign_winners.length} человек`;
-        if (winners_names.length != 0)
-          html_past += `: ${winners_names.join(', ')}`;
-        html_past += `) выиграли по ${campaigns[i][campaigns_prize_id]}`;
-      }
+    }
+    if (date_participated < date_today) {
+      html_past += `</span>`;
+      html_past += `${chance}% участников выиграли подарки от ${brand}`;
+    }
 
-      if (date == yesterday_date) {
-        html_just = html_past + '</p>';
-        //html_past = '';
-      }
-      
+    if (date_participated == date_yesterday) {
+      html_just = html_past + '</p>';
     }
   }
 
@@ -193,8 +105,8 @@ function create_drawings_list() {
     document.getElementById('just').innerHTML = html_just;
   //else if (!html_just && !past_counter)
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
-  if (html_next)
-    document.getElementById('next').innerHTML = html_next;
+  if (1) //html_next)
+    document.getElementById('next').innerHTML = '<p>Приходите узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>';
   if (html_now)
     document.getElementById('now').innerHTML = html_now;
   if (html_past && past_counter)
@@ -204,9 +116,6 @@ function create_drawings_list() {
     draw_chart(wins, lost, not);
 }
 
-function sleep(ms) {  // https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
 
 function deadline(date) {  // https://stackoverflow.com/questions/948532/how-to-convert-a-date-to-utc
   if (!(date.getUTCHours() <= 1 && date.getUTCMinutes() < 30))
@@ -235,14 +144,6 @@ async function play_demo() {
   swiper_outer.slideTo(0, 2000, false);
 }
 
-function get_tguid_from_url() {  // https://www.sitepoint.com/get-url-parameters-with-javascript/
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const id = urlParams.get('a');
-  if (!id)
-    return -1
-  return parseInt(id);
-}
 
 async function submit_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
   const response = await fetch(SERVER_HOSTNAME + '/register/player/participation', {
@@ -274,33 +175,19 @@ async function get_campaign_for_me_today() {
 }
 
 
-async function get_all(category, params) {
-  const response = await fetch(SERVER_HOSTNAME + `/get/${category}?${params}`, {});
+async function get_participation_history() {
+  const uid = get_uid();
+  const response = await fetch(SERVER_HOSTNAME + `/get/participation/history?uid=${uid}`, {});
   const data = await response.json();
   if (data.code != 200)
     return;
 
-  category_map[category] = data.result;
+  return data.result;
 }
 
-function get_campaign_for_date(date) {
-  let result = [];
-  const campaigns = category_map['campaigns'];
-  for (let i = 0; i < campaigns.length; i++) {
-    const campaign = campaigns[i];
-    if (campaign[campaigns_date_go_id] == date)
-      return campaign;
-  }
-  return result;
-}
 
 var swiper_inner;
 var swiper_outer;
-
-function load_items_from_local_storage(items_name) {
-  let items = localStorage.getItem(items_name) || "{}";
-  return JSON.parse(items);
-}
 
 function is_newcomer() {
   if (!localStorage.getItem('onboarding_complete')) {
@@ -323,7 +210,7 @@ async function run_progress_bar(seconds) {
   const interval = setInterval(async () => {
     simplebar.go(i);
 
-    ad.style.opacity = Math.cos(i * 10 / rad_to_degree) * 0.1 + 0.9;
+    ad.style.opacity = Math.cos(i * 10 / rad_to_degree) * 0.05 + 0.95;
     i += 1;
     if (i > 100) {
       clearInterval(interval);
@@ -373,9 +260,6 @@ function enable_swipe() {
   });
 }
 
-function choice(length) {
-  return Math.floor(Math.random() * length);
-}
 
 function remove_canvas(canvas) {
   if (!canvas)
@@ -385,14 +269,6 @@ function remove_canvas(canvas) {
 
   canvas.parentNode.removeChild(canvas);
   document.getElementById('js-canvas-explain').remove();
-}
-
-async function calculate_percent(cid) {
-  await get_all('participants');
-  const campaign_participants = category_map['participants'][cid] || [];
-  const percent = Math.ceil(1 * 100 / campaign_participants.length);
-  document.getElementById('percent').innerHTML = percent;
-  create_drawings_list();
 }
 
 
@@ -425,7 +301,7 @@ async function play() {
     const who = campaign[3];
     document.getElementById('who').innerHTML = who;
     document.getElementById('percent').innerHTML = percent;
-    
+    create_drawings_list();
     return;
   }
 
@@ -499,6 +375,7 @@ async function play() {
     await run_progress_bar();
     await submit_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
     //await calculate_percent(cid);
+    create_drawings_list();
   });
 
   function distanceBetween(point1, point2) {

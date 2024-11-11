@@ -167,7 +167,7 @@ h3 {
 .status {
   padding: 2px 6px;
   border-radius: 5px;
-  margin: 0 3px;
+  margin: 0 7px 0 3px;
 }
 .status.ongoing {
   border: 1px solid gray;

@@ -2,6 +2,43 @@ var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
 if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
+function choice(length) {
+  return Math.floor(Math.random() * length);
+}
+
+function sleep(ms) {  // https://stackoverflow.com/questions/951021/what-is-the-javascript-version-of-sleep
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function today() {
+  const date = new Date();
+  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30)) {
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split('T')[0];
+  }
+  else
+    return date.toISOString().split('T')[0];
+}
+function tomorrow() {
+  const date = new Date();
+  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30))
+    return date.toISOString().split('T')[0];
+  else {
+    date.setDate(date.getDate() + 1);
+    return date.toISOString().split('T')[0];
+  }
+}
+function yesterday() {
+  const date = new Date();
+  if (date.getUTCHours() == 0 || (date.getUTCHours() == 1 && date.getUTCMinutes() < 30)) {
+    date.setDate(date.getDate() - 2);
+    return date.toISOString().split('T')[0];
+  }
+  else {
+    date.setDate(date.getDate() - 1);
+    return date.toISOString().split('T')[0];
+  }
+}
 
 function save_into_local_storage(to, items) {
   localStorage.setItem(to, items);
@@ -104,4 +141,13 @@ function get_uid() {
   uid = Date.now();
   localStorage.setItem('uid', uid);
   return uid;
+}
+
+function get_tguid_from_url() {  // https://www.sitepoint.com/get-url-parameters-with-javascript/
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const id = urlParams.get('a');
+  if (!id)
+    return -1
+  return parseInt(id);
 }

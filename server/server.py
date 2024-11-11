@@ -482,6 +482,26 @@ def get_campaigns_for_player():
     result = {"code": 404, "description": "No ongoing campaign"}
   return send_response(result)
 
+##
+# PARTICIPATION HISTORY
+##
+def get_campaigns_history_for_pid(pid):
+  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date FROM par p JOIN cam c on p.cid = c.rowid JOIN org o ON o.rowid = c.oid JOIN brands b ON b.rowid = o.bid WHERE p.pid = {pid} order by p.date desc".format(pid = pid)
+  return db_read(query)
+
+
+@app.route('/get/participation/history', methods=['GET'])
+def get_participation_campaigns_for_player():
+  uid = request.args.get('uid')
+  pid = read_pid({'uid': uid})
+  
+  campaigns = get_campaigns_history_for_pid(pid)
+  if campaigns:
+    result = {"code": 200, "result": campaigns}
+  else:
+    result = {"code": 404, "description": "No campaigns"}
+  return send_response(result)
+
 
 """
 def get_campaigns_for_pid(pid):
