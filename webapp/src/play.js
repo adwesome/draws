@@ -285,7 +285,8 @@ async function play() {
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
 
-  const participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
+  let participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
+  participates = {'result': []};
   if (participates.result.length != 0) {  // if participated already
     if (document.getElementById('js-canvas-explain'))
       document.getElementById('js-canvas-explain').remove();
@@ -325,6 +326,9 @@ async function play() {
     create_drawings_list();
     return;
   }
+
+  if (!localStorage.getItem('onboarding_complete'))
+    document.getElementById('js-canvas-explain').style.display = 'block';
 
   const ad = campaign[1];
   const percent = campaign[2];
