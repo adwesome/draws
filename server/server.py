@@ -504,3 +504,32 @@ def get_participation_campaigns_for_player():
   else:
     result = {"code": 404, "description": "No campaigns"}
   return send_response(result)
+
+##
+# Orgs poll again
+##
+@app.route('/orgs', methods=['POST'])
+def submit_vote():
+  data = json.loads(json.loads(request.data))
+  # print(request.data, data)
+  exists = db_read("SELECT * FROM voters WHERE uid = " + str(data['uid']))
+  now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
+  orgs = ','.join(str(x) for x in data['orgs'])
+  uid = data['uid']
+  city = data['demography'][0]
+  sex = data['demography'][1]
+  age = data['demography'][2]
+  comment = data['comment']
+  if exists:
+    command = "UPDATE voters SET date_last = {}, city = {}, sex = {}, age = {}, orgs = '{}', comment = '{}' WHERE uid = {}".format(now, city, sex, age, orgs, comment, uid)
+  else:
+    command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
+  db_write(command)
+  result = {"code": 200}
+  return send_response(result)
+
+@app.route('/orgs/all', methods=['GET'])
+def get_orgs():
+  orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
+  result = {"code": 200, "orgs": orgs}
+  return send_response(result)
