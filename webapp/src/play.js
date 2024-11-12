@@ -314,9 +314,10 @@ async function play() {
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = 'Сегодня нет розыгрыша.';
-    explain.style.color = 'black';
-    explain.style.paddingTop = '95vh';
+    explain.innerHTML = 'Сегодня нет розыгрыша';
+    explain.style.display = 'block';
+    //explain.style.color = 'black';
+    //explain.style.paddingTop = '95vh';
     enable_swipe();
     await sleep(2000);
     swiper_outer.slideTo(1, 2000, false);
