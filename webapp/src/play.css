@@ -143,10 +143,10 @@ h3 {
   z-index: 150;
   position: absolute;
   padding: 0;
-  color-: floralwhite;
+  color: gray;
   display: none;
   left: 50%;
-  top: 6%;
+  top: 8%;
   transform: translate(-50%,-50%);
   width: 100%;
   text-align: center;
