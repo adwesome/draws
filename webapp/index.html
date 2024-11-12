@@ -68,6 +68,8 @@
         else if (!get_item_from_local_storage('second_screen_passed'))
           second_screen();
         else {
+          document.getElementById('first_screen').remove();
+          
           // submit for any case not submitted regularly
           var demography = get_items_from_local_storage('choices3');
           if (!demography)
@@ -88,7 +90,7 @@
     <div id="intro">
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 offset-lg-4 col-12 screen">
+          <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 screen">
             <div class="col-10 offset-1">
               <div id="first_screen">
                 <h2>Добро пожаловать!</h2>
@@ -162,7 +164,7 @@
       
       <div class="container">
         <div class="row">
-          <div class="col-lg-4 offset-lg-4 col-12 screen">
+          <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 screen">
             <div class="col-10 offset-1">
               <div id="second_screen">
                 <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в пробном розыгрыше подарков от которых вы хотите поучаствовать на выходных 16&nbsp;и&nbsp;17&nbsp;ноября:</p>
@@ -172,7 +174,7 @@
                 <div class="d-grid gap-2" style="margin-top: 1.3em;">
                   <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
 
-                  <p style="font-size: 0.82em; margin-top: 0.5em;"><b>Предпринимателям:</b> начиная с декабря 2024, среди многих других брендов здесь может быть и ваш! Если вы хотите быть здесь, и мы с вами еще не общались, <a href="https://vk.com/adwesome" target="_blank">напишите об этом нам</a>.</p>
+                  <!--p style="font-size: 1em; margin-top: 0.5em;"><b>Предпринимателям:</b> начиная с декабря 2024, среди многих других брендов здесь может быть и ваш! Если вы хотите быть здесь, и мы с вами еще не общались, <a href="https://vk.com/adwesome" target="_blank">напишите нам</a></p-->
                 </div>
               </div>
             </div>
@@ -181,58 +183,122 @@
       </div>
     </div>
 
-<div class="container">
-  <div class="row">
-    <div class="col-xl-4 offset-xl-4 col-lg-8 offset-lg-2 col-12">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 screen-">
 
-    <div id="third_screen" class="swiper-outer" pagination="true">
-      <div class="swiper-wrapper">
-        <div class="swiper-slide">
-          <div class="swiper-inner">
-            <div class="swiper-wrapper">
+        <div id="third_screen" class="swiper-outer" pagination="true">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <div class="swiper-inner">
+                <div class="swiper-wrapper">
 
-              <div class="swiper-slide">
-                <!-- https://codepen.io/Totati/pen/pPXrJV -->
-                <!-- https://github.com/andreruffert/scratchie.js -->
-                <div class="container-" id="js-container">
-                  <p id="js-canvas-explain">сотрите защитный слой<br><b>ПОЛНОСТЬЮ</b></p>
-                  <canvas class="canvas" id="js-canvas"></canvas>
-                  <div id="ad"></div>
-                  <div id="ad_explain"><!--p>На этом экране под защитным слоем может находиться какое-то рекламное предложение от компании. Например, объявление о привозе, об акции "скидка на все", предложение посетить магазин / салон в декабре или в январе и т.д. &mdash; что угодно, что вы хотите сообщить вашей аудитории, людям, которые указали, что они <b><i>хотят</i></b> поучаствовать в розыгрыше подарков от вашей организации.</p--></div>
+                  <div class="swiper-slide">
+                    <!-- https://codepen.io/Totati/pen/pPXrJV -->
+                    <!-- https://github.com/andreruffert/scratchie.js -->
+                    <div class="container-" id="js-container">
+                      <p id="js-canvas-explain">сотрите защитный слой<br><b>ПОЛНОСТЬЮ</b></p>
+                      <canvas class="canvas" id="js-canvas"></canvas>
+                      <div id="ad"></div>
+                      <div id="ad_explain"><!--p>На этом экране под защитным слоем может находиться какое-то рекламное предложение от компании. Например, объявление о привозе, об акции "скидка на все", предложение посетить магазин / салон в декабре или в январе и т.д. &mdash; что угодно, что вы хотите сообщить вашей аудитории, людям, которые указали, что они <b><i>хотят</i></b> поучаствовать в розыгрыше подарков от вашей организации.</p--></div>
+                    </div>
+                  </div>
+
+                  <div class="swiper-slide non-white-bg center">
+                    <p id="flipdown_header">Через</p>
+                    <div id="flipdown" class="flipdown"></div>
+                    <div id="flipdown_explain">
+                      <p><span class="conditions"><span id="percent"></span>%</span> участников выиграют подарок от <span class="conditions" id="who"></span>. Вы участвуете&nbsp;👍</p>
+                    </div>
+                  </div>              
+
                 </div>
+                <div class="swiper-pagination swiper-inner-pagination"></div>
               </div>
-
-              <div class="swiper-slide non-white-bg center">
-                <p id="flipdown_header">Через</p>
-                <div id="flipdown" class="flipdown"></div>
-                <div id="flipdown_explain">
-                  <p><span class="conditions"><span id="percent"></span>%</span> участников выиграют подарок от <span class="conditions" id="who"></span>. Вы участвуете&nbsp;👍</p>
+            </div>
+            <div id="list" class="swiper-slide non-white-bg">
+              <h2>Розыгрыши</h2>
+              <div id="drawings_list">
+                <div id="yesterday">
+                  <h3>Вчера</h3>
+                  <div id="just"><p>Нет</p></div>  
                 </div>
-              </div>              
+                <h3>Сегодня</h3>
+                <div id="now"><p>Нет</p></div>
+                <h3>Завтра</h3>
+                <div id="next"><p>Нет</p></div>
+              <h2 style="margin: 1.5em 0 0.3em 0">Ваша история и аналитика</h2>
+                <div id="past"><p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать.</p></div>
+                <br><br>
+              </div>
+            </div>
 
+            <div id="" class="swiper-slide non-white-bg">
+              <h2>Настройки</h2>
+              <div id="settings">
+                <label>Регион, в котором вы живете:</label>
+                <select id="region" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="51">Мурманская обл.</option>
+                  <option value="10">респ. Карелия</option>
+                  <option value="29">Архангельская обл.</option>
+                  <option value="47">г. Санкт-Петербург и ЛО</option>
+                  <option value="35">Вологодская обл.</option>
+                  <option value="53">Новгородская обл.</option>
+                  <option value="50">г. Москва и МО</option>
+                  <option value="-2">- другой -</option>
+                </select>
+
+                <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
+                <select id="city" class="form-select" style="display: none;">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">Беломорск</option>
+                  <option value="2">Кемь</option>
+                  <option value="3">Кондопога</option>
+                  <option value="4">Костомукша</option>
+                  <option value="5">Лахденпохья</option>
+                  <option value="6">Медвежьегорск</option>
+                  <option value="7">Олонец</option>
+                  <option value="8">Петрозаводск</option>
+                  <option value="9">Питкяранта</option>
+                  <option value="10">Пудож</option>
+                  <option value="11">Сегежа</option>
+                  <option value="12">Сортавала</option>
+                  <option value="13">Суоярви</option>
+                  <option value="-2">- другой -</option>
+                </select>
+
+                <label>Ваш пол:</label>
+                <select id="sex" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">Женский</option>
+                  <option value="2">Мужской</option>
+                </select>
+
+                <label>Ваш возраст:</label>
+                <select id="age" class="form-select">
+                  <option value="-1" selected>- выберите -</option>
+                  <option value="1">до 14 лет включительно</option>
+                  <option value="2">15-19 лет</option>
+                  <option value="3">20-24 лет</option>
+                  <option value="4">25-29 лет</option>
+                  <option value="5">30-34 лет</option>
+                  <option value="6">35-39 лет</option>
+                  <option value="7">40-44 лет</option>
+                  <option value="8">45-49 лет</option>
+                  <option value="9">50-54 лет</option>
+                  <option value="10">55-59 лет</option>
+                  <option value="11">60-64 лет</option>
+                  <option value="12">65-69 лет</option>
+                  <option value="13">от 70 лет включительно</option>
+                </select>
+              </div>
             </div>
-            <div class="swiper-pagination swiper-inner-pagination"></div>
           </div>
-        </div>
-        <div id="list" class="swiper-slide non-white-bg">
-          <h2>Розыгрыши</h2>
-          <div id="drawings_list">
-            <div id="yesterday">
-              <h3>Вчера</h3>
-              <div id="just"><p>Нет</p></div>  
-            </div>
-            <h3>Сегодня</h3>
-            <div id="now"><p>Нет</p></div>
-            <h3>Завтра</h3>
-            <div id="next"><p>Нет</p></div>
-          <h2 style="margin: 1.5em 0 0.3em 0">Ваша история и аналитика</h2>
-            <div id="past"><p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать.</p></div>
-            <br><br>
-          </div>
+          <div class="swiper-pagination swiper-outer-pagination"></div>
         </div>
       </div>
-      <div class="swiper-pagination swiper-outer-pagination"></div>
     </div>
-    
+
   </body>
 </html>

@@ -4,7 +4,9 @@ function set_cities_display_attr(display) {
 }
 
 function first_screen() {
-  document.getElementById('first_screen').style.display = 'block';
+  if (document.getElementById('first_screen'))
+    document.getElementById('first_screen').style.display = 'block';
+
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
     if (region.value == '10')
@@ -12,6 +14,7 @@ function first_screen() {
     else
       set_cities_display_attr('none');
   });
+  set_existing_demography_choices();
 
   const btn_go_to_second = document.getElementById('to_second');
   const all_selects = document.querySelectorAll('select');
@@ -30,25 +33,30 @@ function first_screen() {
         }
       }
 
-      if (ready_to_go)
-        btn_go_to_second.disabled = false;
-      else
-        btn_go_to_second.disabled = true;
+      if (btn_go_to_second) {
+        if (ready_to_go)
+          btn_go_to_second.disabled = false;
+        else
+          btn_go_to_second.disabled = true;
+      }
+      else {
+        collect_demography_data_from_form();
+      }
     });
   });
 
-  btn_go_to_second.addEventListener('click', async function () {
-    const data_saved = await collect_demography_data_from_form();
-    if (!data_saved)
-      return;
-    if (data_saved.status != 0) // 200 OK for no-cors
-      return;
+  if (btn_go_to_second) {
+    btn_go_to_second.addEventListener('click', async function () {
+      const data_saved = await collect_demography_data_from_form();
+      if (!data_saved)
+        return;
+      if (data_saved.status != 0) // 200 OK for no-cors
+        return;
 
-    document.getElementById('first_screen').style.display = 'none';
-    document.getElementById('second_screen').style.display = 'block';
-    save_into_local_storage('first_screen_passed', true);
-    second_screen();
-  });
-
-  set_existing_demography_choices();
+      document.getElementById('first_screen').style.display = 'none';
+      document.getElementById('second_screen').style.display = 'block';
+      save_into_local_storage('first_screen_passed', true);
+      second_screen();
+    });
+  }
 }

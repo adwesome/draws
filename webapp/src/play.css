@@ -143,7 +143,7 @@ h3 {
   z-index: 150;
   position: absolute;
   padding: 0;
-  color: gray;
+  color: white;
   display: none;
   left: 50%;
   top: 8%;
@@ -191,7 +191,7 @@ h3 {
   transition: opacity 1s linear;
 }
 
-#list {
+#list, #settings {
   overflow-y: auto;
 }
 
@@ -227,4 +227,8 @@ h3 {
 
 #js-container {
   background: floralwhite;
+}
+
+#settings {
+  padding: 0 20px !important;
 }

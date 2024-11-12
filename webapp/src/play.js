@@ -32,6 +32,7 @@ function show_history() {
 
 async function create_drawings_list() {
   const uid = get_uid();
+  first_screen();
 
   let html_next = '';
   let html_now = '';
@@ -139,6 +140,10 @@ async function play_demo() {
   swiper_inner.slideTo(1, 2000, false);
   await sleep(2000);
   swiper_inner.slideTo(0, 2000, false);
+  await sleep(2000);
+  swiper_outer.slideTo(1, 2000, false);
+  await sleep(2000);
+  swiper_outer.slideTo(2, 2000, false);
   await sleep(2000);
   swiper_outer.slideTo(1, 2000, false);
   await sleep(2000);
