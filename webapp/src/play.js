@@ -286,7 +286,6 @@ async function play() {
   const ad_explain = document.getElementById('ad_explain');
 
   let participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
-  participates = {'result': []};
   if (participates.result.length != 0) {  // if participated already
     if (document.getElementById('js-canvas-explain'))
       document.getElementById('js-canvas-explain').remove();
