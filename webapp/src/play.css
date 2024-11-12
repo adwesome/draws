@@ -191,7 +191,7 @@ h3 {
 }
 
 #list {
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 #chart-wrapper {

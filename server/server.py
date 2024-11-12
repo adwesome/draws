@@ -486,7 +486,12 @@ def get_campaigns_for_player():
 # PARTICIPATION HISTORY
 ##
 def get_campaigns_history_for_pid(pid):
-  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date FROM par p JOIN cam c on p.cid = c.rowid JOIN org o ON o.rowid = c.oid JOIN brands b ON b.rowid = o.bid WHERE p.pid = {pid} order by p.date desc".format(pid = pid)
+  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date FROM par p \
+           JOIN cam c on p.cid = c.rowid \
+           JOIN org o ON o.rowid = c.oid \
+           JOIN brands b ON b.rowid = o.bid \
+           WHERE p.pid = {pid} \
+           ORDER BY p.date DESC".format(pid = pid)
   return db_read(query)
 
 
@@ -501,33 +506,3 @@ def get_participation_campaigns_for_player():
   else:
     result = {"code": 404, "description": "No campaigns"}
   return send_response(result)
-
-
-"""
-def get_campaigns_for_pid(pid):
-  date_now = get_today_epoch()
-  query = "select c.rowid, c.ad, c.chance, b.name from cam c \
-           join org o on c.oid = o.rowid \
-           join playersbrands pb on pb.bid = o.bid \
-           join brands b on b.rowid = pb.bid \
-           where pb.pid = {pid} \
-           and c.date_start < {date_now} \
-           and c.date_end > {date_now} \
-           ".format(pid = pid, date_now = date_now)
-  campaigns = db_read(query)
-  return campaigns
-
-@app.route('/get/campaigns', methods=['GET'])
-def get_campaigns_for_player():
-  uid = request.args.get('uid')
-  pid = read_pid({'uid': uid})
-  
-  # get_chance_and_calculate_em_if_needed()  # temp
-  campaigns = get_campaigns_for_pid(pid)
-  if campaigns:
-    result = {"code": 200, "result": campaigns}
-  else:
-    result = {"code": 404, "description": "No ongoing campaigns"}
-  return send_response(result)
-"""
-

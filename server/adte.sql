@@ -41,3 +41,8 @@ UPDATE cam set ad = 'img/ads/ad-lenta.jpg' where oid = 2;
 ALTER TABLE par ADD COLUMN date TEXT;
 ALTER TABLE cam RENAME COLUMN winners TO chance;
 
+UPDATE playersbrands SET bid = 3 where bid = 1;
+UPDATE cam set chance = 20 where rowid = 4;
+UPDATE cam set chance = 15 where rowid = 3;
+UPDATE cam set chance = 15 where rowid = 5;
+UPDATE cam set chance = 10 where rowid = 6;

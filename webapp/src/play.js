@@ -60,7 +60,7 @@ async function create_drawings_list() {
 
     if (date_participated == date_today) {
       html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете</span>`;
-      html_now += `${chance}% участников выиграют подарки от ${brand}</p>`;
+      html_now += `${chance}% участников выиграют подарки от <b>${brand}</b></p>`;
     }
     else {
       past_counter += 1;
@@ -69,7 +69,7 @@ async function create_drawings_list() {
 
       html_past += `<p>${day}.${month} <span class="status `;
 
-      if (status == 2) {
+      if (status >= 1) {
         html_past += 'won">🎉 Вы выиграли';
         wins += 1;
       }
@@ -86,7 +86,7 @@ async function create_drawings_list() {
     }
     if (date_participated < date_today) {
       html_past += `</span>`;
-      html_past += `${chance}% участников выиграли подарки от ${brand}`;
+      html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`;
     }
 
     if (date_participated == date_yesterday) {
@@ -103,6 +103,8 @@ async function create_drawings_list() {
 
   if (html_just)
     document.getElementById('just').innerHTML = html_just;
+  else
+    document.getElementById('yesterday').style.display = 'none';
   //else if (!html_just && !past_counter)
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
   if (1) //html_next)
