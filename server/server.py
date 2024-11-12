@@ -432,32 +432,26 @@ def get_player_participation():
 ##
 def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch()
-  query = "select distinct b.rowid, b.name from cam c \
-           join org o on c.oid = o.rowid \
-           join playersbrands pb on pb.bid = o.bid \
-           join brands b on b.rowid = pb.bid \
-           LEFT join par p on p.cid = c.rowid \
-           where pb.pid = {pid} \
-           AND p.cid IS null \
-           and c.date_start <= {date_now} \
-           and c.date_end > {date_now} \
-           ".format(pid = pid, date_now = date_now)
+  query = "SELECT DISTINCT b2.rowid, b2.name FROM brands b2 WHERE b2.name NOT IN ( \
+          SELECT DISTINCT b.name FROM cam c \
+          JOIN par p ON c.rowid = p.cid \
+          JOIN org o ON o.rowid = c.oid \
+          JOIN brands b ON b.rowid = o.bid \
+          WHERE p.pid = {pid} \
+          and c.date_start <= {date_now} \
+          and c.date_end > {date_now})".format(pid = pid, date_now = date_now)
   return db_read(query)
 
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
   date_now = get_today_epoch()
-  query = "select c.rowid, c.ad, c.chance, o.name from cam c \
-           join org o on c.oid = o.rowid \
-           join playersbrands pb on pb.bid = o.bid \
-           join brands b on b.rowid = pb.bid \
-           LEFT join par p on p.cid = c.rowid \
-           where pb.pid = {pid} \
-           AND p.cid IS null \
-           and b.rowid = {bid} \
-           and c.date_start <= {date_now} \
-           and c.date_end > {date_now} \
-           ".format(pid = pid, bid = bid, date_now = date_now)
+  query = "SELECT c.rowid, c.ad, c.chance, o.name FROM cam c \
+          JOIN org o ON c.oid = o.rowid \
+          WHERE 1=1 \
+          and c.date_start <= {date_now} \
+          and c.date_end > {date_now} \
+          AND o.bid = {bid} \
+          AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid})".format(pid = pid, bid = bid, date_now = date_now)
   return db_read(query)
 
 
@@ -475,8 +469,13 @@ def get_campaigns_for_player():
   brand = secrets.choice(brands)
   bid = brand[0]
   campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
+  print(pid, bid, campaigns)
+  if not campaigns:
+    result = {"code": 404, "description": "No ongoing campaign"}
+    return send_response(result)
   campaign = secrets.choice(campaigns)
   if campaign:
+    print(campaign)
     result = {"code": 200, "result": campaign}
   else:
     result = {"code": 404, "description": "No ongoing campaign"}
