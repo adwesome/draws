@@ -64,12 +64,12 @@
         window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
         if (!get_item_from_local_storage('first_screen_passed'))
-          first_screen();
+          draw_demography('first_screen_demography_poll');
         else if (!get_item_from_local_storage('second_screen_passed'))
           second_screen();
         else {
           document.getElementById('first_screen').remove();
-          
+
           // submit for any case not submitted regularly
           var demography = get_items_from_local_storage('choices3');
           if (!demography)
@@ -95,63 +95,7 @@
               <div id="first_screen">
                 <h2>Добро пожаловать!</h2>
                 <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе. Эта анкета и участие в розыгрыше <b>полностью анонимные</b>.</p>
-                <label>Регион, в котором вы живете:</label>
-                <select id="region" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="51">Мурманская обл.</option>
-                  <option value="10">респ. Карелия</option>
-                  <option value="29">Архангельская обл.</option>
-                  <option value="47">г. Санкт-Петербург и ЛО</option>
-                  <option value="35">Вологодская обл.</option>
-                  <option value="53">Новгородская обл.</option>
-                  <option value="50">г. Москва и МО</option>
-                  <option value="-2">- другой -</option>
-                </select>
-
-                <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
-                <select id="city" class="form-select" style="display: none;">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">Беломорск</option>
-                  <option value="2">Кемь</option>
-                  <option value="3">Кондопога</option>
-                  <option value="4">Костомукша</option>
-                  <option value="5">Лахденпохья</option>
-                  <option value="6">Медвежьегорск</option>
-                  <option value="7">Олонец</option>
-                  <option value="8">Петрозаводск</option>
-                  <option value="9">Питкяранта</option>
-                  <option value="10">Пудож</option>
-                  <option value="11">Сегежа</option>
-                  <option value="12">Сортавала</option>
-                  <option value="13">Суоярви</option>
-                  <option value="-2">- другой -</option>
-                </select>
-
-                <label>Ваш пол:</label>
-                <select id="sex" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">Женский</option>
-                  <option value="2">Мужской</option>
-                </select>
-
-                <label>Ваш возраст:</label>
-                <select id="age" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">до 14 лет включительно</option>
-                  <option value="2">15-19 лет</option>
-                  <option value="3">20-24 лет</option>
-                  <option value="4">25-29 лет</option>
-                  <option value="5">30-34 лет</option>
-                  <option value="6">35-39 лет</option>
-                  <option value="7">40-44 лет</option>
-                  <option value="8">45-49 лет</option>
-                  <option value="9">50-54 лет</option>
-                  <option value="10">55-59 лет</option>
-                  <option value="11">60-64 лет</option>
-                  <option value="12">65-69 лет</option>
-                  <option value="13">от 70 лет включительно</option>
-                </select>
-
+                <div id="first_screen_demography_poll"></div>
                 <div class="d-grid gap-2">
                   <button id="to_second" class="btn btn-primary" disabled>Далее</button>
                   <!--p style="font-size: 0.8em;"><i>Далее: выбор брендов</i></p-->
@@ -217,7 +161,7 @@
               </div>
             </div>
             <div id="list" class="swiper-slide non-white-bg">
-              <h2>Розыгрыши</h2>
+              <h2>Ваши розыгрыши</h2>
               <div id="drawings_list">
                 <div id="yesterday">
                   <h3>Вчера</h3>
@@ -234,65 +178,11 @@
             </div>
 
             <div id="" class="swiper-slide non-white-bg">
-              <h2>Настройки</h2>
-              <div id="settings">
-                <label>Регион, в котором вы живете:</label>
-                <select id="region" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="51">Мурманская обл.</option>
-                  <option value="10">респ. Карелия</option>
-                  <option value="29">Архангельская обл.</option>
-                  <option value="47">г. Санкт-Петербург и ЛО</option>
-                  <option value="35">Вологодская обл.</option>
-                  <option value="53">Новгородская обл.</option>
-                  <option value="50">г. Москва и МО</option>
-                  <option value="-2">- другой -</option>
-                </select>
-
-                <label id="city_label" style="display: none;">Город, в котором вы живете:</label>
-                <select id="city" class="form-select" style="display: none;">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">Беломорск</option>
-                  <option value="2">Кемь</option>
-                  <option value="3">Кондопога</option>
-                  <option value="4">Костомукша</option>
-                  <option value="5">Лахденпохья</option>
-                  <option value="6">Медвежьегорск</option>
-                  <option value="7">Олонец</option>
-                  <option value="8">Петрозаводск</option>
-                  <option value="9">Питкяранта</option>
-                  <option value="10">Пудож</option>
-                  <option value="11">Сегежа</option>
-                  <option value="12">Сортавала</option>
-                  <option value="13">Суоярви</option>
-                  <option value="-2">- другой -</option>
-                </select>
-
-                <label>Ваш пол:</label>
-                <select id="sex" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">Женский</option>
-                  <option value="2">Мужской</option>
-                </select>
-
-                <label>Ваш возраст:</label>
-                <select id="age" class="form-select">
-                  <option value="-1" selected>- выберите -</option>
-                  <option value="1">до 14 лет включительно</option>
-                  <option value="2">15-19 лет</option>
-                  <option value="3">20-24 лет</option>
-                  <option value="4">25-29 лет</option>
-                  <option value="5">30-34 лет</option>
-                  <option value="6">35-39 лет</option>
-                  <option value="7">40-44 лет</option>
-                  <option value="8">45-49 лет</option>
-                  <option value="9">50-54 лет</option>
-                  <option value="10">55-59 лет</option>
-                  <option value="11">60-64 лет</option>
-                  <option value="12">65-69 лет</option>
-                  <option value="13">от 70 лет включительно</option>
-                </select>
-              </div>
+              <h2>Ваши настройки и бренды</h2>
+              <h3>О вас</h3>
+              <div id="mini_app_settings"></div>
+              <h3>Бренды</h3>
+              <p>Выберите бренды, которые вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать</p>
             </div>
           </div>
           <div class="swiper-pagination swiper-outer-pagination"></div>

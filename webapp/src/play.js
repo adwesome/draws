@@ -32,7 +32,7 @@ function show_history() {
 
 async function create_drawings_list() {
   const uid = get_uid();
-  first_screen();
+  draw_demography('mini_app_settings');
 
   let html_next = '';
   let html_now = '';

@@ -191,7 +191,7 @@ h3 {
   transition: opacity 1s linear;
 }
 
-#list, #settings {
+#list, #mini_app_settings {
   overflow-y: auto;
 }
 
@@ -229,6 +229,6 @@ h3 {
   background: floralwhite;
 }
 
-#settings {
-  padding: 0 20px !important;
+#mini_app_settings {
+  padding: 0 32px 0 20px !important;
 }

@@ -432,11 +432,12 @@ def get_player_participation():
 ##
 def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch()
-  query = "SELECT b.rowid, b.name FROM cam c \
+  query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
           JOIN org o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
           AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) \
+          AND b.rowid IN (SELECT bid FROM playersbrands WHERE pid = {pid}) \
           and c.date_start <= {date_now} \
           and c.date_end > {date_now}".format(pid = pid, date_now = date_now)
   return db_read(query)
