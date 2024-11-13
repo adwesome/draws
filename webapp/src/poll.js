@@ -147,10 +147,11 @@ const c = {
 };
 
 var categories = {};
-var uid;
+//var uid;
 
 function draw_orgs() {
   let result = '';
+  result += `<p>${get_uid()}</p>`;
   
   for (key in c) {
     result += `<h4>${key}</h4>`;
