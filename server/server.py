@@ -517,12 +517,12 @@ def submit_vote():
   now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
   orgs = ','.join(str(x) for x in data['orgs'])
   uid = data['uid']
-  city = data['demography'][0]
-  sex = data['demography'][1]
-  age = data['demography'][2]
-  comment = data['comment']
+  city = 0  # data['demography'][0]
+  sex = 0  # data['demography'][1]
+  age = 0  # data['demography'][2]
+  comment = ''  # data['comment']
   if exists:
-    command = "UPDATE voters SET date_last = {}, city = {}, sex = {}, age = {}, orgs = '{}', comment = '{}' WHERE uid = {}".format(now, city, sex, age, orgs, comment, uid)
+    command = "UPDATE voters SET date_last = {}, orgs = '{}', comment = '{}' WHERE uid = {}".format(now, orgs, comment, uid)
   else:
     command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
   db_write(command)

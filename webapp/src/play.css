@@ -20,7 +20,7 @@ html, body {
   line-height: 1.5em !important;
 }
 
-h2, h3, h4 {
+h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 h2 {
@@ -191,7 +191,7 @@ h3 {
   transition: opacity 1s linear;
 }
 
-#list, #mini_app_settings {
+.list-, #mini_app_settings {
   overflow-y: auto;
 }
 
@@ -231,4 +231,28 @@ h3 {
 
 #mini_app_settings {
   padding: 0 32px 0 20px !important;
+}
+
+
+.address {
+  color: darkgray;
+  font-size: 0.9em;
+}
+ul {
+  list-style-type: none;
+  padding: 0 20px;
+}
+li {
+  margin-bottom: 0.5em;
+}
+ul label {
+  font-weight: normal;
+}
+
+h4 {
+  font-size: 1.1em;
+  margin-top: 1em;
+}
+.section {
+  margin-bottom: 2.5em;
 }

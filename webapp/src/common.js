@@ -100,10 +100,12 @@ async function save_into_remote_storage(to, data) {
   //console.log(data);
 }
 
+/*
 async function get_orgs() {
   const response = await fetch(SERVER_HOSTNAME + '/orgs/all', {});
   return await response.json();
 }
+*/
 
 async function collect_demography_data_from_form() {
   let d = {};
