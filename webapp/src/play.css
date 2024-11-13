@@ -274,3 +274,7 @@ h4 {
 .accordion-button {
   padding: 5px 20px;
 }
+
+.accordion-button-, .accordion-body {
+  background: floralwhite;
+}
