@@ -522,7 +522,7 @@ def submit_vote():
   age = 0  # data['demography'][2]
   comment = ''  # data['comment']
   if exists:
-    command = "UPDATE voters SET date_last = {}, orgs = '{}', comment = '{}' WHERE uid = {}".format(now, orgs, comment, uid)
+    command = "UPDATE voters SET date_last = {}, orgs = '{}' WHERE uid = {}".format(now, orgs, uid)
   else:
     command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
   db_write(command)
