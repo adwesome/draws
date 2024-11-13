@@ -79,6 +79,8 @@ function draw_demography(target) {
       set_cities_display_attr('none');
   });
 
+  set_existing_demography_choices();
+
   const btn_go_to_second = document.getElementById('to_second');
   const all_selects = document.querySelectorAll('select');
   all_selects.forEach((select) => {
@@ -123,6 +125,4 @@ function draw_demography(target) {
       second_screen();
     });
   }
-
-  set_existing_demography_choices();
 }
