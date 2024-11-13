@@ -110,7 +110,7 @@ async function create_drawings_list() {
   if (wins)
     html_past = `<p class="stats-clarify">Вы выиграли ${wins} из ${wins + lost} раз, когда вы участвовали (т.е., на данный момент, вы выигрываете в ${Math.round(wins * 100 / (wins + lost))}% случаев, если участвуете)</p>` + html_past;
   else if (lost)
-    html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. Приходите и участвуйте завтра!</p>` + html_past;
+    html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. Участвуйте ещё!</p>` + html_past;
 
   if (html_just)
     document.getElementById('just').innerHTML = html_just;
@@ -119,7 +119,7 @@ async function create_drawings_list() {
   //else if (!html_just && !past_counter)
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
   if (1) //html_next)
-    document.getElementById('next').innerHTML = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} Приходите узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>`;
+    document.getElementById('next').innerHTML = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} Загляните, чтобы узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>`;
   if (html_now)
     document.getElementById('now').innerHTML = html_now;
   if (html_past && past_counter)
