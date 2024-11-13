@@ -46,3 +46,8 @@ UPDATE cam set chance = 20 where rowid = 4;
 UPDATE cam set chance = 15 where rowid = 3;
 UPDATE cam set chance = 15 where rowid = 5;
 UPDATE cam set chance = 10 where rowid = 6;
+
+ALTER TABLE par ADD COLUMN gift TEXT;
+UPDATE par SET gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49' WHERE status = 1;
+
+INSERT INTO orgs VALUES ('DeLuxe', 'Салон красоты', 'бул. Советов 5');

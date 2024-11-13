@@ -376,8 +376,11 @@ def create_player_participation(data):
     return
   chance = get_chance_from_cam_by_cid(cid)
   status = get_status_by_chance(chance)
+  gift = ''
+  if status == 1:
+    gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49'
   date_now = get_today_epoch()
-  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now})".format(cid = cid, pid = pid, date_now = date_now, status = status)
+  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
   db_write(command)
 
 
@@ -485,7 +488,7 @@ def get_campaigns_for_player():
 # PARTICIPATION HISTORY
 ##
 def get_campaigns_history_for_pid(pid):
-  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date FROM par p \
+  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date, p.gift FROM par p \
            JOIN cam c on p.cid = c.rowid \
            JOIN org o ON o.rowid = c.oid \
            JOIN brands b ON b.rowid = o.bid \
@@ -501,6 +504,7 @@ def get_participation_campaigns_for_player():
   
   campaigns = get_campaigns_history_for_pid(pid)
   if campaigns:
+    # CLEANUP ONGOING CAMPAIGN STATUS AND GIFT !
     result = {"code": 200, "result": campaigns}
   else:
     result = {"code": 404, "description": "No campaigns"}

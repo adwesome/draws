@@ -230,7 +230,7 @@ h3 {
 }
 
 #mini_app_settings {
-  padding: 0 32px 0 20px !important;
+  padding: 0 20px !important;
 }
 
 
@@ -254,5 +254,23 @@ h4 {
   margin-top: 1em;
 }
 .section {
-  margin-bottom: 2.5em;
+  margin-bottom-: 2.5em;
+}
+
+#accordionExample {
+  padding: 10px 20px;
+  margin-bottom: 3em;
+}
+#third_screen h2.accordion-header {
+  padding: 0 0 !important;
+  margin-top: 0;
+}
+#third_screen p.accordion-body {
+  padding: 0 0 !important;
+}
+.accordion-body {
+  padding: 15px 0;
+}
+.accordion-button {
+  padding: 5px 20px;
 }

@@ -65,6 +65,7 @@ async function create_drawings_list() {
     const chance = campaign[2];
     const brand = campaign[3];
     const status = campaign[4];
+    const gift = campaign[6];
 
     if (date_participated == date_today) {
       html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете</span>`;
@@ -95,6 +96,8 @@ async function create_drawings_list() {
     if (date_participated < date_today) {
       html_past += `</span>`;
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`;
+      if (status >= 1)
+        html_past += `<br><a href="${gift}" target="_blank">Открыть подарок</a>`
     }
 
     if (date_participated == date_yesterday) {
