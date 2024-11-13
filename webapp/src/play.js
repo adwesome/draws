@@ -54,6 +54,7 @@ async function create_drawings_list() {
 
   const date_today = today();
   const date_yesterday = yesterday();
+  const date_tomorrow = tomorrow();
   const history = await get_participation_history();
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
@@ -115,7 +116,7 @@ async function create_drawings_list() {
   //else if (!html_just && !past_counter)
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
   if (1) //html_next)
-    document.getElementById('next').innerHTML = '<p>Приходите узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>';
+    document.getElementById('next').innerHTML = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} Приходите узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>`;
   if (html_now)
     document.getElementById('now').innerHTML = html_now;
   if (html_past && past_counter)
