@@ -34,6 +34,7 @@ function show_history() {
 async function create_drawings_list() {
   const uid = get_uid();
   draw_demography('mini_app_settings');
+  init_orgs_poll();
 
   let html_next = '';
   let html_now = '';

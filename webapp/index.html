@@ -50,10 +50,10 @@
     </style>
 
     <script type="text/javascript" src="src/common.js?v=6"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=6"></script>
-    <script type="text/javascript" src="src/second_screen.js?v=6"></script>
-    <script type="text/javascript" src="src/poll.js?v=6"></script>
-    <script type="text/javascript" src="src/play.js?v=6"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=7"></script>
+    <script type="text/javascript" src="src/second_screen.js?v=7"></script>
+    <script type="text/javascript" src="src/poll.js?v=7"></script>
+    <script type="text/javascript" src="src/play.js?v=7"></script>
     <script type="text/javascript">
       window.onload = function() {
         get_uid();  // create in case not exists yet
@@ -80,7 +80,6 @@
             brands = get_items_from_local_storage('choises4');
           //save_into_remote_storage('/register/player/brands', brands);
 
-          init_orgs_poll();
           play();
         }
       }
@@ -184,7 +183,7 @@
               <div id="mini_app_settings"></div>
               <h3>Бренды</h3>
               <p>Выберите бренды, которые вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать</p>
-              <div id="list" class="section"><b>Пожалуйста, подождите, список организаций загружается...</b></div>
+              <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
             </div>
           </div>
           <div class="swiper-pagination swiper-outer-pagination"></div>

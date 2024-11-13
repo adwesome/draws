@@ -119,6 +119,7 @@ function draw_demography(target) {
       document.getElementById('first_screen').style.display = 'none';
       document.getElementById('second_screen').style.display = 'block';
       save_into_local_storage('first_screen_passed', true);
+      document.getElementById('first_screen').remove();
       second_screen();
     });
   }
