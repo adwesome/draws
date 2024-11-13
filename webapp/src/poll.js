@@ -272,8 +272,13 @@ function fill_categories() {
 }
 
 async function init_orgs_poll() {
+  document.getElementById('brands').style.display = 'unset';
   orgs = (await get_orgs()).orgs;
   fill_categories();
   draw_orgs();
   collect_data_from_form();
+}
+
+function hide_orgs_poll() {
+  document.getElementById('brands').style.display = 'none';
 }

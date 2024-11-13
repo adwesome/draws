@@ -49,11 +49,11 @@
     <style type="text/css">
     </style>
 
-    <script type="text/javascript" src="src/common.js?v=8"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=8"></script>
-    <script type="text/javascript" src="src/second_screen.js?v=8"></script>
-    <script type="text/javascript" src="src/poll.js?v=8"></script>
-    <script type="text/javascript" src="src/play.js?v=8"></script>
+    <script type="text/javascript" src="src/common.js?v=9"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=9"></script>
+    <script type="text/javascript" src="src/second_screen.js?v=9"></script>
+    <script type="text/javascript" src="src/poll.js?v=9"></script>
+    <script type="text/javascript" src="src/play.js?v=9"></script>
     <script type="text/javascript">
       window.onload = function() {
         get_uid();  // create in case not exists yet
@@ -174,11 +174,14 @@
 
             <div class="swiper-slide non-white-bg list-">
               <h2>Ваши настройки и бренды</h2>
+              <p style="font-size: 1em">Благодаря правдивой информации ниже бренды узнают, какая аудитория их поддерживает &mdash; что помогает им делать адекватные предложения и подарки.</p>
               <h3>О вас</h3>
               <div id="mini_app_settings"></div>
-              <h3>Бренды</h3>
-              <p>Выберите бренды, которые вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать</p>
-              <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
+              <div id="brands">
+                <h3>Бренды</h3>
+                <p>Выберите бренды, которые вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать. Если вы заметили, что какого-то бренда нет, пожалуйста, <a href="https://vk.com/adwesome" target="_blank">сообщите нам</a>.</p>
+                <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
+              </div>
             </div>
           </div>
           <div class="swiper-pagination swiper-outer-pagination"></div>
