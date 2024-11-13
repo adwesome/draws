@@ -276,7 +276,7 @@ async function init_orgs_poll() {
   orgs = (await get_orgs()).orgs;
   fill_categories();
   draw_orgs();
-  collect_data_from_form();
+  //collect_data_from_form();
 }
 
 function hide_orgs_poll() {
