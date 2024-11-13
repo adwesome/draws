@@ -70,15 +70,10 @@
         else {
           document.getElementById('first_screen').remove();
 
-          // submit for any case not submitted regularly
-          var demography = get_items_from_local_storage('choices3');
-          if (!demography)
-            demography = get_items_from_local_storage('choises3');
-          //save_into_remote_storage('/register/player/demography', demography);
-          var brands = get_items_from_local_storage('choices4');
-          if (!brands)
-            brands = get_items_from_local_storage('choises4');
-          //save_into_remote_storage('/register/player/brands', brands);
+          // const demography = get_items_from_local_storage('choices3');
+          // save_into_remote_storage('/register/player/demography', demography);
+          // const brands = get_items_from_local_storage('choices4');
+          // save_into_remote_storage('/register/player/brands', brands);
 
           play();
         }
