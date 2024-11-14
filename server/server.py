@@ -538,6 +538,14 @@ def submit_vote():
   else:
     command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
   db_write(command)
+
+  brands = []
+  if (55 in data['orgs']):
+    brands.append('lenta')
+  if (107 in data['orgs']):
+    brands.append('mk')
+  data['brands'] = brands
+  create_or_update_player_brands(data)
   result = {"code": 200}
   return send_response(result)
 
