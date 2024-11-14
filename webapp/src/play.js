@@ -397,8 +397,9 @@ async function play() {
   //const b = choice(images.length);
   //image.src = images[b];
   image.src = images[0];
-  /*
-  const canvas_flip = choice(4);
+  image.onload = function() {
+    /*
+    const canvas_flip = choice(4);
     if (canvas_flip == 0)
       ;
     else if (canvas_flip == 1)
@@ -407,10 +408,8 @@ async function play() {
       canvas.style.transform = 'rotateY(180deg)';
     else
       canvas.style.transform = 'rotateXY(180deg)';
-  */
-  const shift = 0;
-  image.onload = function() {
-    ctx.drawImage(image, -canvasWidth * shift, 0, canvasWidth * (1 + 2 * shift), canvasHeight);
+    */
+    ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
     ad_element.style.visibility = 'visible';
     ad_explain.style.visibility = 'visible';
   };
