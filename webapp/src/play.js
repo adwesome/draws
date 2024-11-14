@@ -49,6 +49,7 @@ async function create_drawings_list() {
   let wins = 0;
   let lost = 0;
   let not = 0;
+  let participates_today = false;
 
   let past_counter = 0;
 
@@ -70,6 +71,7 @@ async function create_drawings_list() {
     if (date_participated == date_today) {
       html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете</span>`;
       html_now += `${chance}% участников выиграют подарки от <b>${brand}</b></p>`;
+      participates_today = true;
     }
     else {
       past_counter += 1;
@@ -122,8 +124,16 @@ async function create_drawings_list() {
     document.getElementById('yesterday').style.display = 'none';
   //else if (!html_just && !past_counter)
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
-  if (1) //html_next)
-    document.getElementById('next').innerHTML = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} Загляните, чтобы узнать результаты прошедшего розыгрыша и поучаствовать в новом!</p>`;
+  if (1) {//html_next)
+    html_next = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} `;
+    if (participates_today)
+      html_next += `Загляните, чтобы узнать результаты прошедшего розыгрыша и поучаствовать в новом!`; 
+    else
+      html_next += `Загляните, чтобы поучаствовать в новом розыгрыше!`;
+
+    html_next += '</p>';
+    document.getElementById('next').innerHTML = html_next;
+  }
   if (html_now)
     document.getElementById('now').innerHTML = html_now;
   if (html_past && past_counter)
