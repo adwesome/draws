@@ -143,11 +143,11 @@ h3 {
   z-index: 150;
   position: absolute;
   padding: 0;
-  color: white;
+  color-: white;
   display: none;
   left: 50%;
-  top: 8%;
-  transform: translate(-50%,-50%);
+  top: 5%;
+  transform: translate(-50%,0%);
   width: 100%;
   text-align: center;
 }

@@ -49,11 +49,11 @@
     <style type="text/css">
     </style>
 
-    <script type="text/javascript" src="src/common.js?v=0"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=0"></script>
-    <script type="text/javascript" src="src/second_screen.js?v=0"></script>
-    <script type="text/javascript" src="src/poll.js?v=0"></script>
-    <script type="text/javascript" src="src/play.js?v=0"></script>
+    <script type="text/javascript" src="src/common.js?v=1"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=1"></script>
+    <script type="text/javascript" src="src/second_screen.js?v=1"></script>
+    <script type="text/javascript" src="src/poll.js?v=1"></script>
+    <script type="text/javascript" src="src/play.js?v=1"></script>
     <script type="text/javascript">
       window.onload = function() {
         get_uid();  // create in case not exists yet
@@ -89,7 +89,7 @@
             <div class="col-10 offset-1">
               <div id="first_screen">
                 <h2>Добро пожаловать!</h2>
-                <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе. Эта анкета и участие в розыгрыше <b>полностью анонимные</b>.</p>
+                <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе. Эта анкета и участия в розыгрышах <b>полностью анонимные</b>.</p>
                 <div id="first_screen_demography_poll"></div>
                 <div class="d-grid gap-2">
                   <button id="to_second" class="btn btn-primary" disabled>Далее</button>
@@ -106,12 +106,12 @@
           <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 screen">
             <div class="col-10 offset-1">
               <div id="second_screen">
-                <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в пробном розыгрыше подарков от которых вы хотите поучаствовать 15&nbsp;и&nbsp;16&nbsp;ноября:</p>
+                <p style="margin-bottom: 1em;">Выберите ниже 1 или 2 бренда, в пробном розыгрышах подарков от которых вы хотите поучаствовать 15&nbsp;и&nbsp;16&nbsp;ноября:</p>
                 <img id="brand-mk" class="brand mk" src="img/brands/logos/mk.png"><br>
                 <img id="brand-lenta" class="brand lenta" src="img/brands/logos/lenta.png">
                 
-                <div class="d-grid gap-2" style="margin-top: 1.3em;">
-                  <button id="to_third" class="btn btn-primary" disabled>Участвовать в розыгрыше</button>
+                <div class="d-grid gap-2" style="margin-top: 1.2em;">
+                  <button id="to_third" class="btn btn-primary" disabled>Начать розыгрыш</button>
 
                   <!--p style="font-size: 1em; margin-top: 0.5em;"><b>Предпринимателям:</b> начиная с декабря 2024, среди многих других брендов здесь может быть и ваш! Если вы хотите быть здесь, и мы с вами еще не общались, <a href="https://vk.com/adwesome" target="_blank">напишите нам</a></p-->
                 </div>
@@ -136,7 +136,7 @@
                     <!-- https://codepen.io/Totati/pen/pPXrJV -->
                     <!-- https://github.com/andreruffert/scratchie.js -->
                     <div class="container-" id="js-container">
-                      <p id="js-canvas-explain">сотрите защитный слой<br><b>ПОЛНОСТЬЮ</b></p>
+                      <p id="js-canvas-explain"><b>Полностью</b> сотрите защитный слой и дождитесь, когда экране перевернется и на нем появится обратный отсчет &mdash; так ваше участие в розыгрыше будет зарегистрировано</p>
                       <canvas class="canvas" id="js-canvas"></canvas>
                       <div id="ad"></div>
                       <div id="ad_explain"><!--p>На этом экране под защитным слоем может находиться какое-то рекламное предложение от компании. Например, объявление о привозе, об акции "скидка на все", предложение посетить магазин / салон в декабре или в январе и т.д. &mdash; что угодно, что вы хотите сообщить вашей аудитории, людям, которые указали, что они <b><i>хотят</i></b> поучаствовать в розыгрыше подарков от вашей организации.</p--></div>
