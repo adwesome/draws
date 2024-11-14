@@ -322,7 +322,7 @@ async function play() {
   const ad_explain = document.getElementById('ad_explain');
 
   let participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
-  if (participates.result.length != 0) {  // if participated already
+  if (participates.result.length && participates.result.length != 0) {  // if participated already
     if (document.getElementById('js-canvas-explain'))
       document.getElementById('js-canvas-explain').remove();
     ad_element.style.visibility = 'visible';
@@ -397,6 +397,7 @@ async function play() {
   //const b = choice(images.length);
   //image.src = images[b];
   image.src = images[0];
+  const shift = 0;
   image.onload = function() {
     /*
     const canvas_flip = choice(4);
@@ -409,7 +410,7 @@ async function play() {
     else
       canvas.style.transform = 'rotateXY(180deg)';
     */
-    ctx.drawImage(image, 0, 0, canvasWidth, canvasHeight);
+    ctx.drawImage(image, -canvasWidth * shift, 0, canvasWidth * (1 + 2 * shift), canvasHeight);
     ad_element.style.visibility = 'visible';
     ad_explain.style.visibility = 'visible';
   };

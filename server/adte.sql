@@ -51,3 +51,10 @@ ALTER TABLE par ADD COLUMN gift TEXT;
 UPDATE par SET gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49' WHERE status = 1;
 
 INSERT INTO orgs VALUES ('DeLuxe', 'Салон красоты', 'бул. Советов 5');
+
+UPDATE cam SET date_end = 1731607200 WHERE rowid >= 3;
+INSERT INTO cam VALUES (1, 1731618000, 1731806999, '/img/ad-mk.jpg', 3);
+INSERT INTO cam VALUES (2, 1731618000, 1731806999, '/img/ad-lenta.jpg', 3);
+
+UPDATE par SET gift = '' WHERE gift IS NULL;
+
