@@ -351,7 +351,7 @@ async function play() {
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = 'Сегодня нет розыгрыша';
+    explain.innerHTML = 'Сегодня нет розыгрыша для вас';
     explain.style.display = 'block';
     explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
