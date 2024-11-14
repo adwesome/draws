@@ -52,9 +52,9 @@ UPDATE par SET gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e559
 
 INSERT INTO orgs VALUES ('DeLuxe', 'Салон красоты', 'бул. Советов 5');
 
-UPDATE cam SET date_end = 1731607200 WHERE rowid >= 3;
-INSERT INTO cam VALUES (1, 1731618000, 1731806999, '/img/ad-mk.jpg', 3);
-INSERT INTO cam VALUES (2, 1731618000, 1731806999, '/img/ad-lenta.jpg', 3);
+DELETE FROM par;
+DELETE FROM cam;
 
-UPDATE par SET gift = '' WHERE gift IS NULL;
+INSERT INTO cam VALUES (1, 1731634200, 1731806999, 'img/ads/ad-mk.jpg', 3);
+INSERT INTO cam VALUES (2, 1731634200, 1731806999, 'img/ads/ad-lenta.jpg', 3);
 

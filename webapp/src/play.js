@@ -56,7 +56,7 @@ async function create_drawings_list() {
   const date_today = today();
   const date_yesterday = yesterday();
   const date_tomorrow = tomorrow();
-  const history = await get_participation_history();
+  const history = await get_participation_history() || [];
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
     const date = new Date(parseInt(campaign[5]) * 1000);
