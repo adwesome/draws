@@ -8,9 +8,17 @@ DB_NAME = 'adte.db'
 import datetime
 
 
+def get_today_start_of_the_day_epoch():  # incorrect, but fine to go
+  return int(datetime.datetime.combine(get_today_datetime(), datetime.time.min).timestamp())
+
+
+def get_yesterday_start_of_the_day_epoch():  # incorrect, but fine to go
+  return int(datetime.datetime.combine(get_today_datetime() - datetime.timedelta(days = 1), datetime.time.min).timestamp())
+
+
 def get_today_epoch():
+  # return int(get_today_datetime().timestamp())
   return int(get_today_datetime().timestamp())
-  # return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
 
 
 def get_today_datetime():
@@ -537,4 +545,23 @@ def submit_vote():
 def get_orgs():
   orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
   result = {"code": 200, "orgs": orgs}
+  return send_response(result)
+
+##
+# USER STATS
+##
+@app.route('/get/stats/players', methods=['GET'])
+def get_stats_players():
+  p_total = db_read("SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par)")
+  today = get_today_start_of_the_day_epoch()
+  query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today}".format(today = today)
+  w_total = db_read(query)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {today})".format(today = today)
+  p_today = db_read(query)
+  yesterday = get_yesterday_start_of_the_day_epoch()
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {yesterday} AND date < {today})".format(today = today, yesterday = yesterday)
+  p_yesterday = db_read(query)
+  query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
+  w_yesterday = db_read(query)
+  result = {"code": 200, "result": {"total": p_total, "total_winners": w_total, "today": p_today, "yesterday": p_yesterday, "yesterday_winners": w_yesterday}}
   return send_response(result)
