@@ -343,7 +343,7 @@ async function play() {
     const explain = document.getElementById('js-canvas-explain');
     explain.innerHTML = 'Сегодня нет розыгрыша';
     explain.style.display = 'block';
-    //explain.style.color = 'black';
+    explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
     enable_swipe();
     await sleep(2000);
