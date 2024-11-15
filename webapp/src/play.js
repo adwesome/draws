@@ -98,8 +98,10 @@ async function create_drawings_list() {
     if (date_participated < date_today) {
       html_past += `</span>`;
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`;
-      if (status >= 1)
-        html_past += `<br><a href="${gift}" target="_blank">Открыть подарок</a>`
+      if (status >= 1) {
+        html_past += `<br><a href="${gift}" target="_blank">Открыть подарок</a>`;
+        html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если бы вы сообщили о своем выигрыше в комментарии под <a href="https://vk.com/segezhadays">постом</a>, чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
+      }
     }
 
     if (date_participated == date_yesterday) {
@@ -115,8 +117,8 @@ async function create_drawings_list() {
   else if (lost)
     html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. Участвуйте ещё!</p>` + html_past;
 
-  const stats = await get_players_stats();
-  html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
+  //const stats = await get_players_stats();
+  //html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
 
   if (html_just)
     document.getElementById('just').innerHTML = html_just;
@@ -126,8 +128,10 @@ async function create_drawings_list() {
   //  document.getElementById('just').innerHTML = '<p>Был розыгрыш, но вы в нем не участвовали</p>';
   if (1) {//html_next)
     html_next = `<p>${date_tomorrow.split('-')[2]}.${date_tomorrow.split('-')[1]} `;
-    if (participates_today)
-      html_next += `Загляните, чтобы узнать результаты прошедшего розыгрыша и поучаствовать в новом!`; 
+    if (participates_today) {
+      html_next += `Загляните, чтобы узнать результаты прошедшего розыгрыша и поучаствовать в новом, если такой будет!`;
+      //html_next += `Загляните, чтобы узнать результаты прошедшего розыгрыша!`;
+    }
     else
       html_next += `Загляните, чтобы поучаствовать в новом розыгрыше!`;
 
