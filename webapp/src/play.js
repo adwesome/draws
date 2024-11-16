@@ -276,7 +276,7 @@ async function run_progress_bar(seconds) {
 
 function enable_flip() {
   swiper_inner = new Swiper(".swiper-inner", {
-    speed: 1500,
+    speed: 2000,
     effect: "flip",
     loop: true,
     cssMode2: true,
@@ -293,7 +293,7 @@ function enable_flip() {
 
 function enable_swipe() {
   swiper_outer = new Swiper(".swiper-outer", {
-    speed: 1500,
+    speed: 2000,
     direction: "vertical",
     cssMode: true,
     pagination: {
