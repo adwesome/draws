@@ -252,7 +252,7 @@ async function run_progress_bar(seconds) {
   const interval = setInterval(async () => {
     simplebar.go(i);
 
-    ad.style.opacity = Math.cos(i * 10 / rad_to_degree) * 0.05 + 0.95;
+    ad.style.opacity = Math.cos(i * 10 / rad_to_degree) * 0.1 + 0.9;
     i += 1;
     if (i > 100) {
       clearInterval(interval);
@@ -266,8 +266,9 @@ async function run_progress_bar(seconds) {
       }
 
       swiper_inner.slideTo(1, 2000, false);
-      await sleep(2000);
       ad.style.opacity = 1;
+      await sleep(4200);
+      swiper_outer.slideTo(1, 2000, false);
     }
   }, seconds * 1000 / 100);
   await sleep(seconds);
