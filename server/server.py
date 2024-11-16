@@ -20,6 +20,10 @@ def get_today_epoch():
   # return int(get_today_datetime().timestamp())
   return int(get_today_datetime().timestamp())
 
+def get_today_epoch2():
+  # return int(get_today_datetime().timestamp())
+  return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
+
 
 def get_today_datetime():
   now = datetime.datetime.now(datetime.timezone.utc)
@@ -442,7 +446,7 @@ def get_player_participation():
 # CAMPAIGNS
 ##
 def get_brands_for_me_for_today(pid):
-  date_now = get_today_epoch()
+  date_now = get_today_epoch2()
   query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
           JOIN org o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
