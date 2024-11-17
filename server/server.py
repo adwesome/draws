@@ -257,13 +257,13 @@ def get_orgs():
   orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
   result = {"code": 200, "orgs": orgs}
   return send_response(result)
-
+"""
 @app.route('/votes/all', methods=['GET'])
 def get_votes():
-  votes = db_read("SELECT rowid, * FROM voters")
+  votes = db_read("SELECT rowid, * FROM voters where age is not null")
   result = {"code": 200, "votes": votes}
   return send_response(result)
-"""
+
 
 def send_response(result):
   response = jsonify(result)
