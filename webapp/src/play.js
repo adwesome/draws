@@ -104,7 +104,7 @@ async function create_drawings_list() {
       }
     }
 
-    if (date_participated == date_yesterday) {
+    if (date_participated <= date_yesterday) {
       html_just = html_past + '</p>';
     }
   }
