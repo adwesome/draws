@@ -49,17 +49,18 @@
     <style type="text/css">
     </style>
 
-    <script type="text/javascript" src="src/common.js?v=7"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=7"></script>
-    <script type="text/javascript" src="src/second_screen.js?v=7"></script>
-    <script type="text/javascript" src="src/poll.js?v=7"></script>
-    <script type="text/javascript" src="src/play.js?v=7"></script>
+    <script type="text/javascript" src="src/common.js?v=8"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=8"></script>
+    <script type="text/javascript" src="src/second_screen.js?v=8"></script>
+    <script type="text/javascript" src="src/poll.js?v=8"></script>
+    <script type="text/javascript" src="src/play.js?v=8"></script>
     <script type="text/javascript">
       window.onload = function() {
         get_uid();  // create in case not exists yet
 
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
+        window.Telegram.WebApp.requestFullscreen();
         //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
         window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
