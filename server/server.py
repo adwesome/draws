@@ -176,9 +176,9 @@ def get_chance_from_cam_by_cid(cid):
 def create_player_participation(data):
   pid = read_pid(data)
   cid = int(data['cid'])
-  if check_if_pid_participates_in_cid(pid, cid):  # do not duplicate records
-    return
   if not pid or not cid:
+    return
+  if check_if_pid_participates_in_cid(pid, cid):  # do not duplicate records
     return
   chance = get_chance_from_cam_by_cid(cid)
   status = get_status_by_chance(chance)
@@ -191,9 +191,6 @@ def create_player_participation(data):
 
 
 def check_if_pid_participates_in_cid(pid, cid):
-  if not pid or not cid:
-    return False
-
   command = "SELECT * FROM par WHERE pid = {pid} AND cid = {cid}".format(pid = pid, cid = cid)
   participants = db_read(command)
   if not participants:
@@ -202,9 +199,6 @@ def check_if_pid_participates_in_cid(pid, cid):
 
 
 def check_if_pid_participates_today(pid):
-  if not pid:
-    return False
-
   date_now = get_today_datetime().date()
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
   date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)
@@ -215,6 +209,9 @@ def check_if_pid_participates_today(pid):
 
 def check_if_uid_participates_today(uid):
   pid = read_pid({'uid': uid})
+  if not pid:
+    return False
+
   return check_if_pid_participates_today(pid)
 
 
@@ -321,42 +318,43 @@ def get_participation_campaigns_for_player():
     result = {"code": 404, "description": "No campaigns"}
   return send_response(result)
 
+
 ##
 # Orgs poll again
 ##
 @app.route('/orgs', methods=['POST'])
 def submit_vote():
-  data = json.loads(json.loads(request.data))
-  # print(request.data, data)
-  exists = db_read("SELECT * FROM voters WHERE uid = " + str(data['uid']))
+  data = convert_to_dict(request.data)
+  pid = read_pid(data)
   now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
-  orgs = ','.join(str(x) for x in data['orgs'])
   uid = data['uid']
-  city = 0  # data['demography'][0]
-  sex = 0  # data['demography'][1]
-  age = 0  # data['demography'][2]
-  comment = ''  # data['comment']
-  if exists:
-    command = "UPDATE voters SET date_last = {}, orgs = '{}' WHERE uid = {}".format(now, orgs, uid)
+  region = data['demography'][0]
+  if region == 10:
+    city = data['demography'][1]
   else:
-    command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
+    city = -1
+  sex = data['demography'][2]
+  age = data['demography'][3]
+  bids = json.dumps(data['orgs'])[1:-1]  # cut braces
+  if not re.match(r'[\d+\,]+', bids):
+    return
+
+  if pid:
+    command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
+  else:
+    command = "INSERT INTO players VALUES ({}, {}, {}, {}, {}, {}, '{}')".format(uid, now, region, city, sex, age, bids)
   db_write(command)
 
-  brands = []
-  if (55 in data['orgs']):
-    brands.append('lenta')
-  if (107 in data['orgs']):
-    brands.append('mk')
-  data['brands'] = brands
-  create_or_update_player_brands(data)
   result = {"code": 200}
   return send_response(result)
+
 
 @app.route('/orgs/all', methods=['GET'])
 def get_orgs():
   orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
   result = {"code": 200, "orgs": orgs}
   return send_response(result)
+
 
 ##
 # USER STATS
