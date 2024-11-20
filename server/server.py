@@ -1,11 +1,12 @@
+import re
 import json
 import sqlite3
+import secrets
+import datetime
 from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 DB_NAME = 'adte.db'
-
-import datetime
 
 
 def get_today_start_of_the_day_epoch():  # incorrect, but fine to go
@@ -19,6 +20,7 @@ def get_yesterday_start_of_the_day_epoch():  # incorrect, but fine to go
 def get_today_epoch():
   # return int(get_today_datetime().timestamp())
   return int(get_today_datetime().timestamp())
+
 
 def get_today_epoch2():
   # return int(get_today_datetime().timestamp())
@@ -60,222 +62,20 @@ def db_read(command):
   return result
 
 
-"""
-def already_participates_today(uid, cid):
-  command = "SELECT * FROM participants WHERE uid = {uid} AND cid = {cid}".format(uid = uid, cid = cid)
-  participants = db_read(command)
-  print(participants)
-  if not participants:
-    return False
-  return True
-"""
-
-def submit_new_participant(uid, cid):
-  command = "INSERT INTO participants VALUES ({uid}, {cid})".format(uid = uid, cid = cid)
-  db_write(command)
-
-"""
-@app.route('/participants', methods=['GET'])
-def get_uid():
-  uid = request.args.get('uid')
-  cid = request.args.get('cid')
-  if uid and cid:
-    result = {"code": 200, "result": already_participates_today(uid, cid)}
-  else:
-    result = {"code": 400, "description": "UID and CID are required"}
-  return send_response(result)
-"""
-
-@app.route('/participants/all', methods=['GET'])
-def get_all_participants():
-  participants = db_read("SELECT * FROM participants ORDER BY cid DESC")
-  result = {}
-  previous_cid = participants[0][0]
-  for each in participants:
-    cid = each[1]
-    uid = each[0]
-    if cid in result:
-      result[cid].append(uid)
-    else:
-      result[cid] = [uid]
-
-  return send_response({"code": 200, "result": result})
-
-
-@app.route('/participants', methods=['POST'])
-def post_uid():
-  data = json.loads(request.data)
-  if data['uid'] != -1 and data.get('cid'):
-    submit_new_participant(data['uid'], data['cid'])
-    result = {"code": 200}
-  else:
-    result = {"code": 400, "description": "UID is required"}
-  return send_response(result)
-
-
-def get_campaigns_by_date(date_go):
-  command = "SELECT ad, cid, who, percent, prize, date_go FROM campaigns "
-  if date_go:
-    command += "WHERE date_go = '{date_go}' ".format(date_go = date_go)
-  command += "ORDER BY cid DESC"
-  campaigns = db_read(command)
-  print(campaigns)
-  return campaigns
-
-def get_winners_by_cid(cid):
-  command = "SELECT uid FROM winners WHERE cid = {cid}".format(cid = cid)
-  winners = db_read(command)
-  print(winners)
-  if not winners:
-    return []
-  return winners
-
-def get_participants_by_cid(cid):
-  command = "SELECT uid FROM participants WHERE cid = {cid}".format(cid = cid)
-  participants = db_read(command)
-  print(participants)
-  if not participants:
-    return []
-  return participants
-
-def get_percent_by_cid(cid):
-  command = "SELECT percent FROM campaigns WHERE cid = {cid}".format(cid = cid)
-  percent = db_read(command)
-  print(percent)
-  if not percent:
-    return 0
-  return percent[0][0]
-
-
-import random, math, secrets
-
-def get_sample_from_list(participants, percent):
-  print(participants, percent)
-  number = math.floor(len(participants) * int(percent) / 100)
-  # temp stub ignore percent
-  if not participants:
-    return []
-  number = 1
-  random.shuffle(participants)
-  participants = participants * 5
-  random.shuffle(participants)
-  participants = participants * 2
-  random.shuffle(participants)
-
-  result = []
-  for i in range(number):
-    result.append(secrets.choice(participants))
-  # return random.sample(participants, number)
-  return result
-
-
-def calculate_winners_for_campaign(cid):  # https://www.geeksforgeeks.org/randomly-select-elements-from-list-without-repetition-in-python/
-  participants = get_participants_by_cid(cid)
-  percent = get_percent_by_cid(cid)
-  return get_sample_from_list(participants, percent)
-
-def save_winners_for_cid(winners, cid):
-  for each in winners:
-    command = "INSERT INTO winners VALUES ({cid}, {uid})".format(cid = cid, uid = each[0])
-    db_write(command)
-
-
-@app.route('/winners', methods=['GET'])
-def get_winners_and_calculate_em_if_needed():
-  date_go = get_yesterday_date()
-  campaigns = get_campaigns_by_date(date_go)
-  if not campaigns:
-    return []
-  
-  cid = campaigns[0][1]
-  winners = get_winners_by_cid(cid)
-  print(winners)
-  if not winners:
-    winners = calculate_winners_for_campaign(cid)
-    print(cid, winners)
-    save_winners_for_cid(winners, cid)
-  # print(winners)
-
-  result = []
-  for each in winners:
-    result.append(each[0])
-
-  return send_response({"code": 200, "result": result})
-
-
-@app.route('/winners/all', methods=['GET'])
-def get_all_winners():
-  winners = db_read("SELECT * FROM winners ORDER BY cid DESC")
-  result = {}
-  previous_cid = winners[0][0]
-  for each in winners:
-    cid = each[0]
-    uid = each[1]
-    if cid in result:
-      result[cid].append(uid)
-    else:
-      result[cid] = [uid]
-
-  return send_response({"code": 200, "result": result})
-
-
-@app.route('/campaigns/all', methods=['GET'])
-def get_campaigns():
-  get_winners_and_calculate_em_if_needed()  # temp
-  campaigns = get_campaigns_by_date(None)
-  if campaigns:
-    result = {"code": 200, "result": campaigns}
-  else:
-    result = {"code": 404, "description": "No ongoing campaigns"}
-  return send_response(result)
-
-
-
-"""
-@app.route('/orgs', methods=['POST'])
-def submit_vote():
-  data = json.loads(json.loads(request.data))
-  # print(request.data, data)
-  exists = db_read("SELECT * FROM voters WHERE uid = " + str(data['uid']))
-  now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
-  orgs = ','.join(str(x) for x in data['orgs'])
-  uid = data['uid']
-  city = data['demography'][0]
-  sex = data['demography'][1]
-  age = data['demography'][2]
-  comment = data['comment']
-  if exists:
-    command = "UPDATE voters SET date_last = {}, city = {}, sex = {}, age = {}, orgs = '{}', comment = '{}' WHERE uid = {}".format(now, city, sex, age, orgs, comment, uid)
-  else:
-    command = "INSERT INTO voters VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}')".format(uid, now, now, city, sex, age, comment, orgs)
-  db_write(command)
-  result = {"code": 200}
-  return send_response(result)
-
-@app.route('/orgs/all', methods=['GET'])
-def get_orgs():
-  orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
-  result = {"code": 200, "orgs": orgs}
-  return send_response(result)
-"""
-@app.route('/votes/all', methods=['GET'])
-def get_votes():
-  votes = db_read("SELECT rowid, * FROM voters where age is not null")
-  result = {"code": 200, "votes": votes}
-  return send_response(result)
-
-
 def send_response(result):
   response = jsonify(result)
   response.headers.add('Access-Control-Allow-Origin', '*')
+  response.headers.add('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
   # response.headers.remove('Content-Type')
   # response.headers.add('Content-Type', 'text/css; charset=utf-8')  # to no-cors
   return response
+
 
 def read_player(data):
   uid = int(data['uid'])
   query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
   return db_read(query)
+
 
 def read_pid(data):
   player = read_player(data)
@@ -285,6 +85,7 @@ def read_pid(data):
     return
 
   return player[0][0]
+
 
 def convert_to_dict(data):
   data = json.loads(data)
@@ -323,29 +124,22 @@ def create_or_update_player(data):
 
 def create_or_update_player_brands(data):
   pid = read_pid(data)
-  query = "DELETE FROM playersbrands WHERE pid = {pid}".format(pid = pid)
-  db_write(query)
+  new_brands = data['brands']
+  if not re.match(r'[\d+\,]+', new_brands):
+    return
 
-  query = "SELECT webapp_code FROM brands"
-  brands = db_read(query)
-  available_brands_names = []
-  for each in brands:
-    available_brands_names.append(each[0])
+  query = "SELECT rowid FROM brands WHERE rowid IN ({new_brands})".format(new_brands = new_brands)
+  allowed_brands = db_read(query)
   
-  for brand_name in data['brands']:
-    if brand_name not in available_brands_names:
-      print(brand_name, 'is not in:', available_brands_names)
-      continue
+  new_brands = ''
+  for each_brand in allowed_brands:
+    new_brands += each_brand[0]
 
-    query = "SELECT rowid, * FROM brands WHERE webapp_code = '{brand_name}'".format(brand_name = brand_name)
-    brand = db_read(query)[0]
-    bid = brand[0]
-
-    command = "INSERT INTO playersbrands VALUES ({pid}, {bid})".format(
-      pid = pid,
-      bid = bid,
-    )
-    db_write(command)
+  command = "UPDATE players SET bids = '{new_brands}' WHERE rowid = {pid}".format(
+    pid = pid,
+    new_brands = new_brands,
+  )
+  db_write(command)
 
 
 @app.route('/register/player/demography', methods=['POST'])
@@ -415,7 +209,7 @@ def check_if_pid_participates_today(pid):
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
   date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)
   # print(111)
-  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN org o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
+  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
   return db_read(command)
 
 
@@ -447,21 +241,26 @@ def get_player_participation():
 ##
 def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch2()
+  query = "SELECT bids FROM players WHERE rowid = {pid}".format(pid = pid)
+  bids = db_read(query)[0][0]
+  if not bids:
+    return
+
   query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
-          JOIN org o ON o.rowid = c.oid \
+          JOIN orgs o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
           AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) \
-          AND b.rowid IN (SELECT bid FROM playersbrands WHERE pid = {pid}) \
+          AND b.rowid IN ({bids}) \
           and c.date_start <= {date_now} \
-          and c.date_end > {date_now}".format(pid = pid, date_now = date_now)
+          and c.date_end > {date_now}".format(pid = pid, date_now = date_now, bids = bids)
   return db_read(query)
 
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
-  date_now = get_today_epoch()
+  date_now = get_today_epoch2()
   query = "SELECT c.rowid, c.ad, c.chance, o.name FROM cam c \
-          JOIN org o ON c.oid = o.rowid \
+          JOIN orgs o ON c.oid = o.rowid \
           WHERE 1=1 \
           and c.date_start <= {date_now} \
           and c.date_end > {date_now} \
@@ -502,7 +301,7 @@ def get_campaigns_for_player():
 def get_campaigns_history_for_pid(pid):
   query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date, p.gift FROM par p \
            JOIN cam c on p.cid = c.rowid \
-           JOIN org o ON o.rowid = c.oid \
+           JOIN orgs o ON o.rowid = c.oid \
            JOIN brands b ON b.rowid = o.bid \
            WHERE p.pid = {pid} \
            ORDER BY p.date DESC".format(pid = pid)
