@@ -102,42 +102,48 @@ def create_or_update_player(data):
   command = ""
   if not player_exists:
     date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
-    command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid})".format(
+    command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}')".format(
       uid = uid,
       date_created = date_created,
       region = int(data['demography']['region']),
       city = int(data['demography']['city']),
       sex = int(data['demography']['sex']),
       age = int(data['demography']['age']),
-      tguid = int(data.get('tguid', 0)),
+      tguid = int(data['tguid']),
+      bids = '',  # empty brands for yet
     )
   else:
-    command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age} WHERE uid = {uid}".format(
+    bids = data.get('brands', '')
+    if not re.match(r'[\d+\,]+', bids):
+      return
+    command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age}, bids = {bids} WHERE uid = {uid}".format(
       uid = uid,
       region = int(data['demography']['region']),
       city = int(data['demography']['city']),
       sex = int(data['demography']['sex']),
       age = int(data['demography']['age']),
+      bids = bids
     )
   db_write(command)
 
 
 def create_or_update_player_brands(data):
   pid = read_pid(data)
-  new_brands = data['brands']
+  new_brands = json.dumps(data['brands'])[1:-1]
   if not re.match(r'[\d+\,]+', new_brands):
     return
 
   query = "SELECT rowid FROM brands WHERE rowid IN ({new_brands})".format(new_brands = new_brands)
   allowed_brands = db_read(query)
   
-  new_brands = ''
-  for each_brand in allowed_brands:
-    new_brands += each_brand[0]
+  bids = []
+  for bid in allowed_brands:
+    bids.append(str(bid[0]))
+  bids = ','.join(bids)
 
-  command = "UPDATE players SET bids = '{new_brands}' WHERE rowid = {pid}".format(
+  command = "UPDATE players SET bids = '{bids}' WHERE rowid = {pid}".format(
     pid = pid,
-    new_brands = new_brands,
+    bids = bids,
   )
   db_write(command)
 
@@ -335,6 +341,7 @@ def submit_vote():
     city = -1
   sex = data['demography'][2]
   age = data['demography'][3]
+  tguid = int(data['tguid'])
   bids = json.dumps(data['orgs'])[1:-1]  # cut braces
   if not re.match(r'[\d+\,]+', bids):
     return
@@ -342,7 +349,7 @@ def submit_vote():
   if pid:
     command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
   else:
-    command = "INSERT INTO players VALUES ({}, {}, {}, {}, {}, {}, '{}')".format(uid, now, region, city, sex, age, bids)
+    command = "INSERT INTO players VALUES ({}, {}, {}, {}, {}, {}, {}, '{}')".format(uid, now, region, city, sex, age, tguid, bids)
   db_write(command)
 
   result = {"code": 200}

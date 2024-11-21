@@ -79,8 +79,6 @@ function draw_demography(target) {
       set_cities_display_attr('none');
   });
 
-  set_existing_demography_choices();
-
   const btn_go_to_second = document.getElementById('to_second');
   const all_selects = document.querySelectorAll('select');
   all_selects.forEach((select) => {
@@ -113,16 +111,22 @@ function draw_demography(target) {
   if (first_screen) {
     btn_go_to_second.addEventListener('click', async function () {
       const data_saved = await collect_demography_data_from_form();
+      /*
+      console.log(data_saved);
       if (!data_saved)
         return;
-      if (data_saved.status != 0) // 200 OK for no-cors
+      if (data_saved.status != 0)
         return;
-
+      if (!data_saved.ok)  // 200 OK for no-cors
+        return;
+      */
       document.getElementById('first_screen').style.display = 'none';
       document.getElementById('second_screen').style.display = 'block';
       save_into_local_storage('first_screen_passed', true);
       document.getElementById('first_screen').remove();
       second_screen();
     });
+
+    set_existing_demography_choices();
   }
 }

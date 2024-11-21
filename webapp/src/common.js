@@ -75,9 +75,9 @@ function set_existing_demography_choices() {
 function set_existing_brands_choices() {
   var existing_choices = get_items_from_local_storage('choices4');
   if (Object.keys(existing_choices).length != 0) {  // pizdec
-    ['mk', 'lenta'].forEach((item) => {
+    ['107', '55'].forEach((item) => {
       const element = document.getElementById('brand-' + item);
-      if (existing_choices.brands.includes(item)) {
+      if (existing_choices.brands.includes(parseInt(item))) {
         element.style.filter == 'unset';
         const event = new Event('click');
         element.dispatchEvent(event);
@@ -126,8 +126,10 @@ async function collect_demography_data_from_form() {
 async function collect_brands_data_from_form() {
   const brands = [];
   document.querySelectorAll('img').forEach((el) => {
-    if (el.style.filter == 'unset')
-      brands.push(el.classList.value.replace('brand', '').trim());
+    if (el.style.filter == 'unset') {
+      const bid = parseInt(el.classList.value.replace('brand', '').replace('bid-', '').trim());
+      brands.push(bid);
+    }
   });
 
   const result = JSON.stringify({'uid': get_uid(), 'brands': brands});
