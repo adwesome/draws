@@ -204,7 +204,7 @@ def check_if_pid_participates_in_cid(pid, cid):
   return True
 
 
-def check_if_pid_participates_today(pid):
+def check_if_pid_participates_today(pid):  # incorrrect start and finish
   date_now = get_today_datetime().date()
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
   date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)

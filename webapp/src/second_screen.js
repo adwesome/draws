@@ -43,7 +43,7 @@ function second_screen() {
       return;
     */
 
-    document.getElementById('first_screen').style.display = 'none';
+    //document.getElementById('first_screen').style.display = 'none';
     document.getElementById('second_screen').style.display = 'none';
     //document.getElementById('second_screen_explain').style.display = 'none';
     save_into_local_storage('second_screen_passed', true);
