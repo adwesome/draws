@@ -197,15 +197,30 @@ async function submit_participation(data) {  // https://stackoverflow.com/questi
   //return result
 }
 async function get_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
-  const response = await fetch(SERVER_HOSTNAME + '/get/player/participation?uid=' + data.uid, {});
+  const response = await fetch(SERVER_HOSTNAME + `/get/player/participation?uid=${data.uid}&tguid=${data.tguid}`, {});
   return await response.json();
 }
 
-function reset_uid_and_restart() {
+function reset_local_constants_and_restart() {
   ['uid', 'onboarding_complete', 'first_screen_passed', 'second_screen_passed', ].forEach((item) => {
     localStorage.removeItem(item);
   });
-  window.location = 'index.html';
+  var url = 'index.html';
+  tguid = get_tguid_from_url();
+  if (tguid)
+    url += `?a=${tguid}`;
+  window.location = url;
+}
+
+function reset_uid_and_restart(uid, tguid) {
+  if (!uid)
+    return reset_local_constants_and_restart();
+
+  localStorage.setItem('uid', uid);
+  var url = 'index.html';
+  if (tguid)
+    url += `?a=${tguid}`;
+  window.location = url;
 }
 
 async function get_campaign_for_me_today() {
@@ -213,7 +228,7 @@ async function get_campaign_for_me_today() {
   const response = await fetch(SERVER_HOSTNAME + `/get/campaign?uid=${uid}`, {});
   const data = await response.json();
   if (data.code == 205)
-    return reset_uid_and_restart();
+    return reset_local_constants_and_restart();
   if (data.code != 200)
     return;
 
@@ -337,7 +352,11 @@ async function play() {
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
 
-  let participates = await get_participation({'uid': get_uid(), 'tguid': get_tguid_from_url()});
+  const tguid = get_tguid_from_url();
+  let participates = await get_participation({'uid': get_uid(), 'tguid': tguid});
+  if (participates.code == 205)
+    return reset_uid_and_restart(participates.uid, tguid);
+
   if (participates.result.length && participates.result.length != 0) {  // if participated already
     if (document.getElementById('js-canvas-explain'))
       document.getElementById('js-canvas-explain').remove();

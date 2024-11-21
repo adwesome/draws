@@ -215,14 +215,6 @@ def check_if_pid_participates_today(pid):  # incorrrect start and finish
   return db_read(command)
 
 
-def check_if_uid_participates_today(uid):
-  pid = read_pid({'uid': uid})
-  if not pid:
-    return False
-
-  return check_if_pid_participates_today(pid)
-
-
 @app.route('/register/player/participation', methods=['POST'])
 def register_player_participation():
   data = convert_to_dict(request.data)
@@ -231,14 +223,28 @@ def register_player_participation():
   return send_response(result)
 
 
+def get_uid_by_tguid(tguid):
+  query = "SELECT uid FROM players WHERE tguid = {}".format(tguid)
+  uid = db_read(query)
+  if not uid:
+    return;
+  return uid[0][0]
+
+
 @app.route('/get/player/participation', methods=['GET'])
 def get_player_participation():
   uid = request.args.get('uid')
-  # cid = request.args.get('cid')
-  if uid:
-    result = {"code": 200, "result": check_if_uid_participates_today(uid)}
-  else:
-    result = {"code": 400, "description": "UID and CID are required"}
+  if not uid:
+    result = {"code": 400, "description": "UID is required"}
+    return send_response(result)
+
+  pid = read_pid({'uid': uid})
+  if not pid:
+    tguid = request.args.get('tguid')
+    result = {"code": 205, "description": "Reset content", "uid": get_uid_by_tguid(tguid)}
+    return send_response(result)
+
+  result = {"code": 200, "result": check_if_pid_participates_today(pid)}
   return send_response(result)
 
 ##
