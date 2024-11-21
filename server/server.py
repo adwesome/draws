@@ -12,9 +12,11 @@ DB_NAME = 'adte.db'
 def get_today_start_of_the_day_epoch():  # incorrect, but fine to go
   return int(datetime.datetime.combine(get_today_datetime(), datetime.time.min).timestamp())
 
-
 def get_yesterday_start_of_the_day_epoch():  # incorrect, but fine to go
   return int(datetime.datetime.combine(get_today_datetime() - datetime.timedelta(days = 1), datetime.time.min).timestamp())
+
+def get_start_of_the_day_epoch(days_offset):  # incorrect, but fine to go
+  return int(datetime.datetime.combine(get_today_datetime() - datetime.timedelta(days = days_offset), datetime.time.min).timestamp())
 
 
 def get_today_epoch():
@@ -380,4 +382,28 @@ def get_stats_players():
   query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
   w_yesterday = db_read(query)
   result = {"code": 200, "result": {"total": p_total, "total_winners": w_total, "today": p_today, "yesterday": p_yesterday, "yesterday_winners": w_yesterday}}
+  return send_response(result)
+
+
+######### ORGS
+##
+# CAM CONTROL
+##
+def calc_players(days_offset):
+  offset = get_start_of_the_day_epoch(days_offset)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset})".format(offset = offset)
+  return db_read(query)
+
+@app.route('/get/control', methods=['GET'])
+def get_control_data():
+  query = "SELECT COUNT(*) FROM players"
+  players_total = db_read(query)
+
+  result = {"code": 200, "result": {
+      "players_total": players_total[0][0],
+      "players_day": calc_players(1)[0][0],
+      "players_week": calc_players(5)[0][0],
+      "players_month": calc_players(30)[0][0],
+    }
+  }
   return send_response(result)
