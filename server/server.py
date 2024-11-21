@@ -389,21 +389,29 @@ def get_stats_players():
 ##
 # CAM CONTROL
 ##
-def calc_players(days_offset):
+def calc_players(bid, days_offset):
   offset = get_start_of_the_day_epoch(days_offset)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset})".format(offset = offset)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset}".format(offset = offset)
+  if bid == -1:
+    query += ")"
+  else:
+    query += " AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
   return db_read(query)
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT COUNT(*) FROM players"
+  bid = int(request.args.get('bid'))
+  if bid == -1:
+    query = "SELECT COUNT(*) FROM players"
+  else:
+    query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
   players_total = db_read(query)
 
   result = {"code": 200, "result": {
       "players_total": players_total[0][0],
-      "players_day": calc_players(1)[0][0],
-      "players_week": calc_players(5)[0][0],
-      "players_month": calc_players(30)[0][0],
+      "players_day": calc_players(bid, 1)[0][0],
+      "players_week": calc_players(bid, 5)[0][0],
+      "players_month": calc_players(bid, 30)[0][0],
     }
   }
   return send_response(result)
