@@ -201,10 +201,19 @@ async function get_participation(data) {  // https://stackoverflow.com/questions
   return await response.json();
 }
 
+function reset_uid_and_restart() {
+  ['uid', 'onboarding_complete', 'first_screen_passed', 'second_screen_passed', ].forEach((item) => {
+    localStorage.removeItem(item);
+  });
+  window.location = 'index.html';
+}
+
 async function get_campaign_for_me_today() {
   const uid = get_uid();
   const response = await fetch(SERVER_HOSTNAME + `/get/campaign?uid=${uid}`, {});
   const data = await response.json();
+  if (data.code == 205)
+    return reset_uid_and_restart();
   if (data.code != 200)
     return;
 

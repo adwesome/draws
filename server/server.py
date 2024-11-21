@@ -278,7 +278,10 @@ def get_campaigns_for_brand_and_pid_for_today(pid, bid):
 def get_campaigns_for_player():
   uid = request.args.get('uid')
   pid = read_pid({'uid': uid})
-  
+  if not pid:
+    result = {"code": 205, "description": "Reset content"}
+    return send_response(result)
+
   brands = get_brands_for_me_for_today(pid)
   if not brands:
     result = {"code": 404, "description": "No ongoing campaign"}
