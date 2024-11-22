@@ -57,8 +57,10 @@
     <script type="text/javascript">
       window.onload = async function() {
         const tguid = get_tguid_from_url();
-        if (tguid == -1)
+        if (tguid == -1) {
+          document.getElementById('intro').innerHTML = '<p>Доступно только в Телеграм</p>';
           return;
+        }
 
         // global var
         uid = await get_uid(tguid);  // create in case not exists yet

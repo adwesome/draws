@@ -95,6 +95,7 @@ def convert_to_dict(data):
     data = json.loads(data)
   return data
 
+
 ###
 # REGISTER PLAYER AND SELECT BRANDS
 ###
@@ -258,17 +259,17 @@ def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch2()
   query = "SELECT bids FROM players WHERE rowid = {pid}".format(pid = pid)
   bids = db_read(query)[0][0]
-  if not bids:
-    return
 
   query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
           JOIN orgs o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
-          AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) \
-          AND b.rowid IN ({bids}) \
-          and c.date_start <= {date_now} \
-          and c.date_end > {date_now}".format(pid = pid, date_now = date_now, bids = bids)
+          AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) ".format(pid = pid)
+  if bids:
+    query += "AND b.rowid IN ({bids}) ".format(bids = bids)
+
+  query += "AND c.date_start <= {date_now} \
+          AND c.date_end > {date_now} ".format(date_now = date_now)
   return db_read(query)
 
 
