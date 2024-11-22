@@ -9,14 +9,10 @@ app = Flask(__name__)
 DB_NAME = 'adte.db'
 
 
-def get_today_start_of_the_day_epoch():  # incorrect, but fine to go
-  return int(datetime.datetime.combine(get_today_datetime(), datetime.time.min).timestamp())
-
-def get_yesterday_start_of_the_day_epoch():  # incorrect, but fine to go
-  return int(datetime.datetime.combine(get_today_datetime() - datetime.timedelta(days = 1), datetime.time.min).timestamp())
-
 def get_start_of_the_day_epoch(days_offset):  # incorrect, but fine to go
-  return int(datetime.datetime.combine(get_today_datetime() - datetime.timedelta(days = days_offset), datetime.time.min).timestamp())
+  today = datetime.datetime.combine(get_today_datetime(), datetime.time.min, tzinfo=datetime.timezone.utc)
+  today_shifted = today - datetime.timedelta(days = days_offset) + datetime.timedelta(hours = 1) + datetime.timedelta(minutes = 30)
+  return int(today_shifted.timestamp())
 
 
 def get_today_epoch():
@@ -396,12 +392,12 @@ def get_uid():
 @app.route('/get/stats/players', methods=['GET'])
 def get_stats_players():
   p_total = db_read("SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par)")
-  today = get_today_start_of_the_day_epoch()
+  today = get_start_of_the_day_epoch(0)
   query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today}".format(today = today)
   w_total = db_read(query)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {today})".format(today = today)
   p_today = db_read(query)
-  yesterday = get_yesterday_start_of_the_day_epoch()
+  yesterday = get_start_of_the_day_epoch(1)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {yesterday} AND date < {today})".format(today = today, yesterday = yesterday)
   p_yesterday = db_read(query)
   query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
