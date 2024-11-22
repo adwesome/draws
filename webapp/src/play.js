@@ -35,9 +35,12 @@ async function create_drawings_list() {
 
   hide_orgs_poll();
   const ch = get_items_from_local_storage('choices3');
-  if (ch)
-    if (ch.demography.region == 10 && ch.demography.city == 11)
-      init_orgs_poll();
+  if (ch) {
+    if (ch.demography) {
+      if (ch.demography.region == 10 && ch.demography.city == 11)
+        init_orgs_poll();
+    }
+  }
 
   let html_next = '';
   let html_now = '';
