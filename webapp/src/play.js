@@ -30,16 +30,16 @@ function show_history() {
 }
 
 
-
 async function create_drawings_list() {
-  const uid = get_uid();
   draw_demography('mini_app_settings');
 
+  /*
   const ch = get_items_from_local_storage('choices3');
   if (ch.demography.region == 10 && ch.demography.city == 11)
     init_orgs_poll();
   else
     hide_orgs_poll();
+  */
 
   let html_next = '';
   let html_now = '';
@@ -224,7 +224,6 @@ function reset_uid_and_restart(uid, tguid) {
 }
 
 async function get_campaign_for_me_today() {
-  const uid = get_uid();
   const response = await fetch(SERVER_HOSTNAME + `/get/campaign?uid=${uid}`, {});
   const data = await response.json();
   if (data.code == 205)
@@ -236,7 +235,6 @@ async function get_campaign_for_me_today() {
 }
 
 async function get_participation_history() {
-  const uid = get_uid();
   const response = await fetch(SERVER_HOSTNAME + `/get/participation/history?uid=${uid}`, {});
   const data = await response.json();
   if (data.code != 200)
@@ -353,7 +351,7 @@ async function play() {
   const ad_explain = document.getElementById('ad_explain');
 
   const tguid = get_tguid_from_url();
-  let participates = await get_participation({'uid': get_uid(), 'tguid': tguid});
+  let participates = await get_participation({'uid': uid, 'tguid': tguid});
   if (participates.code == 205)
     return reset_uid_and_restart(participates.uid, tguid);
 
@@ -379,10 +377,10 @@ async function play() {
   }
 
 
-  //await get_all('campaigns', 'uid=' + get_uid()); // need some stub if no ad
+  //await get_all('campaigns', 'uid=' + uid); // need some stub if no ad
   await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
-  //await get_all('winners', 'uid=' + get_uid());
+  //await get_all('winners', 'uid=' + uid);
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
@@ -461,7 +459,7 @@ async function play() {
   canvas.addEventListener('transitionend', async function() {
     remove_canvas(canvas);
     await run_progress_bar();
-    await submit_participation({'uid': get_uid(), 'tguid': get_tguid_from_url(), 'cid': cid});
+    await submit_participation({'uid': uid, 'tguid': get_tguid_from_url(), 'cid': cid});
     //await calculate_percent(cid);
     create_drawings_list();
   });

@@ -113,7 +113,7 @@ async function collect_demography_data_from_form() {
     d[el.id] = parseInt(el.value);
   });
 
-  const r = {'uid': get_uid(), 'demography': d}
+  const r = {'uid': uid, 'demography': d}
   tguid = get_tguid_from_url();
   if (tguid)
     r['tguid'] = tguid;
@@ -132,15 +132,22 @@ async function collect_brands_data_from_form() {
     }
   });
 
-  const result = JSON.stringify({'uid': get_uid(), 'brands': brands});
+  const result = JSON.stringify({'uid': uid, 'brands': brands});
   save_into_local_storage('choices4', result);
   return await save_into_remote_storage('/register/player/brands', result);
 }
 
-function get_uid() {
+async function get_uid(tguid) {
   var uid = localStorage.getItem('uid');
   if (uid)
     return parseInt(uid);
+
+  const response = await fetch(SERVER_HOSTNAME + `/get/uid?tguid=${tguid}`, {});
+  var data = await response.json();
+  if (data.code == 200) {
+    localStorage.setItem('uid', data.uid);
+    return data.uid;
+  }
 
   uid = Date.now();
   localStorage.setItem('uid', uid);

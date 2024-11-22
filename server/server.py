@@ -98,34 +98,38 @@ def convert_to_dict(data):
 ###
 # REGISTER PLAYER AND SELECT BRANDS
 ###
-def create_or_update_player(data):
-  uid = int(data['uid'])
-  player_exists = read_player(data)
+def create_player(tguid):
+  date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000)  # ms
+  uid = date_created
+  command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}')".format(
+    uid = uid,
+    date_created = date_created,
+    region = -1,
+    city = -1,
+    sex = -1,
+    age = -1,
+    tguid = tguid,
+    bids = '',  # empty brands for yet
+  )
+  db_write(command)
+  return uid
+
+
+def update_player(data):
   command = ""
-  if not player_exists:
-    date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp())
-    command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}')".format(
-      uid = uid,
-      date_created = date_created,
-      region = int(data['demography']['region']),
-      city = int(data['demography']['city']),
-      sex = int(data['demography']['sex']),
-      age = int(data['demography']['age']),
-      tguid = int(data['tguid']),
-      bids = '',  # empty brands for yet
-    )
-  else:
-    bids = data.get('brands', '')
+  uid = int(data['uid'])
+  bids = data.get('brands', '')
+  if bids:
     if not re.match(r'[\d+\,]+', bids):
       return
-    command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age}, bids = {bids} WHERE uid = {uid}".format(
-      uid = uid,
-      region = int(data['demography']['region']),
-      city = int(data['demography']['city']),
-      sex = int(data['demography']['sex']),
-      age = int(data['demography']['age']),
-      bids = bids
-    )
+  command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age}, bids = '{bids}' WHERE uid = {uid}".format(
+    uid = uid,
+    region = int(data['demography']['region']),
+    city = int(data['demography']['city']),
+    sex = int(data['demography']['sex']),
+    age = int(data['demography']['age']),
+    bids = bids
+  )
   db_write(command)
 
 
@@ -153,7 +157,7 @@ def create_or_update_player_brands(data):
 @app.route('/register/player/demography', methods=['POST'])
 def register_player_demography():
   data = convert_to_dict(request.data)
-  create_or_update_player(data)
+  update_player(data)
   result = {"code": 200}
   return send_response(result)
 
@@ -371,6 +375,18 @@ def submit_vote():
 def get_orgs():
   orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
   result = {"code": 200, "orgs": orgs}
+  return send_response(result)
+
+
+@app.route('/get/uid', methods=['GET'])
+def get_uid():
+  tguid = request.args.get('tguid')
+  query = "SELECT rowid FROM players WHERE tguid = {}".format(tguid)
+  uid = db_read(query)
+  if not uid:
+    result = {"code": 200, "uid": create_player(tguid)}
+  else:
+    result = {"code": 200, "uid": uid[0][0]}
   return send_response(result)
 
 
