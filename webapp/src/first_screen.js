@@ -66,10 +66,7 @@ function draw_demography_poll(target) {
 
 function draw_demography(target) {
   draw_demography_poll(target);
-
-  const first_screen = document.getElementById('first_screen');
-  if (first_screen)
-    document.getElementById('first_screen').style.display = 'block';
+  set_existing_demography_choices();
 
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
@@ -79,7 +76,6 @@ function draw_demography(target) {
       set_cities_display_attr('none');
   });
 
-  const btn_go_to_second = document.getElementById('to_second');
   const all_selects = document.querySelectorAll('select');
   all_selects.forEach((select) => {
     select.addEventListener('change', function() {
@@ -96,37 +92,7 @@ function draw_demography(target) {
         }
       }
 
-      if (first_screen) {
-        if (ready_to_go)
-          btn_go_to_second.disabled = false;
-        else
-          btn_go_to_second.disabled = true;
-      }
-      else {
-        collect_demography_data_from_form();
-      }
+      collect_demography_data_from_form();
     });
   });
-
-  if (first_screen) {
-    btn_go_to_second.addEventListener('click', async function () {
-      const data_saved = await collect_demography_data_from_form();
-      /*
-      console.log(data_saved);
-      if (!data_saved)
-        return;
-      if (data_saved.status != 0)
-        return;
-      if (!data_saved.ok)  // 200 OK for no-cors
-        return;
-      */
-      document.getElementById('first_screen').style.display = 'none';
-      document.getElementById('second_screen').style.display = 'block';
-      save_into_local_storage('first_screen_passed', true);
-      document.getElementById('first_screen').remove();
-      second_screen();
-    });
-
-    set_existing_demography_choices();
-  }
 }

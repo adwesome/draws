@@ -348,6 +348,9 @@ def get_participation_campaigns_for_player():
 def submit_vote():
   data = convert_to_dict(request.data)
   pid = read_pid(data)
+  if not pid:
+    return
+
   now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
   uid = data['uid']
   region = data['demography'][0]
@@ -357,17 +360,13 @@ def submit_vote():
     city = -1
   sex = data['demography'][2]
   age = data['demography'][3]
-  tguid = int(data['tguid'])
+  # tguid = int(data['tguid'])
   bids = json.dumps(data['orgs'])[1:-1]  # cut braces
   if not re.match(r'[\d+\,]+', bids):
     return
 
-  if pid:
-    command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
-  else:
-    command = "INSERT INTO players VALUES ({}, {}, {}, {}, {}, {}, {}, '{}')".format(uid, now, region, city, sex, age, tguid, bids)
+  command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
   db_write(command)
-
   result = {"code": 200}
   return send_response(result)
 

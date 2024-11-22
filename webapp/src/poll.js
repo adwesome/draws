@@ -240,7 +240,7 @@ function collect_data_from_form() {
     o.push(parseInt(el.value));
   });
 
-  const result = JSON.stringify({'uid': get_uid(), 'demography': d, 'orgs': o});
+  const result = JSON.stringify({'uid': uid, 'demography': d, 'orgs': o});
   save_items_into_local_storage(result);
   save_items_into_remote_storage(result);
 
