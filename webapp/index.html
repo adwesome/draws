@@ -47,6 +47,10 @@
 
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css">
+      #tg_only {
+        display: none;
+        padding: 20px 0;
+      }
     </style>
 
     <script type="text/javascript" src="src/common.js?v=1"></script>
@@ -58,15 +62,21 @@
       window.onload = async function() {
         const tguid = get_tguid_from_url();
         if (tguid == -1) {
-          let text = '<p>Доступно только в Телеграм ';
+          let text = '';
+          document.getElementById('tg_only').style.display = 'block';
           let uid = localStorage.getItem('uid');
-          if (uid)
-            text += `<a href="https://t.me/adte_bot?start=${uid}">боте</a> `;
-          else
-            text += 'боте '
+          if (uid) {
+            text += '<p>Используя этот браузер, вы участвовали в пробном розыгрыше, который проходил 15-16 ноября 2024.</p><p>Чтобы перенести все ваши ранее выбранные опции (регион, пол, возраст, бренды) и историю розыгрышей в Телеграм, просто пройдите по ';
+            text += `<a href="https://t.me/adte_bot?start=${uid}">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+          }
+          else {
+            text += '<p>Вы либо не участвовали вовсе в пробном розыгрыше, который проходил 15-16 ноября 2024. Либо участвовали, но с другого браузера.</p><p>Если вы не участвовали, то просто  пройдите по ';
+            text += `<a href="https://t.me/adte_bot?start">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+            text += `<p>Но, если вы участвовали, и видите это сообщение, то скопируйте и откройте эту ссылку: <a href="https://adwesome.github.io/draws/webapp">https://adwesome.github.io/draws/webapp</a> в другом браузере на этом же устройстве или откройте ее в браузере на другом устройстве, с которого вы могли участвовать.</p>`;
+          }
 
           text += '</p>';
-          document.getElementById('intro').innerHTML = text;
+          document.getElementById('tg_only').innerHTML = text;
           return;
         }
 
@@ -106,6 +116,7 @@
         <div class="row">
           <div class="col-xl-4 offset-xl-4 col-lg-6 offset-lg-3 col-md-8 offset-md-2 col-12 screen">
             <div class="col-10 offset-1">
+              <div id="tg_only"></div>
               <!--div id="first_screen">
                 <h2>Добро пожаловать!</h2>
                 <p style="margin-bottom: 1em;">Прежде чем перейти к розыгрышам подарков, расскажите нам, пожалуйста, немного о себе. Эта анкета, как и участия в розыгрышах, <b>полностью анонимные</b>.</p>
