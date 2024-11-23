@@ -58,7 +58,15 @@
       window.onload = async function() {
         const tguid = get_tguid_from_url();
         if (tguid == -1) {
-          document.getElementById('intro').innerHTML = '<p>Доступно только в Телеграм</p>';
+          let text = '<p>Доступно только в Телеграм ';
+          let uid = localStorage.getItem('uid');
+          if (uid)
+            text += `<a href="https://t.me/adte_bot?start=${uid}">боте</a> `;
+          else
+            text += 'боте '
+
+          text += '</p>';
+          document.getElementById('intro').innerHTML = text;
           return;
         }
 
