@@ -278,3 +278,8 @@ h4 {
 .accordion-button-, .accordion-body {
   background: floralwhite;
 }
+
+#tg_only {
+  display: none;
+  padding: 20px 0;
+}

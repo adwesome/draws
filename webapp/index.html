@@ -46,12 +46,7 @@
     <link rel="stylesheet" href="src/second_screen.css"/>
 
     <link rel="stylesheet" href="src/play.css"/>
-    <style type="text/css">
-      #tg_only {
-        display: none;
-        padding: 20px 0;
-      }
-    </style>
+    <style type="text/css"></style>
 
     <script type="text/javascript" src="src/common.js?v=1"></script>
     <script type="text/javascript" src="src/first_screen.js?v=1"></script>
@@ -60,7 +55,7 @@
     <script type="text/javascript" src="src/play.js?v=1"></script>
     <script type="text/javascript">
       window.onload = async function() {
-        const tguid = get_tguid_from_url();
+        tguid = get_tguid_from_url();
         if (tguid == -1) {
           let text = '';
           document.getElementById('tg_only').style.display = 'block';
