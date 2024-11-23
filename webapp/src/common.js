@@ -138,9 +138,9 @@ async function collect_brands_data_from_form() {
 }
 
 async function get_uid(tguid) {
-  var uid = localStorage.getItem('uid');
-  if (uid)
-    return parseInt(uid);
+  //var uid = localStorage.getItem('uid');
+  //if (uid)
+  //  return parseInt(uid);
 
   const response = await fetch(SERVER_HOSTNAME + `/get/uid?tguid=${tguid}`, {});
   var data = await response.json();

@@ -377,7 +377,7 @@ def get_orgs():
 @app.route('/get/uid', methods=['GET'])
 def get_uid():
   tguid = request.args.get('tguid')
-  query = "SELECT rowid FROM players WHERE tguid = {}".format(tguid)
+  query = "SELECT uid FROM players WHERE tguid = {}".format(tguid)
   uid = db_read(query)
   if not uid:
     result = {"code": 200, "uid": create_player(tguid)}
