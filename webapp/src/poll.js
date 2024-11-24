@@ -200,7 +200,7 @@ function set_existing_choises() {
   if (Object.keys(existing_choises).length == 0)  // pizdec
     return;
 
-  existing_choises.orgs.forEach((value) => {
+  existing_choises.brands.forEach((value) => {
     const f = document.getElementById(`orgs-${value}`);
     if (f)
       f.checked = true;

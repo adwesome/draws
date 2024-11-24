@@ -357,7 +357,7 @@ def submit_vote():
   sex = data['demography'][2]
   age = data['demography'][3]
   # tguid = int(data['tguid'])
-  bids = json.dumps(data['orgs'])[1:-1]  # cut braces
+  bids = json.dumps(data['brands'])[1:-1]  # cut braces
   if not re.match(r'[\d+\,]+', bids):
     return
 
