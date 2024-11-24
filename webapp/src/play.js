@@ -30,14 +30,22 @@ function show_history() {
   document.getElementById('hidden-history').style.display = 'unset';
 }
 
+async function update_choices() {
+  const choises = (await get_choices()).result;
+  localStorage.setItem('choices5', JSON.stringify(choises));
+}
+
 
 async function create_drawings_list() {
+  await update_choices();
   draw_demography('mini_app_settings');
 
   hide_orgs_poll();
-  const ch = get_items_from_local_storage('choices3');
+  const ch = get_items_from_local_storage('choices5');
   if (ch) {
     if (ch.demography) {
+      if (ch.demography.region)
+        document.getElementById('city').style.display = 'unset';
       if (ch.demography.region == 10 && ch.demography.city == 11)
         init_orgs_poll();
     }

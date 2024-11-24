@@ -152,7 +152,7 @@ var categories = {};
 function draw_orgs() {
   let result = '';
   //result += `<p>${get_uid()}</p>`;
-  const new_existing_choices = get_items_from_local_storage('choices4');
+  const new_existing_choices = get_items_from_local_storage('choices5');
 
   for (key in c) {
     result += `<h4>${key}</h4>`;
@@ -161,9 +161,7 @@ function draw_orgs() {
     em.forEach((e) => {
       result += `<li><label><input type="checkbox" id="orgs-${e[0]}" value="${e[0]}"`;
 
-      if (e[0] == 55 && new_existing_choices.brands.includes('lenta'))
-        result += ' checked';
-      else if (e[0] == 107 && new_existing_choices.brands.includes('mk'))
+      if (new_existing_choices.brands.includes(e[0]))
         result += ' checked';
 
       result += `> <b>${e[1]}</b> (${e[2]}) <br><span class="address">${e[3]}</span></label></li>`;
@@ -190,10 +188,10 @@ function draw_orgs() {
 }
 
 function save_items_into_local_storage(items) {
-  localStorage.setItem('choises2', items);
+  localStorage.setItem('choices5', items);
 }
 function load_items_from_local_storage() {
-  let links = localStorage.getItem('choises2') || "{}";
+  let links = localStorage.getItem('choices5') || "{}";
   return JSON.parse(links);
 }
 
@@ -229,6 +227,12 @@ async function get_orgs() {
   return o;
 }
 
+async function get_choices() {
+  const response = await fetch(SERVER_HOSTNAME + `/get/player/choices?uid=${uid}`, {});
+  const o = await response.json();
+  return o;
+}
+
 function collect_data_from_form() {
   let d = [];
   document.querySelectorAll('select').forEach((el) => {
@@ -240,7 +244,7 @@ function collect_data_from_form() {
     o.push(parseInt(el.value));
   });
 
-  const result = JSON.stringify({'uid': uid, 'demography': d, 'orgs': o});
+  const result = JSON.stringify({'uid': uid, 'demography': d, 'brands': o});
   save_items_into_local_storage(result);
   save_items_into_remote_storage(result);
 
@@ -274,6 +278,8 @@ function fill_categories() {
 async function init_orgs_poll() {
   document.getElementById('brands').style.display = 'unset';
   orgs = (await get_orgs()).orgs;
+  //choices = (await get_choices()).result;
+  //console.log(choices);
   fill_categories();
   draw_orgs();
   //collect_data_from_form();

@@ -386,6 +386,26 @@ def get_uid():
   return send_response(result)
 
 
+@app.route('/get/player/choices', methods=['GET'])
+def get_player_choices():
+  uid = request.args.get('uid')
+  player = read_player({'uid': uid})
+  bids = []
+  if player[0][8]:
+    bids = list(map(int, player[0][8].split(',')))  # https://stackoverflow.com/questions/6429638/how-to-split-a-string-of-space-separated-numbers-into-integers
+  result = {"code": 200, "result": {
+    "demography": {
+      "region": player[0][3],
+      "city": player[0][4],
+      "sex": player[0][5],
+      "age": player[0][6],
+    }, 
+    "brands": bids
+    }
+  }
+  return send_response(result)
+
+
 ##
 # USER STATS
 ##

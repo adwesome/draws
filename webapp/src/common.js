@@ -52,7 +52,7 @@ function get_item_from_local_storage(item) {
 }
 
 function set_existing_demography_choices() {
-  var existing_choices = get_items_from_local_storage('choices3');
+  var existing_choices = get_items_from_local_storage('choices5');
   if (Object.keys(existing_choices).length != 0) {  // pizdec
     ['region', 'city', 'sex', 'age'].forEach((item) => {
       const element = document.getElementById(item);
@@ -63,6 +63,7 @@ function set_existing_demography_choices() {
     return;
   }
 
+  /*
   // load possible data from poll
   existing_choices = get_items_from_local_storage('choises2');
   if (Object.keys(existing_choices).length == 0)  // pizdec
@@ -70,6 +71,7 @@ function set_existing_demography_choices() {
 
   document.getElementById(`sex`).value = existing_choices.demography[1];
   document.getElementById(`age`).value = existing_choices.demography[2];
+  */
 }
 
 function set_existing_brands_choices() {
