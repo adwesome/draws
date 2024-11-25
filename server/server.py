@@ -194,7 +194,7 @@ def create_player_participation(data):
   gift = ''
   if status == 1:
     gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49'
-  date_now = get_today_epoch()
+  date_now = get_today_epoch2()
   command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
   db_write(command)
 
@@ -430,13 +430,16 @@ def get_stats_players():
 ##
 # CAM CONTROL
 ##
-def calc_players(bid, days_offset):
-  offset = get_start_of_the_day_epoch(days_offset)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset}".format(offset = offset)
+def calc_players(bid, days_offset_old, days_offset_new = None):
+  offset_old = get_start_of_the_day_epoch(days_offset_old)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset_old} ".format(offset_old = offset_old)
+  if days_offset_new:
+    offset_new = get_start_of_the_day_epoch(days_offset_new)
+    query += "AND date < {offset_new} ".format(offset_new = offset_new)
   if bid == -1:
     query += ")"
   else:
-    query += " AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
+    query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
   return db_read(query)
 
 @app.route('/get/control', methods=['GET'])
@@ -450,9 +453,11 @@ def get_control_data():
 
   result = {"code": 200, "result": {
       "players_total": players_total[0][0],
-      "players_day": calc_players(bid, 1)[0][0],
-      "players_week": calc_players(bid, 5)[0][0],
+      "players_today": calc_players(bid, 0)[0][0],
+      "players_yesterday": calc_players(bid, 1, 0)[0][0],
+      "players_week": calc_players(bid, 6)[0][0],
       "players_month": calc_players(bid, 30)[0][0],
+      "players_quarter": calc_players(bid, 90)[0][0],
     }
   }
   return send_response(result)
