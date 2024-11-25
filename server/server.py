@@ -334,6 +334,12 @@ def get_participation_campaigns_for_player():
     result = {"code": 200, "result": campaigns}
   else:
     result = {"code": 404, "description": "No campaigns"}
+
+  # demo
+  if pid == 2:
+    query = "DELETE FROM par WHERE pid = 2 and date >= 1732505317";
+    db_write(query)
+
   return send_response(result)
 
 
