@@ -44,8 +44,10 @@ async function create_drawings_list() {
   const ch = get_items_from_local_storage('choices5');
   if (ch) {
     if (ch.demography) {
-      if (ch.demography.region == 10)
+      if (ch.demography.region == 10) {
         document.getElementById('city').style.display = 'unset';
+        document.getElementById('city_label').style.display = 'unset';
+      }
       if (ch.demography.region == 10 && ch.demography.city == 11)
         init_orgs_poll();
     }

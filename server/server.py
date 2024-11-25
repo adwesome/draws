@@ -380,6 +380,13 @@ def get_orgs():
   return send_response(result)
 
 
+@app.route('/votes/all', methods=['GET'])
+def get_votes():
+  votes = db_read("SELECT rowid, * FROM players WHERE bids IS NOT NULL AND bids != ''")
+  result = {"code": 200, "votes": votes}
+  return send_response(result)
+
+
 @app.route('/get/uid', methods=['GET'])
 def get_uid():
   tguid = request.args.get('tguid')
@@ -460,8 +467,8 @@ def get_control_data():
   result = {"code": 200, "result": {
       "players_total": players_total[0][0],
       "players_today": calc_players(bid, 0)[0][0],
-      "players_yesterday": calc_players(bid, 1, 0)[0][0],
-      "players_week": calc_players(bid, 6)[0][0],
+      "players_yesterday": calc_players(bid, 2, 1)[0][0],
+      "players_week": calc_players(bid, 7)[0][0],
       "players_month": calc_players(bid, 30)[0][0],
       "players_quarter": calc_players(bid, 90)[0][0],
     }

@@ -102,12 +102,10 @@ async function save_into_remote_storage(to, data) {
   //console.log(data);
 }
 
-/*
-async function get_orgs() {
-  const response = await fetch(SERVER_HOSTNAME + '/orgs/all', {});
+async function get_smth_tmp(what) {
+  const response = await fetch(SERVER_HOSTNAME + `/${what}/all`, {});
   return await response.json();
 }
-*/
 
 async function collect_demography_data_from_form() {
   let d = {};
