@@ -48,11 +48,11 @@
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=9"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=9"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=9"></script-->
-    <script type="text/javascript" src="src/poll.js?v=9"></script>
-    <script type="text/javascript" src="src/play.js?v=9"></script>
+    <script type="text/javascript" src="src/common.js?v=3"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=3"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=3"></script-->
+    <script type="text/javascript" src="src/poll.js?v=3"></script>
+    <script type="text/javascript" src="src/play.js?v=3"></script>
     <script type="text/javascript">
       window.onload = async function() {
         tguid = get_tguid_from_url();
@@ -62,12 +62,12 @@
           let uid = localStorage.getItem('uid');
           if (uid) {
             text += '<p>Используя этот браузер, вы участвовали в пробном розыгрыше, который проходил 15-16 ноября 2024.</p><p>Чтобы перенести все ваши ранее выбранные опции (регион, пол, возраст, бренды) и историю розыгрышей в Телеграм, просто пройдите по ';
-            text += `<a href="https://t.me/adte_bot?start=${uid}">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+            text += `<a href="https://telegram.me/adte_bot?start=${uid}">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
           }
           else {
             text += '<p>Вы либо не участвовали вовсе в пробном розыгрыше, который проходил 15-16 ноября 2024. Либо участвовали, но с другого браузера.</p><p>Если вы не участвовали, то просто  пройдите по ';
-            text += `<a href="https://t.me/adte_bot?start">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
-            text += `<p>Но, если вы участвовали, и видите это сообщение, то скопируйте и откройте эту ссылку: <a href="https://adwesome.github.io/draws/webapp">https://adwesome.github.io/draws/webapp</a> в другом браузере на этом же устройстве или откройте ее в браузере на другом устройстве, с которого вы могли участвовать.</p>`;
+            text += `<a href="https://telegram.me/adte_bot?start">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+            text += `<p>Но, если вы участвовали, и видите это сообщение, то скопируйте и откройте эту ссылку: <a href="https://adwesome.github.io/draws/webapp?v=1">https://adwesome.github.io/draws/webapp?v=1</a> в другом браузере на этом же устройстве или откройте ее в браузере на другом устройстве, с которого вы могли участвовать.</p>`;
           }
 
           text += '</p>';
