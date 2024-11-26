@@ -335,11 +335,12 @@ def get_participation_campaigns_for_player():
   else:
     result = {"code": 404, "description": "No campaigns"}
 
+  """
   # demo
   if pid == 2:
     query = "DELETE FROM par WHERE pid = 2 and date >= 1732505317";
     db_write(query)
-
+  """
   return send_response(result)
 
 
@@ -364,6 +365,7 @@ def submit_vote():
   age = data['demography'][3]
   # tguid = int(data['tguid'])
   bids = json.dumps(data['brands'])[1:-1]  # cut braces
+  bids = bids.replace(' ', '')
   if not re.match(r'[\d+\,]+', bids):
     return
 
@@ -382,7 +384,7 @@ def get_orgs():
 
 @app.route('/votes/all', methods=['GET'])
 def get_votes():
-  votes = db_read("SELECT rowid, * FROM players WHERE bids IS NOT NULL AND bids != ''")
+  votes = db_read("SELECT rowid, * FROM players WHERE bids != ''")
   result = {"code": 200, "votes": votes}
   return send_response(result)
 
@@ -457,15 +459,16 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  bid = int(request.args.get('bid'))
-  if bid == -1:
-    query = "SELECT COUNT(*) FROM players"
-  else:
-    query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
+  query = "SELECT COUNT(*) FROM players WHERE bids != ''"
   players_total = db_read(query)
+
+  bid = int(request.args.get('bid'))
+  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
+  players_brand = db_read(query)
 
   result = {"code": 200, "result": {
       "players_total": players_total[0][0],
+      "players_brand": players_brand[0][0],
       "players_today": calc_players(bid, 0)[0][0],
       "players_yesterday": calc_players(bid, 2, 1)[0][0],
       "players_week": calc_players(bid, 7)[0][0],
