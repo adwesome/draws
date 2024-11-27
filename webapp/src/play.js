@@ -24,6 +24,8 @@ const uids_to_names = {
   7621335452: "Ваня", // 1731400509126
   6531588273: "Лёша 2",
   5715621218: "Паша",
+  86836582: "Дима",
+  5144394044: "Оксана",
 };
 
 function show_history() {
@@ -335,7 +337,13 @@ function enable_swipe() {
   swiper_outer = new Swiper(".swiper-outer", {
     speed: 2000,
     direction: "vertical",
+    //sticky: false,
+    //threshold: 50,
+    //resistance: false,
+    //resistanceRatio: 100,
     cssMode: true,
+    //edgeSwipeThreshold: 100,
+    //shortSwipes: false,
     pagination: {
       el: ".swiper-outer-pagination",
       clickable: true,
