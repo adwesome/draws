@@ -72,6 +72,7 @@ async function create_drawings_list() {
   const date_yesterday = yesterday();
   const date_tomorrow = tomorrow();
   const history = await get_participation_history() || [];
+  let may_need_to_sync = true;
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
     const date = new Date(parseInt(campaign[5]) * 1000);
@@ -82,6 +83,9 @@ async function create_drawings_list() {
     const brand = campaign[3];
     const status = campaign[4];
     const gift = campaign[6];
+
+    if (parseInt(campaign[5]) <= 1731806999)  // end of test campaign, i.e. if has data then no need for sync
+      may_need_to_sync = false;
 
     if (date_participated == date_today) {
       html_now += `<p>${day}.${month} <span class="status ongoing">🤞 Вы участвуете</span>`;
@@ -136,7 +140,8 @@ async function create_drawings_list() {
   //html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
   //if (uid != 1730926893589)
   
-  html_past = '<p class="transfer-data-hint">❇️ Если вы участвовали в розыгрыше 15-16 ноября из браузера, то вы можете перенести всю свою историю и настройки сюда. Для этого, откройте <a href="https://adwesome.github.io/draws/webapp/index.html" target="_blank">https://adwesome.github.io/draws/webapp</a> в браузере, в котором вы участвовали, и следуйте инструкциям.</p>' + html_past;
+  if (may_need_to_sync)
+    html_past = '<p class="transfer-data-hint">❇️ Если вы участвовали в розыгрыше 15-16 ноября из браузера, то вы можете перенести всю свою историю и настройки сюда. Для этого, откройте <a href="https://adwesome.github.io/draws/webapp/index.html" target="_blank">https://adwesome.github.io/draws/webapp</a> в браузере, в котором вы участвовали, и следуйте инструкциям.</p>' + html_past;
 
 
   if (html_just)
