@@ -54,65 +54,56 @@
     <script type="text/javascript">
       window.onload = async function() {
         try {
-        tguid = get_tguid_from_url();
-        document.getElementById('ll').innerHTML += window.location.href;
-        await sleep(0);
-        if (tguid == -1) {
-          let text = '';
-          document.getElementById('tg_only').style.display = 'block';
-          let uid = localStorage.getItem('uid');
-          if (uid) {
-            text += `<p>Используя этот браузер (ID: ${uid}), вы участвовали в пробном розыгрыше, который проходил 15-16 ноября 2024.</p><p>Чтобы перенести все ваши ранее выбранные опции (регион, пол, возраст, бренды) и историю розыгрышей в Телеграм, просто пройдите по `;
-            text += `<a href="https://telegram.me/adte_bot?start=${uid}">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+          tguid = get_tguid_from_url();
+          if (tguid == -1) {
+            let text = '';
+            document.getElementById('tg_only').style.display = 'block';
+            let uid = localStorage.getItem('uid');
+            if (uid) {
+              text += `<p>Используя этот браузер (ID: ${uid}), вы участвовали в пробном розыгрыше, который проходил 15-16 ноября 2024.</p><p>Чтобы перенести все ваши ранее выбранные опции (регион, пол, возраст, бренды) и историю розыгрышей в Телеграм, просто пройдите по `;
+              text += `<a href="https://telegram.me/adte_bot?start=${uid}">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+            }
+            else {
+              text += '<p>Вы либо не участвовали вовсе в пробном розыгрыше, который проходил 15-16 ноября 2024. Либо участвовали, но с другого браузера.</p><p>Если вы не участвовали, то просто  пройдите по ';
+              text += `<a href="https://telegram.me/adte_bot?start">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
+              text += `<p>Но, если вы участвовали, и видите это сообщение, то скопируйте и откройте эту ссылку: <a href="https://adwesome.github.io/draws/webapp?v=1">https://adwesome.github.io/draws/webapp?v=1</a> в другом браузере на этом же устройстве или откройте ее в браузере на другом устройстве, с которого вы могли участвовать.</p>`;
+            }
+
+            text += '</p>';
+            document.getElementById('tg_only').innerHTML = text;
+            return;
           }
-          else {
-            text += '<p>Вы либо не участвовали вовсе в пробном розыгрыше, который проходил 15-16 ноября 2024. Либо участвовали, но с другого браузера.</p><p>Если вы не участвовали, то просто  пройдите по ';
-            text += `<a href="https://telegram.me/adte_bot?start">этой ссылке</a> &mdash; и запустите телеграм бота.</p>`;
-            text += `<p>Но, если вы участвовали, и видите это сообщение, то скопируйте и откройте эту ссылку: <a href="https://adwesome.github.io/draws/webapp?v=1">https://adwesome.github.io/draws/webapp?v=1</a> в другом браузере на этом же устройстве или откройте ее в браузере на другом устройстве, с которого вы могли участвовать.</p>`;
-          }
 
-          text += '</p>';
-          document.getElementById('tg_only').innerHTML = text;
-          return;
-        }
-
-        // global var
-        uid = await get_uid(tguid);  // create in case not exists yet
-        document.getElementById('ll').innerHTML += '<br>' + uid
-        await sleep(0);
-
-        window.Telegram.WebApp.ready();
-        window.Telegram.WebApp.expand();
-        //window.Telegram.WebApp.requestFullscreen();
-        //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
-        window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
-
-        document.getElementById('ll').innerHTML += '<br>tg ready'
-        play();
-        /*
-        if (!get_item_from_local_storage('first_screen_passed'))
-          draw_demography('first_screen_demography_poll');
-        else if (!get_item_from_local_storage('second_screen_passed'))
-          second_screen();
-        else {
-          document.getElementById('first_screen').remove();
-
-          // const demography = get_items_from_local_storage('choices3');
-          // save_into_remote_storage('/register/player/demography', demography);
-          // const brands = get_items_from_local_storage('choices4');
-          // save_into_remote_storage('/register/player/brands', brands);
+          // global var
+          uid = await get_uid(tguid);  // create in case not exists yet
+          
+          window.Telegram.WebApp.ready();
+          window.Telegram.WebApp.expand();
+          //window.Telegram.WebApp.requestFullscreen();
+          //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
+          window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
           play();
-        }
-        */
+          /*
+          if (!get_item_from_local_storage('first_screen_passed'))
+            draw_demography('first_screen_demography_poll');
+          else if (!get_item_from_local_storage('second_screen_passed'))
+            second_screen();
+          else {
+            document.getElementById('first_screen').remove();
+
+            // const demography = get_items_from_local_storage('choices3');
+            // save_into_remote_storage('/register/player/demography', demography);
+            // const brands = get_items_from_local_storage('choices4');
+            // save_into_remote_storage('/register/player/brands', brands);
+
+            play();
+          }
+          */
         }
         catch(error) {
-          //uid = 1731725782227;
-          //localStorage.setItem('uid', 1731725782227);
-          //play();
-          //return
-          document.getElementById('ll').innerHTML += '<br>>>>' + error.stack;
-          return
+          document.getElementById('ll').innerHTML += error.stack;
+          return;
         }
       }
     </script>
