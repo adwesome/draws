@@ -107,11 +107,12 @@
         */
         }
         catch(error) {
-          uid = 1731725782227;
-          localStorage.setItem('uid', 1731725782227);
-          play();
+          //uid = 1731725782227;
+          //localStorage.setItem('uid', 1731725782227);
+          //play();
+          //return
+          document.getElementById('ll').innerHTML += '<br>>>>' + error.stack;
           return
-          document.getElementById('ll').innerHTML += '<br>' + error;
         }
       }
     </script>
