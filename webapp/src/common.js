@@ -142,7 +142,6 @@ async function get_uid(tguid) {
   //if (uid)
   //  return parseInt(uid);
   const sn = SERVER_HOSTNAME + `/get/uid?tguid=${tguid}`;
-  document.getElementById('ll').innerHTML += '<br>' + sn;
   const response = await fetch(sn, {});
   var data = await response.json();
   if (data.code == 200) {
