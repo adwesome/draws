@@ -141,8 +141,9 @@ async function get_uid(tguid) {
   //var uid = localStorage.getItem('uid');
   //if (uid)
   //  return parseInt(uid);
-
-  const response = await fetch(SERVER_HOSTNAME + `/get/uid?tguid=${tguid}`, {});
+  const sn = SERVER_HOSTNAME + `/get/uid?tguid=${tguid}`;
+  document.getElementById('ll').innerHTML += '<br>' + sn;
+  const response = await fetch(sn, {});
   var data = await response.json();
   if (data.code == 200) {
     localStorage.setItem('uid', data.uid);
