@@ -371,6 +371,7 @@ function remove_canvas(canvas) {
 
 
 async function play() {
+  document.getElementById('ll').innerHTML += '<br>play'
   'use strict';
   start_countdown();
 

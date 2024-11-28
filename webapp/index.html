@@ -53,7 +53,10 @@
     <script type="text/javascript" src="src/play.js?v=150"></script>
     <script type="text/javascript">
       window.onload = async function() {
+        try {
         tguid = get_tguid_from_url();
+        document.getElementById('ll').innerHTML += window.location.href;
+        
         if (tguid == -1) {
           let text = '';
           document.getElementById('tg_only').style.display = 'block';
@@ -75,6 +78,7 @@
 
         // global var
         uid = await get_uid(tguid);  // create in case not exists yet
+        document.getElementById('ll').innerHTML += '<br>' + uid
 
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
@@ -82,6 +86,7 @@
         //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
         window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
 
+        document.getElementById('ll').innerHTML += '<br>tg ready'
         play();
         /*
         if (!get_item_from_local_storage('first_screen_passed'))
@@ -99,11 +104,15 @@
           play();
         }
         */
+        }
+        catch(error) {
+          document.getElementById('ll').innerHTML = error
+        }
       }
     </script>
   </head>
   <body>
-
+<div style="position: absolute; z-index: 1;" id="ll"></div>
     <div id="intro">
       <div class="container">
         <div class="row">
