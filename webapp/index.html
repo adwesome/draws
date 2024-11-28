@@ -46,17 +46,17 @@
     <link rel="stylesheet" href="src/play.css"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=151"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=151"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=151"></script-->
-    <script type="text/javascript" src="src/poll.js?v=151"></script>
-    <script type="text/javascript" src="src/play.js?v=151"></script>
+    <script type="text/javascript" src="src/common.js?v=1"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=1"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=1"></script-->
+    <script type="text/javascript" src="src/poll.js?v=1"></script>
+    <script type="text/javascript" src="src/play.js?v=1"></script>
     <script type="text/javascript">
       window.onload = async function() {
         try {
         tguid = get_tguid_from_url();
         document.getElementById('ll').innerHTML += window.location.href;
-        await sleep(5000);
+        await sleep(15000);
         if (tguid == -1) {
           let text = '';
           document.getElementById('tg_only').style.display = 'block';
@@ -79,7 +79,7 @@
         // global var
         uid = await get_uid(tguid);  // create in case not exists yet
         document.getElementById('ll').innerHTML += '<br>' + uid
-        await sleep(5000);
+        await sleep(15000);
 
         window.Telegram.WebApp.ready();
         window.Telegram.WebApp.expand();
