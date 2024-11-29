@@ -543,7 +543,7 @@ async function play() {
   function handlePercentage(filledInPixels) {
     filledInPixels = filledInPixels || 0;
     //console.log(filledInPixels + '%');
-    if (filledInPixels > 72) {
+    if (filledInPixels > 65) {
       canvas.classList.add('animate');
     }
   }
