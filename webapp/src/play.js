@@ -371,7 +371,6 @@ function remove_canvas(canvas) {
 
 
 async function play() {
-  document.getElementById('ll').innerHTML += '<br>play'
   'use strict';
   start_countdown();
 
@@ -416,7 +415,7 @@ async function play() {
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = '<b>Сегодня нет розыгрышей для вас</b><!--p style="margin-top: 6%;">Спасибо вам большое, что вы участвовали в пробном розыгрыше! После устранения всех проблем, которые мы выявили в результате этого пробного розыгрыша, мы проведем еще один (вероятно, через пару недель). Пожалуйста, обязательно приходите!</p><p>Также, если вы хотите у нас что-то спросить, или у вас есть какие-то рекомендации, замечания, пожелания, какая-то обратная связь &mdash; пожалуйста, <a href="https://telegram.me/alexeyhimself">напишите нам</a>!</p><p>Хорошего вам дня!</p-->';
+    explain.innerHTML = '<b>Сегодня нет розыгрышей для вас</b><p style="margin-top: 10px;">Но вы можете пройти в "Настройки" (это последний экран) и отметить там: "Магнит Косметик", "Лента", "Улыбка радуги", "DNS" и другие ваши любимые бренды, а затем закрыть мини-приложение и снова нажать кнопку "Играть"</p>';
     explain.style.display = 'block';
     explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
