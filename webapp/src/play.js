@@ -47,12 +47,17 @@ async function create_drawings_list() {
   const ch = get_items_from_local_storage('choices5');
   if (ch) {
     if (ch.demography) {
+      if (ch.demography.region == -1 || ch.demography.sex == -1 || ch.demography.age == -1)
+        document.getElementById('fill_data').innerHTML = '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "О вас". Это сейчас очень важно для будущего этого приложения. Спасибо!</div>';
       if (ch.demography.region == 10) {
         document.getElementById('city').style.display = 'unset';
         document.getElementById('city_label').style.display = 'unset';
       }
       if (ch.demography.region == 10 && ch.demography.city == 11)
         init_orgs_poll();
+
+      if (JSON.stringify(ch.brands) == JSON.stringify([55, 107, 112]) && ch.demography.region == 10)
+        document.getElementById('fill_data').innerHTML += '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это сейчас очень важно для будущего этого приложения. Спасибо!</div>';
     }
   }
 
