@@ -48,7 +48,7 @@ async function create_drawings_list() {
   if (ch) {
     if (ch.demography) {
       if (ch.demography.region == -1 || ch.demography.sex == -1 || ch.demography.age == -1)
-        document.getElementById('fill_data').innerHTML = '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "О вас". Это сейчас очень важно для будущего этого приложения. Спасибо!</div>';
+        document.getElementById('fill_data').innerHTML = '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "О вас". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
       if (ch.demography.region == 10) {
         document.getElementById('city').style.display = 'unset';
         document.getElementById('city_label').style.display = 'unset';
@@ -57,7 +57,7 @@ async function create_drawings_list() {
         init_orgs_poll();
 
       if (JSON.stringify(ch.brands) == JSON.stringify([55, 107, 112]) && ch.demography.region == 10)
-        document.getElementById('fill_data').innerHTML += '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это сейчас очень важно для будущего этого приложения. Спасибо!</div>';
+        document.getElementById('fill_data').innerHTML += '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
     }
   }
 
