@@ -119,7 +119,7 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`;
       if (status >= 1) {
         html_past += `<br><a href="${gift}" target="_blank">Забрать подарок</a>`;
-        //html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если вы сообщите о своем выигрыше в комментарии под <a href="https://vk.com/wall-78535365_57977" target="_blank">постом</a> &mdash; чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
+        html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если вы сообщите о своем выигрыше в комментарии под <a href="https://vk.com/segezhadays?w=wall-78535365_59304" target="_blank">постом</a> &mdash; чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
       }
     }
 
@@ -140,7 +140,7 @@ async function create_drawings_list() {
   //html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
   //if (uid != 1730926893589)
   
-  if (may_need_to_sync)
+  if (may_need_to_sync && past_counter == 0)
     html_past = '<p class="transfer-data-hint">❇️ Если вы участвовали в розыгрыше 15-16 ноября из браузера, то вы можете перенести всю свою историю и настройки сюда. Для этого, откройте <a href="https://adwesome.github.io/draws/webapp/index.html" target="_blank">https://adwesome.github.io/draws/webapp</a> в браузере, в котором вы участвовали, и следуйте инструкциям.</p>' + html_past;
 
 

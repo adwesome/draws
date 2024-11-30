@@ -30,6 +30,10 @@ def get_today_datetime():
   return now - datetime.timedelta(hours = 1) - datetime.timedelta(minutes = 30)
 
 
+def get_tomorrow_datetime():
+  return get_today_datetime()  + datetime.timedelta(days = 1)
+
+
 def get_today_date():
   today = get_today_datetime()
   return str(today.date())
@@ -106,7 +110,8 @@ def create_player(tguid):
     sex = -1,
     age = -1,
     tguid = tguid,
-    bids = '',  # empty brands for yet
+    bids = '55,107,112',  # test run 2 default bids
+    # bids = '',  # empty brands for yet
   )
   db_write(command)
   return uid
@@ -209,8 +214,10 @@ def check_if_pid_participates_in_cid(pid, cid):
 
 def check_if_pid_participates_today(pid):  # incorrrect start and finish
   date_now = get_today_datetime().date()
+  date_tomorrow = get_tomorrow_datetime().date()
+  # fix these dates - they need to be epoch2 start and end
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
-  date_finish = int(datetime.datetime(date_now.year, date_now.month, date_now.day + 1).timestamp() - 1)
+  date_finish = int(datetime.datetime(date_tomorrow.year, date_tomorrow.month, date_tomorrow.day).timestamp() - 1)
   # print(111)
   command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
   return db_read(command)
@@ -461,11 +468,11 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT COUNT(*) FROM players WHERE bids != ''"
+  query = "SELECT COUNT(*) FROM players"
   players_total = db_read(query)
 
   bid = int(request.args.get('bid'))
-  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
+  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = ''".format(bid = bid)
   players_brand = db_read(query)
 
   result = {"code": 200, "result": {
