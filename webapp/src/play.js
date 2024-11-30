@@ -326,6 +326,13 @@ async function run_progress_bar(seconds) {
       ad.style.opacity = 1;
       await sleep(4200);
       swiper_outer.slideTo(1, 2000, false);
+
+      const ch5 = JSON.parse(localStorage.getItem('choices5')) || {};
+      if (ch5)
+        if (ch5.demography)
+          if (ch5.demography.region == -1)
+            swiper_outer.slideTo(2, 2000, false);
+      
     }
   }, seconds * 1000 / 100);
   await sleep(seconds);
