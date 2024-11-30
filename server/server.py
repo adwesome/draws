@@ -468,6 +468,13 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
   return db_read(query)
 
 
+def calc_players_brand_today(bid):
+  offset_old = get_start_of_the_day_epoch(0)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
+  query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
+  return db_read(query)
+
+
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
   query = "SELECT COUNT(*) FROM players WHERE bids != ''"
@@ -477,7 +484,7 @@ def get_control_data():
   query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
   players_brand = db_read(query)
 
-  result = {"code": 200, "result": {
+  result = {"code": 200, "audience": {
       "players_total": players_total[0][0],
       "players_brand": players_brand[0][0],
       "players_today": calc_players(bid, 0)[0][0],
@@ -485,6 +492,9 @@ def get_control_data():
       "players_week": calc_players(bid, 7)[0][0],
       "players_month": calc_players(bid, 30)[0][0],
       "players_quarter": calc_players(bid, 90)[0][0],
+    },
+    "campaign": {
+      "par_today": calc_players_brand_today(bid),
     }
   }
   return send_response(result)
