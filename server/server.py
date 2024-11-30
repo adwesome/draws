@@ -468,7 +468,15 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
   return db_read(query)
 
 
-def calc_players_brand_today(bid):
+def calc_players_brand_total(bid):
+  # offset_old = get_start_of_the_day_epoch(0)
+  date_cam_start = 1732843800
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE 1=1 "
+  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = date_cam_start)
+  return db_read(query)
+
+
+def calc_players_brand_today(bid):  # check that optimal
   offset_old = get_start_of_the_day_epoch(0)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
   query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
@@ -494,6 +502,7 @@ def get_control_data():
       "players_quarter": calc_players(bid, 90)[0][0],
     },
     "campaign": {
+      "par_total": calc_players_brand_total(bid),
       "par_today": calc_players_brand_today(bid),
     }
   }
