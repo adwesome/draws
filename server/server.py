@@ -457,15 +457,16 @@ def get_stats_players():
 ##
 def calc_players(bid, days_offset_old, days_offset_new = None):
   offset_old = get_start_of_the_day_epoch(days_offset_old)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {offset_old} ".format(offset_old = offset_old)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
   if days_offset_new is not None:
     offset_new = get_start_of_the_day_epoch(days_offset_new)
-    query += "AND date <= {offset_new} ".format(offset_new = offset_new)
+    query += "AND p.date <= {offset_new} ".format(offset_new = offset_new)
   if bid == -1:
     query += ")"
   else:
-    query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
+    query += "AND pid IN (SELECT rowid FROM players p WHERE p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}'))".format(bid = bid)
   return db_read(query)
+
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
