@@ -121,17 +121,18 @@ def update_player(data):
   command = ""
   uid = int(data['uid'])
   bids = data.get('brands', '')
-  if bids:
-    if not re.match(r'[\d+\,]+', bids):
-      return
-  command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age}, bids = '{bids}' WHERE uid = {uid}".format(
-    uid = uid,
+  command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age} ".format(
     region = int(data['demography']['region']),
     city = int(data['demography']['city']),
     sex = int(data['demography']['sex']),
     age = int(data['demography']['age']),
-    bids = bids
   )
+  if bids:
+    if not re.match(r'[\d+\,]+', bids) and bids != '':
+      return
+    command += ", bids = '{bids}' ".format(bids = bids)
+
+  command += "WHERE uid = {uid}".format(uid = uid)
   db_write(command)
 
 
@@ -373,7 +374,7 @@ def submit_vote():
   # tguid = int(data['tguid'])
   bids = json.dumps(data['brands'])[1:-1]  # cut braces
   bids = bids.replace(' ', '')
-  if not re.match(r'[\d+\,]+', bids):
+  if not re.match(r'[\d+\,]+', bids) and bids != '':
     return
 
   command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
@@ -468,11 +469,11 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT COUNT(*) FROM players"
+  query = "SELECT COUNT(*) FROM players WHERE bids != ''"
   players_total = db_read(query)
 
   bid = int(request.args.get('bid'))
-  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = ''".format(bid = bid)
+  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
   players_brand = db_read(query)
 
   result = {"code": 200, "result": {

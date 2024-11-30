@@ -420,7 +420,7 @@ async function play() {
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = '<b>Сегодня нет розыгрышей для вас</b><p style="margin-top: 10px;">Но вы можете пройти в "Настройки" (это последний экран) и отметить там: "Магнит Косметик", "Лента", "Улыбка радуги", "DNS" и другие ваши любимые бренды, а затем закрыть мини-приложение и снова нажать кнопку "Играть"</p>';
+    explain.innerHTML = '<b>Сегодня нет розыгрышей для вас</b><p style="margin-top: 10px;">Но вы можете пройти в "Настройки" (это последний экран) и отметить там: "Магнит Косметик", "Лента", "Улыбка радуги" и другие ваши любимые бренды, а затем закрыть это мини-приложение и снова нажать в боте кнопку "Играть".</p>';
     explain.style.display = 'block';
     explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
