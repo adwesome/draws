@@ -118,6 +118,9 @@ async function collect_demography_data_from_form() {
   if (tguid)
     r['tguid'] = tguid;
 
+  if (d.region == 10 && d.city == 11)
+    init_orgs_poll();
+
   const result = JSON.stringify(r);
   save_into_local_storage('choices3', result);
   return await save_into_remote_storage('/register/player/demography', result);

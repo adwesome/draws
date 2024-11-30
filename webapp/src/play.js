@@ -56,7 +56,7 @@ async function create_drawings_list() {
       if (ch.demography.region == 10 && ch.demography.city == 11)
         init_orgs_poll();
 
-      if (JSON.stringify(ch.brands) == JSON.stringify([55, 107, 112]) && ch.demography.region == 10)
+      if (ch.brands.length == 3 && ch.demography.region == 10)
         document.getElementById('fill_data').innerHTML += '<div class="alert alert-primary" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
     }
   }
