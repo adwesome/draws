@@ -57,7 +57,7 @@ async function create_drawings_list() {
         init_orgs_poll();
 
       if (JSON.stringify(ch.brands) == JSON.stringify([55, 107, 112]) && ch.demography.region == 10)
-        document.getElementById('fill_data').innerHTML += '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
+        document.getElementById('fill_data').innerHTML += '<div class="alert alert-primary" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
     }
   }
 
