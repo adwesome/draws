@@ -327,11 +327,16 @@ async function run_progress_bar(seconds) {
       await sleep(4200);
       swiper_outer.slideTo(1, 2000, false);
 
+      await sleep(2000);
       const ch5 = JSON.parse(localStorage.getItem('choices5')) || {};
-      if (ch5)
+      if (ch5) {
         if (ch5.demography)
           if (ch5.demography.region == -1)
             swiper_outer.slideTo(2, 2000, false);
+        if (ch5.brands)
+          if (ch5.brands.length == 3)
+            swiper_outer.slideTo(2, 2000, false);
+      }
       
     }
   }, seconds * 1000 / 100);
