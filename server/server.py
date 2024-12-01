@@ -100,8 +100,8 @@ def convert_to_dict(data):
 # REGISTER PLAYER AND SELECT BRANDS
 ###
 def create_player(tguid):
-  date_created = int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000)  # ms
-  uid = date_created
+  uid = int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000)  # ms
+  date_created = int(uid / 1000)
   command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}')".format(
     uid = uid,
     date_created = date_created,
