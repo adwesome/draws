@@ -290,3 +290,7 @@ h4 {
   border: 1px solid gray;
   background: cornsilk;
 }
+
+.available {
+  background: palegreen;
+}

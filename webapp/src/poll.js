@@ -154,12 +154,18 @@ function draw_orgs() {
   //result += `<p>${get_uid()}</p>`;
   const new_existing_choices = get_items_from_local_storage('choices5');
 
+  // temp
+  const orgs_available = [55, 112, 107];
+
   for (key in c) {
     result += `<h4>${key}</h4>`;
     result += '<ul>';
     const em = categories[key];
     em.forEach((e) => {
-      result += `<li><label><input type="checkbox" id="orgs-${e[0]}" value="${e[0]}"`;
+      result += `<li><label`
+      if (orgs_available.includes(e[0]))
+        result += ' class="available"';
+      result += `><input type="checkbox" id="orgs-${e[0]}" value="${e[0]}"`;
 
       if (new_existing_choices.brands.includes(e[0]))
         result += ' checked';
