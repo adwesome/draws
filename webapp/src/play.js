@@ -128,7 +128,7 @@ async function create_drawings_list() {
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
-      // 3. 
+      // 3. https://vk.com/segezhadays?w=wall-78535365_59596
     }
 
     if (date_participated == date_yesterday) {
