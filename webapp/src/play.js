@@ -81,8 +81,8 @@ async function create_drawings_list() {
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
     const date = new Date(parseInt(campaign[5]) * 1000);
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
+    const day = date.getDate().toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
     const date_participated = date.toISOString().split('T')[0];
     const chance = campaign[2];
     const brand = campaign[3];
