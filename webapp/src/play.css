@@ -292,5 +292,8 @@ h4 {
 }
 
 .available {
-  background: palegreen;
+  background: limegreen;
+}
+.available > .address {
+  color: black;
 }
