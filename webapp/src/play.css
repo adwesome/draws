@@ -216,11 +216,12 @@ h3 {
   z-index: 50;
   top: 18vh;
   text-align: center;
-  padding: 0 5%;
+  padding-: 0 5%;
   font-size: 0.85em;
   visibility: hidden;
   height-: 50vh;
   overflow-y: scroll;
+  background: #003b96;
 }
 
 #third_screen {
