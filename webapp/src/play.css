@@ -222,6 +222,7 @@ h3 {
   height-: 50vh;
   overflow-y: scroll;
   background: #003b96;
+  background: transparent;
 }
 
 #third_screen {
