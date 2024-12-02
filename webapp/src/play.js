@@ -124,7 +124,7 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`;
       if (status >= 1) {
         html_past += `<br><a href="${gift}" target="_blank">Забрать подарок</a>`;
-        html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если вы сообщите о своем выигрыше в комментарии под <a href="https://vk.com/segezhadays?w=wall-78535365_59466" target="_blank">постом</a> &mdash; чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
+        html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если вы сообщите о своем выигрыше в комментарии под <a href="https://vk.com/segezhadays?w=wall-78535365_59596" target="_blank">постом</a> &mdash; чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
