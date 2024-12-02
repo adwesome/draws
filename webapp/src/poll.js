@@ -155,7 +155,7 @@ function draw_orgs() {
   const new_existing_choices = get_items_from_local_storage('choices5');
 
   // temp
-  const orgs_available = [55, 112, 107];
+  const orgs_available = [55, ];
 
   for (key in c) {
     result += `<h4>${key}</h4>`;
