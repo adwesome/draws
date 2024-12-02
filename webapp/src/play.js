@@ -129,7 +129,7 @@ async function create_drawings_list() {
         html_past += `, и среди них &mdash; вы! `;
       if (status >= 1) {
         html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
-        html_past += `<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p><p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же удачливых людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+        html_past += `<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p><p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же удачливых людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://t.me/adte_bot" target="_blank">@adte_bot https://t.me/adte_bot</a>. Спасибо!</p>`;
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
