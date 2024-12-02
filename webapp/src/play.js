@@ -121,10 +121,10 @@ async function create_drawings_list() {
     }
     if (date_participated < date_today) {
       html_past += `</span>`;
-      html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>, и вы &mdash; среди них! `;
+      html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>, и среди них &mdash; вы! `;
       if (status >= 1) {
         html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
-        //html_past += `<p style="font-size: 0.85em;">Поздравляем! Вы &mdash; счастливчик! Мы также были бы вам особенно признательны, если вы сообщите о своем выигрыше в комментарии под <a href="https://vk.com/segezhadays?w=wall-78535365_59596" target="_blank">постом</a> &mdash; чтобы другие видели, что розыгрыш настоящий, что это не обман. Спасибо!</p>`;
+        html_past += `<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p><p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же удачливых людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688

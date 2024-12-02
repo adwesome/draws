@@ -301,3 +301,7 @@ h4 {
 .available > .address {
   color: black;
 }
+
+.congrats {
+  font-size: 0.85em;
+}
