@@ -384,14 +384,10 @@ function enable_swipe() {
 }
 
 
-function remove_canvas(canvas) {
-  if (!canvas)
-    return;
-  if (!canvas.parentNode)
-    return;
-
-  canvas.parentNode.removeChild(canvas);
-  document.getElementById('js-canvas-explain').remove();
+function remove_canvas() {
+  ['js-canvas', 'js-canvas-explain'].forEach((id) => {
+    document.getElementById(id).remove();  
+  });
 }
 
 
@@ -412,13 +408,12 @@ async function play() {
     return reset_uid_and_restart(participates.uid, tguid);
 
   if (participates.result.length && participates.result.length != 0) {  // if participated already
-    if (document.getElementById('js-canvas-explain'))
-      document.getElementById('js-canvas-explain').remove();
     ad_element.style.visibility = 'visible';
     ad_explain.style.visibility = 'visible';
     //await calculate_percent(cid);
     enable_swipe();
     enable_flip();
+    remove_canvas();
 
     const campaign = participates.result[0];
     const ad = campaign[1];
@@ -513,7 +508,7 @@ async function play() {
   canvas.addEventListener('touchend', handleMouseUp, false);
 
   canvas.addEventListener('transitionend', async function() {
-    remove_canvas(canvas);
+    remove_canvas();
     await run_progress_bar();
     await submit_participation({'uid': uid, 'tguid': get_tguid_from_url(), 'cid': cid});
     //await calculate_percent(cid);
