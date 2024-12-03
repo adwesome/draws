@@ -295,12 +295,17 @@ h4 {
   background: cornsilk;
 }
 
+.available, .preparing {
+  border-radius: 5px;
+  padding: 0 4px 0 5px;
+}
 .available {
   background: limegreen;
-  border-radius: 5px;
-  padding: 0 4px;
 }
-.available > .address {
+.preparing {
+  background: gold;
+}
+.available > .address, .preparing > .address {
   color: black;
 }
 
