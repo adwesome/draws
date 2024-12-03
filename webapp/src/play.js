@@ -81,9 +81,12 @@ async function create_drawings_list() {
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
     const date = new Date(parseInt(campaign[5]) * 1000);
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
-    const day = date.getDate().toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
+    //console.log(i, date, date.toISOString())
+    //const month = (date.getMonth() + 1).toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
+    //const day = date.getDate().toString().padStart(2, "0");  // https://stackoverflow.com/questions/6040515/how-do-i-get-month-and-date-of-javascript-in-2-digit-format
     const date_participated = date.toISOString().split('T')[0];
+    const month = date_participated.split('-')[1];
+    const day = date_participated.split('-')[2];
     const chance = campaign[2];
     const brand = campaign[3];
     const status = campaign[4];
@@ -121,7 +124,9 @@ async function create_drawings_list() {
     }
     if (date_participated < date_today) {
       html_past += `</span>`;
-      html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>, и среди них &mdash; вы! `;
+      html_past += `${chance}% участников выиграли подарки от <b>${brand}</b> `
+      if (status >= 1)
+        html_past += `, и среди них &mdash; вы! `;
       if (status >= 1) {
         html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
         html_past += `<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p><p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же удачливых людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
@@ -435,7 +440,7 @@ async function play() {
   
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
-    explain.innerHTML = '<b>На сегодня нет розыгрышей (среди выбранных вами брэндов), в которых вы ещё не участвовали</b><p style="margin-top: 10px;">Но вы всё ещё можете пройти в "Настройки" (это последний экран) и отметить там: "Магнит Косметик", "Лента", "Улыбка радуги" (а также другие ваши любимые бренды), а затем закрыть это мини-приложение и снова нажать в боте на кнопку "Играть" 👍</p>';
+    explain.innerHTML = '<b>На сегодня нет розыгрышей (среди выбранных вами брэндов), в которых вы ещё не участвовали</b><p style="margin-top: 10px;">Но вы всё ещё можете пройти в "Настройки" (это последний экран) и отметить там: "Лента" (а также другие ваши любимые бренды), а затем закрыть это мини-приложение и снова нажать в боте на кнопку "Играть" 👍</p>';
     explain.style.display = 'block';
     explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
