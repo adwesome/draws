@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 DB_NAME = 'adte.db'
+TIMESTAMP_BEGINNING = 1732843800
 
 
 def get_start_of_the_day_epoch(days_offset):  # incorrect, but fine to go
@@ -213,13 +214,11 @@ def check_if_pid_participates_in_cid(pid, cid):
   return True
 
 
-def check_if_pid_participates_today(pid):  # incorrrect start and finish
+def check_if_pid_participates_today(pid):
   date_now = get_today_datetime().date()
   date_tomorrow = get_tomorrow_datetime().date()
-  # fix these dates - they need to be epoch2 start and end
-  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp())
-  date_finish = int(datetime.datetime(date_tomorrow.year, date_tomorrow.month, date_tomorrow.day).timestamp() - 1)
-  # print(111)
+  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp() + 3600 + 1800)
+  date_finish = int(datetime.datetime(date_tomorrow.year, date_tomorrow.month, date_tomorrow.day).timestamp() + 3600 + 1800 - 1)
   command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} AND p.date < {date_finish}".format(pid = pid, date_start = date_start, date_finish = date_finish)
   return db_read(command)
 
@@ -263,21 +262,23 @@ def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch2()
   query = "SELECT bids FROM players WHERE rowid = {pid}".format(pid = pid)
   bids = db_read(query)[0][0]
+  if not bids:
+    return
 
   query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
           JOIN orgs o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
           AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) ".format(pid = pid)
-  if bids:
-    query += "AND b.rowid IN ({bids}) ".format(bids = bids)
-
+  
+  query += "AND b.rowid IN ({bids}) ".format(bids = bids)
   query += "AND c.date_start <= {date_now} \
-          AND c.date_end > {date_now} ".format(date_now = date_now)
+            AND c.date_end > {date_now} ".format(date_now = date_now)
   return db_read(query)
 
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
+  print("this")
   date_now = get_today_epoch2()
   query = "SELECT c.rowid, c.ad, c.chance, o.name FROM cam c \
           JOIN orgs o ON c.oid = o.rowid \
@@ -456,11 +457,13 @@ def get_stats_players():
 # CAM CONTROL
 ##
 def calc_players(bid, days_offset_old, days_offset_new = None):
+  print(days_offset_old, days_offset_new)
   offset_old = get_start_of_the_day_epoch(days_offset_old)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
   if days_offset_new is not None:
     offset_new = get_start_of_the_day_epoch(days_offset_new)
-    query += "AND p.date <= {offset_new} ".format(offset_new = offset_new)
+    query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
+  query += "AND date >= {} ".format(TIMESTAMP_BEGINNING)
   if bid == -1:
     query += ")"
   else:
@@ -470,9 +473,8 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
 
 def calc_players_brand_total(bid):
   # offset_old = get_start_of_the_day_epoch(0)
-  date_cam_start = 1732843800
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE 1=1 "
-  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = date_cam_start)
+  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = TIMESTAMP_BEGINNING)
   return db_read(query)
 
 
@@ -483,17 +485,74 @@ def calc_players_brand_today(bid):  # check that optimal
   return db_read(query)
 
 
+def get_values_from_query(query_result):
+  result = []
+  for each in query_result:
+    result.append(each[0])
+  return result
+
+
+def get_cohorts():
+  date_final = get_start_of_the_day_epoch(0)
+  step = 86400
+  date_start = TIMESTAMP_BEGINNING
+  cohorts = []
+  pids_existing = []
+  while date_start < date_final + step:
+    print('existing', pids_existing)
+    date_end = date_start + step
+    query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start} AND date < {date_end} ".format(date_start = date_start, date_end = date_end)
+    query += "AND pid not in ({})".format(','.join(map(str, pids_existing)))
+    q = db_read(query)
+    pids = get_values_from_query(q)
+
+    print('pids', pids)
+    new_pids = []
+    for pid in pids:
+      if pid not in pids_existing:
+        new_pids.append(pid)
+
+    print('new', new_pids)
+    cohort = []
+    date_start2 = date_start
+    while date_start2 < date_final + step:
+      date_end2 = date_start2 + step
+      query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start2} AND date < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
+      query += "AND pid in ({})".format(','.join(map(str, new_pids)))
+      q = db_read(query)
+      pids2 = get_values_from_query(q)
+      cohort.append(len(pids2))
+      date_start2 = date_end2
+
+    cohorts.append(cohort)
+    pids_existing = pids_existing + pids
+    print('existing >>', pids_existing)
+    date_start = date_end
+
+  return cohorts
+
+
+def calc_churned():
+  query = "SELECT COUNT(*) FROM players WHERE churned_since IS NOT NULL"
+  return db_read(query)[0]
+
+
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT COUNT(*) FROM players WHERE bids != ''"
-  players_total = db_read(query)
+  query = "SELECT DISTINCT pid FROM par WHERE date >= {}".format(TIMESTAMP_BEGINNING)
+  pids_unique = db_read(query)
+
+  cohorts = get_cohorts()
 
   bid = int(request.args.get('bid'))
-  query = "SELECT COUNT(*) FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%'".format(bid = bid)
+  query = "SELECT COUNT(*) FROM players WHERE 1=1 "
+  query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {})".format(TIMESTAMP_BEGINNING)
   players_brand = db_read(query)
 
   result = {"code": 200, "audience": {
-      "players_total": players_total[0][0],
+      "players_total": len(pids_unique),
+      "players_churned": calc_churned(),
       "players_brand": players_brand[0][0],
       "players_today": calc_players(bid, 0)[0][0],
       "players_yesterday": calc_players(bid, 1, 0)[0][0],
@@ -505,6 +564,7 @@ def get_control_data():
     "campaign": {
       "par_total": calc_players_brand_total(bid),
       "par_today": calc_players_brand_today(bid),
-    }
+    },
+    "cohorts": cohorts
   }
   return send_response(result)
