@@ -464,13 +464,12 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
     offset_new = get_start_of_the_day_epoch(days_offset_new)
     query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
   query += "AND date >= {} ".format(TIMESTAMP_BEGINNING)
-  if bid == -1:
-    query += ")"
-  else:
-    query += "AND pid IN ("
-    query += "SELECT rowid FROM players p WHERE p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}' ".format(bid = bid)
-    query += "AND churned_since IS NULL"
-    query += "))"
+  query += "AND pid IN ("
+  query += "SELECT rowid FROM players p WHERE 1=1 "
+  query += "AND churned_since IS NULL "
+  if bid != -1:
+    query += "AND p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}'".format(bid = bid)
+  query += "))"
   return db_read(query)
 
 
