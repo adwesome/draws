@@ -505,7 +505,8 @@ def get_cohorts(bid):
     date_end = date_start + step
     query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start} AND date < {date_end} ".format(date_start = date_start, date_end = date_end)
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
-    query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+    if bid != -1:
+      query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
     # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
     q = db_read(query)
     pids = get_values_from_query(q)
@@ -521,7 +522,8 @@ def get_cohorts(bid):
       date_end2 = date_start2 + step
       query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start2} AND date < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
       query += "AND pid in ({}) ".format(','.join(map(str, new_pids)))
-      query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+      if bid != -1:
+        query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
       # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
       q = db_read(query)
       pids2 = get_values_from_query(q)
@@ -547,7 +549,8 @@ def get_control_data():
 
   bid = int(request.args.get('bid'))
   query = "SELECT COUNT(*) FROM players WHERE 1=1 "
-  query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+  if bid != -1:
+    query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
   query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {}) ".format(TIMESTAMP_BEGINNING)
   query += "AND churned_since IS NULL "
   players_brand = db_read(query)
