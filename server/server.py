@@ -103,7 +103,7 @@ def convert_to_dict(data):
 def create_player(tguid):
   uid = int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000)  # ms
   date_created = int(uid / 1000)
-  command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}')".format(
+  command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}', NULL)".format(
     uid = uid,
     date_created = date_created,
     region = -1,
@@ -402,6 +402,7 @@ def get_votes():
 def get_uid():
   tguid = request.args.get('tguid')
   query = "SELECT uid FROM players WHERE tguid = {}".format(tguid)
+  # add unblock here
   uid = db_read(query)
   if not uid:
     result = {"code": 200, "uid": create_player(tguid)}
