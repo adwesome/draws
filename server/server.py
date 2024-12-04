@@ -467,7 +467,10 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
   if bid == -1:
     query += ")"
   else:
-    query += "AND pid IN (SELECT rowid FROM players p WHERE p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}'))".format(bid = bid)
+    query += "AND pid IN ("
+    query += "SELECT rowid FROM players p WHERE p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}' ".format(bid = bid)
+    query += "AND churned_since IS NULL"
+    query += "))"
   return db_read(query)
 
 
@@ -502,7 +505,7 @@ def get_cohorts():
     print('existing', pids_existing)
     date_end = date_start + step
     query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start} AND date < {date_end} ".format(date_start = date_start, date_end = date_end)
-    query += "AND pid not in ({})".format(','.join(map(str, pids_existing)))
+    query += "AND pid not in ({}) ".format(','.join(map(str, pids_existing)))
     q = db_read(query)
     pids = get_values_from_query(q)
 
@@ -547,12 +550,17 @@ def get_control_data():
   bid = int(request.args.get('bid'))
   query = "SELECT COUNT(*) FROM players WHERE 1=1 "
   query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
-  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {})".format(TIMESTAMP_BEGINNING)
+  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {}) ".format(TIMESTAMP_BEGINNING)
+  query += "AND churned_since IS NULL "
   players_brand = db_read(query)
 
+  players_total = len(pids_unique)
+  players_churned = calc_churned()[0]
+  players_total_active = players_total - players_churned
   result = {"code": 200, "audience": {
-      "players_total": len(pids_unique),
-      "players_churned": calc_churned(),
+      "players_total": players_total,
+      "players_churned": players_churned,
+      "players_total_active": players_total_active,
       "players_brand": players_brand[0][0],
       "players_today": calc_players(bid, 0)[0][0],
       "players_yesterday": calc_players(bid, 1, 0)[0][0],
