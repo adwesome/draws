@@ -142,7 +142,8 @@ async function create_drawings_list() {
   }
 
   html_past += '</div>';
-  html_past = '<div id="chart-wrapper"><canvas id="chart-stats"></canvas></div>' + html_past;
+  if (past_counter)
+    html_past = '<div id="chart-wrapper"><canvas id="chart-stats"></canvas></div>' + html_past;
 
   if (wins)
     html_past = `<p class="stats-clarify">Вы выиграли ${wins} из ${wins + lost} раз, когда вы участвовали (т.е., на данный момент, вы выигрываете в ${Math.round(wins * 100 / (wins + lost))}% случаев, если участвуете)</p>` + html_past;
@@ -212,10 +213,10 @@ async function play_demo() {
   await sleep(2000);
   swiper_outer.slideTo(1, 2000, false);
   await sleep(2000);
-  swiper_outer.slideTo(2, 2000, false);
-  await sleep(2000);
-  swiper_outer.slideTo(1, 2000, false);
-  await sleep(2000);
+  //swiper_outer.slideTo(2, 2000, false);
+  //await sleep(2000);
+  //swiper_outer.slideTo(1, 2000, false);
+  //await sleep(2000);
   swiper_outer.slideTo(0, 2000, false);
 }
 
@@ -332,6 +333,7 @@ async function run_progress_bar(seconds) {
       await sleep(4200);
       swiper_outer.slideTo(1, 2000, false);
 
+      /*
       await sleep(2000);
       const ch5 = JSON.parse(localStorage.getItem('choices5')) || {};
       if (ch5) {
@@ -339,9 +341,10 @@ async function run_progress_bar(seconds) {
           if (ch5.demography.region == -1)
             swiper_outer.slideTo(2, 2000, false);
         if (ch5.brands)
-          if (ch5.brands.length == 3)
+          if (ch5.brands.length == 1)
             swiper_outer.slideTo(2, 2000, false);
       }
+      */
       
     }
   }, seconds * 1000 / 100);
