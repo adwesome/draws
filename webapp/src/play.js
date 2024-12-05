@@ -470,7 +470,7 @@ async function play() {
   var isDrawing, lastPoint;
   var container    = document.getElementById('js-container'),
       // canvas       = document.getElementById('js-canvas'),
-      canvasWidth  = canvas.width,
+      canvasWidth  = canvas.width + 33 * 1,
       canvasHeight = canvas.height,
       ctx          = canvas.getContext('2d', { willReadFrequently: true }),
       image        = new Image(),
@@ -478,12 +478,17 @@ async function play() {
       // console.log(canvasWidth, canvasHeight)
   // base64 Workaround because Same-Origin-Policy
   const images = [ // https://www.vecteezy.com/free-vector/scratch-texture
+    'img/scratch-cyan.jpg',
+    'img/scratch-black.jpg',
+    'img/scratch-black-jeans.jpg',
+    'img/scratch-golden.jpg',
     'img/scratch-silver.jpg',
+    'img/scratch-gray.jpg',
     //'img/scratch-rainbow.jpg',
   ];
-  //const b = choice(images.length);
-  //image.src = images[b];
-  image.src = images[0];
+  const b = choice(images.length);
+  image.src = images[b];
+  //image.src = images[0];
   const shift = 0;
   image.onload = function() {
     /*
