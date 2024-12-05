@@ -404,17 +404,18 @@ def get_votes():
 @app.route('/get/uid', methods=['GET'])
 def get_uid():
   tguid = request.args.get('tguid')
-  query = "SELECT uid FROM players WHERE tguid = {}".format(tguid)
-  # add unblock here
+  query = "SELECT uid, churned_since FROM players WHERE tguid = {}".format(tguid)
   uid = db_read(query)
   if not uid:
     result = {"code": 200, "uid": create_player(tguid)}
   else:
+    if uid[0][1]:  # if was churned, then unblock to allow notifications
+      query = "UPDATE players SET churned_since = NULL WHERE uid = {}".format(uid[0][0])
+      db_write(query)
     result = {"code": 200, "uid": uid[0][0]}
+
   return send_response(result)
 
-
-import re
 
 @app.route('/get/player/choices', methods=['GET'])
 def get_player_choices():
