@@ -111,7 +111,7 @@ def create_player(tguid):
     sex = -1,
     age = -1,
     tguid = tguid,
-    bids = '55,107,112',  # test run 2 default bids
+    bids = '55',  # test run 3 default bids
     # bids = '',  # empty brands for yet
   )
   db_write(command)
@@ -201,6 +201,9 @@ def create_player_participation(data):
   gift = ''
   if status == 1:
     gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49'
+  # temporary manual
+  status = 0
+  gift = ''
   date_now = get_today_epoch2()
   command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
   db_write(command)
