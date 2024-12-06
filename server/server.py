@@ -219,7 +219,7 @@ def check_if_pid_participates_in_cid(pid, cid):
 
 def check_if_pid_participates_today(pid):
   date_now = get_today_datetime().date()
-  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp()) + 4 * 3600 + 1800
+  date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp()) + 1 * 3600 + 1800
   date_finish = date_start + 86400 - 1
   # print(get_today_datetime(), date_start, datetime.datetime.utcfromtimestamp(date_start).strftime('%Y-%m-%d %H:%M:%S'))
   # print(date_finish, datetime.datetime.utcfromtimestamp(date_finish).strftime('%Y-%m-%d %H:%M:%S'))
