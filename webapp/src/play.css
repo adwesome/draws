@@ -220,7 +220,7 @@ h3 {
   font-size: 0.85em;
   visibility: hidden;
   height-: 50vh;
-  overflow-y: scroll;
+  overflow-y-: scroll;
   background: #003b96;
   background: transparent;
 }
