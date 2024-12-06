@@ -479,11 +479,11 @@ async function play() {
   // base64 Workaround because Same-Origin-Policy
   const images = [ // https://www.vecteezy.com/free-vector/scratch-texture
     'img/scratch-cyan.jpg',
-    'img/scratch-black.jpg',
-    'img/scratch-black-jeans.jpg',
+    //'img/scratch-black.jpg',
+    //'img/scratch-black-jeans.jpg',
     'img/scratch-golden.jpg',
-    'img/scratch-silver.jpg',
-    'img/scratch-gray.jpg',
+    //'img/scratch-silver.jpg',
+    //'img/scratch-gray.jpg',
     //'img/scratch-rainbow.jpg',
   ];
   const b = choice(images.length);
