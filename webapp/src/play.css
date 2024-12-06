@@ -312,3 +312,7 @@ h4 {
 .congrats {
   font-size: 0.85em;
 }
+
+#rating_header, #rating_intro {
+  display: none;
+}

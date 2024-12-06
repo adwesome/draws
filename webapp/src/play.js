@@ -186,6 +186,12 @@ async function create_drawings_list() {
     document.getElementById('past').innerHTML = document.getElementById('past').innerHTML + html_past;
   if (wins || lost || not)
     draw_chart(wins, lost, not);
+
+  if (past_counter > 2 && past_counter < 8) {
+    document.getElementById('rating_header').style.display = 'block';
+    document.getElementById('rating_intro').style.display = 'block';
+  }
+
 }
 
 
