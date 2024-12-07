@@ -275,7 +275,7 @@ def get_brands_for_me_for_today(pid):
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
           AND c.rowid NOT IN (\
-            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.TYPE = 0 AND p.pid = {pid}\
+            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.type = 0 AND p.pid = {pid}\
           ) ".format(pid = pid)
   
   query += "AND b.rowid IN ({bids}) ".format(bids = bids)
@@ -293,7 +293,7 @@ def get_campaigns_for_brand_and_pid_for_today(pid, bid):
           and c.date_end > {date_now} \
           AND o.bid = {bid} \
           AND c.rowid NOT IN (\
-            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.TYPE = 0 AND p.pid = {pid}\
+            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.type = 0 AND p.pid = {pid}\
           )".format(pid = pid, bid = bid, date_now = date_now)
   return db_read(query)
 
