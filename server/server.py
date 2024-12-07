@@ -21,7 +21,7 @@ def get_today_epoch():
   return int(get_today_datetime().timestamp())
 
 
-def get_today_epoch2():
+def get_today_epoch2():  #fix this
   # return int(get_today_datetime().timestamp())
   return int(datetime.datetime.now(datetime.timezone.utc).timestamp())
 
@@ -189,12 +189,12 @@ def get_chance_from_cam_by_cid(cid):
   return db_read(query)[0][0]
 
 
-def create_player_participation(data):
+def create_player_participation(data):  # fix this get_today_epoch2
   pid = read_pid(data)
   cid = int(data['cid'])
   if not pid or not cid:
     return
-  if check_if_pid_participates_in_cid(pid, cid):  # do not duplicate records
+  if check_if_pid_participates_in_non_repeatable_cid(pid, cid):
     return
   chance = get_chance_from_cam_by_cid(cid)
   status = get_status_by_chance(chance)
@@ -209,8 +209,9 @@ def create_player_participation(data):
   db_write(command)
 
 
-def check_if_pid_participates_in_cid(pid, cid):
-  command = "SELECT * FROM par WHERE pid = {pid} AND cid = {cid}".format(pid = pid, cid = cid)
+def check_if_pid_participates_in_non_repeatable_cid(pid, cid):
+  # type = 0 - non-repeatable, 1 - repeatable
+  command = "SELECT * FROM par WHERE pid = {pid} AND cid IN (SELECT rowid FROM cam WHERE rowid = {cid} AND type = 0)".format(pid = pid, cid = cid)
   participants = db_read(command)
   if not participants:
     return False
@@ -273,7 +274,9 @@ def get_brands_for_me_for_today(pid):
           JOIN orgs o ON o.rowid = c.oid \
           JOIN brands b ON b.rowid = o.bid \
           WHERE 1=1 \
-          AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid}) ".format(pid = pid)
+          AND c.rowid NOT IN (\
+            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.TYPE = 0 AND p.pid = {pid}\
+          ) ".format(pid = pid)
   
   query += "AND b.rowid IN ({bids}) ".format(bids = bids)
   query += "AND c.date_start <= {date_now} \
@@ -282,7 +285,6 @@ def get_brands_for_me_for_today(pid):
 
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
-  print("this")
   date_now = get_today_epoch2()
   query = "SELECT c.rowid, c.ad, c.chance, o.name FROM cam c \
           JOIN orgs o ON c.oid = o.rowid \
@@ -290,7 +292,9 @@ def get_campaigns_for_brand_and_pid_for_today(pid, bid):
           and c.date_start <= {date_now} \
           and c.date_end > {date_now} \
           AND o.bid = {bid} \
-          AND c.rowid NOT IN (SELECT cid FROM par WHERE pid = {pid})".format(pid = pid, bid = bid, date_now = date_now)
+          AND c.rowid NOT IN (\
+            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.TYPE = 0 AND p.pid = {pid}\
+          )".format(pid = pid, bid = bid, date_now = date_now)
   return db_read(query)
 
 
@@ -511,7 +515,7 @@ def get_cohorts(bid):
     query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start} AND date < {date_end} ".format(date_start = date_start, date_end = date_end)
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
     if bid != -1:
-      query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+      query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
     # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
     q = db_read(query)
     pids = get_values_from_query(q)
@@ -528,7 +532,7 @@ def get_cohorts(bid):
       query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start2} AND date < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
       query += "AND pid in ({}) ".format(','.join(map(str, new_pids)))
       if bid != -1:
-        query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+        query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
       # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
       q = db_read(query)
       pids2 = get_values_from_query(q)
@@ -555,7 +559,7 @@ def get_control_data():
   bid = int(request.args.get('bid'))
   query = "SELECT COUNT(*) FROM players WHERE 1=1 "
   if bid != -1:
-    query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%') ".format(bid = bid)
+    query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
   query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {}) ".format(TIMESTAMP_BEGINNING)
   query += "AND churned_since IS NULL "
   players_brand = db_read(query)
