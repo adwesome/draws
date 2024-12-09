@@ -484,7 +484,7 @@ async function play() {
       // console.log(canvasWidth, canvasHeight)
   // base64 Workaround because Same-Origin-Policy
   const images = [ // https://www.vecteezy.com/free-vector/scratch-texture
-    'img/scratch-cyan.jpg',
+    //'img/scratch-cyan.jpg',
     //'img/scratch-black.jpg',
     //'img/scratch-black-jeans.jpg',
     'img/scratch-golden.jpg',
@@ -591,7 +591,8 @@ async function play() {
     if (!isDrawing) { return; }
     
     e.preventDefault();
-    document.getElementById('js-canvas-explain').classList.add('animate');
+    //document.getElementById('js-canvas-explain').classList.add('animate');
+    document.getElementById('js-canvas-explain').style.background = 'white';
 
     var currentPoint = getMouse(e, canvas),
         dist = distanceBetween(lastPoint, currentPoint),

@@ -142,7 +142,7 @@ h3 {
 #js-canvas-explain {
   z-index: 150;
   position: absolute;
-  padding: 0;
+  padding-: 0;
   color: #424242;
   display: none;
   left: 50%;
