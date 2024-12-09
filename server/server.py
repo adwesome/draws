@@ -111,7 +111,7 @@ def create_player(tguid):
     sex = -1,
     age = -1,
     tguid = tguid,
-    bids = '55',  # test run 3 default bids
+    bids = '55,107,119',  # test run 3 default bids
     # bids = '',  # empty brands for yet
   )
   db_write(command)

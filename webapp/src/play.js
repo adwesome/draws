@@ -187,7 +187,7 @@ async function create_drawings_list() {
   if (wins || lost || not)
     draw_chart(wins, lost, not);
 
-  if (past_counter > 2 && past_counter < 8) {
+  if (past_counter >= 2 && past_counter < 6) {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
   }
