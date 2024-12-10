@@ -484,15 +484,21 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
 
 
 def calc_players_brand_total(bid):
+  date_begin_9_dec = 1733707800
   # offset_old = get_start_of_the_day_epoch(0)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE 1=1 "
-  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = TIMESTAMP_BEGINNING)
+  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = date_begin_9_dec)
   return db_read(query)
 
 
-def calc_players_brand_today(bid):  # check that optimal
-  offset_old = get_start_of_the_day_epoch(0)
+def calc_players_brand_today(bid, offset):  # check that optimal
+  offset_old = get_start_of_the_day_epoch(offset)
+  if offset:
+    offset_new = get_start_of_the_day_epoch(offset - 1)
+
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
+  if offset:
+    query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
   query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
   return db_read(query)
 
@@ -582,7 +588,8 @@ def get_control_data():
     },
     "campaign": {
       "par_total": calc_players_brand_total(bid),
-      "par_today": calc_players_brand_today(bid),
+      "par_today": calc_players_brand_today(bid, 0),
+      "par_yesterday": calc_players_brand_today(bid, 1),
     },
     "cohorts": cohorts
   }
