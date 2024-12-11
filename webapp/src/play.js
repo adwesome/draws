@@ -147,7 +147,8 @@ async function create_drawings_list() {
 
     if (date_participated == date_yesterday) {
       html_just = html_past + '</p>';
-      html_just += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://t.me/share/url?url=https://t.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+      if (wins)
+        html_just += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://t.me/share/url?url=https://t.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
     }
   }
 
