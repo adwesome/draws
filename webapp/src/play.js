@@ -202,10 +202,15 @@ async function create_drawings_list() {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
   }
-  if (past_counter >= 12 && !wins && ch.demography.region == 10) {
+  else if (past_counter >= 12 && !wins && ch.demography.region == 10) {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
     document.getElementById('rating_intro').innerHTML = 'Мы видим, что вы давно играете и не выигрывали. Выигрыши сейчас, как раз, идут, в основном, среди таких людей, как вы. Если вы просто продолжите играть, то в ближайшие дни выиграете. Просто хотим вас поблагодарить за ваше упорство и поддержать 🤗'
+  }
+  else if (past_counter >= 6 && past_counter < 12 && !wins && ch.demography.region == -1) {
+    document.getElementById('rating_header').style.display = 'block';
+    document.getElementById('rating_intro').style.display = 'block';
+    document.getElementById('rating_intro').innerHTML = 'Чтобы кратно повысить ваши шансы на выигрыш, заполните секцию "О вас" и "Бренды" (если она появится) в разделе "Настройки" ниже';
   }
 
 }
