@@ -77,11 +77,16 @@
           // global var
           uid = await get_uid(tguid);  // create in case not exists yet
           
-          window.Telegram.WebApp.ready();
-          window.Telegram.WebApp.expand();
-          //window.Telegram.WebApp.requestFullscreen();
-          //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
-          window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
+          try {
+            window.Telegram.WebApp.ready();
+            window.Telegram.WebApp.expand();
+            //window.Telegram.WebApp.requestFullscreen();
+            //window.Telegram.WebApp.setBackgroundColor("#fffaf0");  // floralwhite
+            window.Telegram.WebApp.setHeaderColor("#fffaf0");  // floralwhite
+          } // Error: WebAppHeaderColorKeyInvalid at setHeaderColor
+          catch(error) {
+            ;
+          }
 
           play();
           /*
