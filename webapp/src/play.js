@@ -480,7 +480,10 @@ async function play() {
   if (!localStorage.getItem('onboarding_complete'))
     document.getElementById('js-canvas-explain').style.display = 'block';
 
-  const ad = campaign[1];
+  var ad = campaign[1];
+  if (ad == 'img/ads/ad-lenta.jpg')
+    ad = 'img/ads/ad-lenta-pro.jpg';
+
   const percent = campaign[2];
   ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
   const cid = campaign[0];
@@ -488,6 +491,12 @@ async function play() {
   document.getElementById('who').innerHTML = who;
   document.getElementById('percent').innerHTML = percent;
   // const percent = campaign[3];
+
+  if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer()) {
+    let content = '<p style="margin-top: 0em;">"Лента", "Магнит Косметик" &mdash; розыгрыши каждый день до 31 декабря 2024. "Восточные сладости" &mdash; розыгрыши каждый день до 15 декабря 2024.<br><br>Готовится к участию: "Ювелир Pride"</p>';
+    content += '<p style="font-size: 0.8em;">(если вы хотите поучаствовать в розыгрышах от "Ювелир Pride", когда они начнутся, отметьте этот бренд, пожалуйста, в разделе "Настройки" → "Бренды")</p>';
+    document.getElementById('ad_explain').innerHTML = content;
+  }
 
   var canvas = document.getElementById('js-canvas');
   const canvas_container = document.getElementById('js-container');
