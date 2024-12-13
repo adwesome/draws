@@ -433,7 +433,6 @@ async function play() {
     enable_swipe();
     enable_flip();
     remove_canvas();
-    //tell_em();
 
     const campaign = participates.result[0];
     const ad = campaign[1];
@@ -444,6 +443,10 @@ async function play() {
     document.getElementById('who').innerHTML = who;
     document.getElementById('percent').innerHTML = percent;
     create_drawings_list();
+
+    if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
+      tell_em();
+
     return;
   }
 
