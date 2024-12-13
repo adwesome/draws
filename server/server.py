@@ -221,7 +221,7 @@ def check_if_pid_participates_in_non_repeatable_cid(pid, cid):
 def check_if_pid_participates_today(pid):
   date_now = get_today_datetime().date()
   date_start = int(datetime.datetime(date_now.year, date_now.month, date_now.day).timestamp()) + 1 * 3600 + 1800
-  # date_finish = date_start + 86400 - 1
+  # date_finish = date_start + 86400 - 1  # UTC bug hidden by this comment: I register in UTC but check participation in UTC+1.5, need to fix participation time and then fix this code
   # print(get_today_datetime(), date_start, datetime.datetime.utcfromtimestamp(date_start).strftime('%Y-%m-%d %H:%M:%S'))
   # print(date_finish, datetime.datetime.utcfromtimestamp(date_finish).strftime('%Y-%m-%d %H:%M:%S'))
   command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} ".format(pid = pid, date_start = date_start)
