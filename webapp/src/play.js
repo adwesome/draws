@@ -403,6 +403,12 @@ function remove_canvas() {
   });
 }
 
+function tell_em() {
+  let content = '<p style="margin-top: 0em;">"Лента", "Магнит Косметик" &mdash; розыгрыши каждый день до 31 декабря 2024. "Восточные сладости" &mdash; розыгрыши каждый день до 15 декабря 2024 (успейте купить со скидкой и/или забрать свой подарок).<br><br>Готовится к участию: "Ювелир Pride"</p>';
+  content += '<p style="font-size: 0.8em;">(если вы хотите поучаствовать в розыгрышах от "Ювелир Pride", когда они начнутся, отметьте этот бренд, пожалуйста, в разделе "Настройки" → "Бренды")</p>';
+  document.getElementById('ad_explain').innerHTML = content;
+}
+
 
 async function play() {
   'use strict';
@@ -427,6 +433,7 @@ async function play() {
     enable_swipe();
     enable_flip();
     remove_canvas();
+    tell_em();
 
     const campaign = participates.result[0];
     const ad = campaign[1];
@@ -464,8 +471,6 @@ async function play() {
     document.getElementById('js-canvas-explain').style.display = 'block';
 
   var ad = campaign[1];
-  if (ad == 'img/ads/ad-lenta.jpg')
-    ad = 'img/ads/ad-lenta-pro.jpg';
 
   const percent = campaign[2];
   ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
@@ -475,11 +480,8 @@ async function play() {
   document.getElementById('percent').innerHTML = percent;
   // const percent = campaign[3];
 
-  if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer()) {
-    let content = '<p style="margin-top: 0em;">"Лента", "Магнит Косметик" &mdash; розыгрыши каждый день до 31 декабря 2024. "Восточные сладости" &mdash; розыгрыши каждый день до 15 декабря 2024 (успейте купить со скидкой и/или забрать свой подарок).<br><br>Готовится к участию: "Ювелир Pride"</p>';
-    content += '<p style="font-size: 0.8em;">(если вы хотите поучаствовать в розыгрышах от "Ювелир Pride", когда они начнутся, отметьте этот бренд, пожалуйста, в разделе "Настройки" → "Бренды")</p>';
-    document.getElementById('ad_explain').innerHTML = content;
-  }
+  if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
+    tell_em();
 
   var canvas = document.getElementById('js-canvas');
   const canvas_container = document.getElementById('js-container');
