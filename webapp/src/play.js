@@ -433,7 +433,7 @@ async function play() {
     enable_swipe();
     enable_flip();
     remove_canvas();
-    tell_em();
+    //tell_em();
 
     const campaign = participates.result[0];
     const ad = campaign[1];
