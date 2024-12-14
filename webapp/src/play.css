@@ -305,7 +305,7 @@ h4 {
 .preparing {
   background: gold;
 }
-.available > .address, .preparing > .address {
+.available > .address, .preparing > .address, .not-available > .address {
   color: black;
 }
 .not-available {
