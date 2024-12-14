@@ -157,6 +157,7 @@ function draw_orgs() {
   // temp
   const orgs_available = [55, 107, 119, ];
   const orgs_preparing = [84, ];
+  const orgs_not_available = [43, 57, 59, 67, 68, 70, 112, 116, 120, 123, 144, 205, 204, ];
 
   for (key in c) {
     result += `<h4>${key}</h4>`;
@@ -166,8 +167,10 @@ function draw_orgs() {
       result += `<li><label`
       if (orgs_available.includes(e[0]))
         result += ' class="available"';
-      if (orgs_preparing.includes(e[0]))
+      else if (orgs_preparing.includes(e[0]))
         result += ' class="preparing"';
+      else if (orgs_not_available.includes(e[0]))
+        result += ' class="not-available"';
       result += `><input type="checkbox" id="orgs-${e[0]}" value="${e[0]}"`;
 
       if (new_existing_choices.brands.includes(e[0]))

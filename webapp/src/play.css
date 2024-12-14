@@ -295,7 +295,7 @@ h4 {
   background: cornsilk;
 }
 
-.available, .preparing {
+.available, .preparing, .not-available {
   border-radius: 5px;
   padding: 0 4px 0 5px;
 }
@@ -307,6 +307,9 @@ h4 {
 }
 .available > .address, .preparing > .address {
   color: black;
+}
+.not-available {
+  background: lightgray;
 }
 
 .congrats {
