@@ -100,10 +100,16 @@ def convert_to_dict(data):
 ###
 # REGISTER PLAYER AND SELECT BRANDS
 ###
-def create_player(tguid):
+def create_player(tguid, mc = None):
+  bids = '55,107'  # lenta and mc
+  mc_sql = 'NULL'
+  if mc == 'mcg':
+    bids = '107'  # mc group
+    mc_sql = "'" + mc + "'"
+
   uid = int(datetime.datetime.now(datetime.timezone.utc).timestamp() * 1000)  # ms
   date_created = int(uid / 1000)
-  command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}', NULL)".format(
+  command = "INSERT INTO players VALUES ({uid}, {date_created}, {region}, {city}, {sex}, {age}, {tguid}, '{bids}', NULL, {mc})".format(
     uid = uid,
     date_created = date_created,
     region = -1,
@@ -111,8 +117,9 @@ def create_player(tguid):
     sex = -1,
     age = -1,
     tguid = tguid,
-    bids = '55,107,119',  # test run 3 default bids
-    # bids = '',  # empty brands for yet
+    bids = bids,
+    # churned_since = None,
+    mc = mc_sql,
   )
   db_write(command)
   return uid
