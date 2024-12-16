@@ -495,7 +495,10 @@ def calc_players_brand_total(bid):
   date_begin_9_dec = 1733707800
   # offset_old = get_start_of_the_day_epoch(0)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE 1=1 "
-  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid, date_start = date_begin_9_dec)
+  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} AND oid IN (SELECT rowid FROM orgs WHERE 1=1 ".format(date_start = date_begin_9_dec)
+  if bid != -1:
+    query += "AND bid = {bid}".format(bid = bid)
+  query += ")))"
   return db_read(query)
 
 
@@ -507,7 +510,9 @@ def calc_players_brand_today(bid, offset):  # check that optimal
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
   if offset:
     query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
-  query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid})))".format(bid = bid)
+  if bid != -1:
+    query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid}))".format(bid = bid)
+  query += ")"
   return db_read(query)
 
 
