@@ -484,7 +484,7 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
   query += "AND date >= {} ".format(TIMESTAMP_BEGINNING)
   query += "AND pid IN ("
   query += "SELECT rowid FROM players p WHERE 1=1 "
-  # query += "AND churned_since IS NULL "
+  query += "AND churned_since IS NULL "
   if bid != -1:
     query += "AND p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}'".format(bid = bid)
   query += "))"
@@ -535,7 +535,7 @@ def get_cohorts(bid):
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
     if bid != -1:
       query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-    # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
+    query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
     q = db_read(query)
     pids = get_values_from_query(q)
 
@@ -580,7 +580,7 @@ def get_control_data():
   if bid != -1:
     query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
   query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {}) ".format(TIMESTAMP_BEGINNING)
-  # query += "AND churned_since IS NULL "
+  query += "AND churned_since IS NULL "
   players_brand = db_read(query)
 
   cohorts = get_cohorts(bid)
