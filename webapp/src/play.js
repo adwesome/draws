@@ -512,7 +512,7 @@ async function play() {
     //'img/scratch-black.jpg',
     //'img/scratch-black-jeans.jpg',
     'img/scratch-golden.jpg',
-    'img/scratch-silver.jpg',
+    //'img/scratch-silver.jpg',
     //'img/scratch-gray.jpg',
     //'img/scratch-rainbow.jpg',
   ];
