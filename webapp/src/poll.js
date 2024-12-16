@@ -155,8 +155,8 @@ function draw_orgs() {
   const new_existing_choices = get_items_from_local_storage('choices5');
 
   // temp
-  const orgs_available = [55, 107, 119, ];
-  const orgs_preparing = [84, ];
+  const orgs_available = [55, 107, 119, 84, ];
+  const orgs_preparing = [];
   const orgs_not_available = [43, 57, 59, 67, 68, 70, 112, 116, 120, 123, 144, 205, 204, 81, ];
 
   for (key in c) {
