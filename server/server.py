@@ -319,11 +319,17 @@ def get_campaigns_for_player():
     result = {"code": 404, "description": "No ongoing campaign"}
     return send_response(result)
 
+  bids = []
+  for each in brands:
+    bids.append(each[0])
+
   # add brands weights here
-  brand = secrets.choice(brands)
-  bid = brand[0]
+  bid = secrets.choice(bids)
+  if bid == 55 and (84 in bids):  # add new chance for pride
+    bid = secrets.choice([55, 84])
+
   campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
-  print(pid, bid, campaigns)
+  # print(pid, bid, campaigns)
   if not campaigns:
     result = {"code": 404, "description": "No ongoing campaign"}
     return send_response(result)
