@@ -264,6 +264,7 @@ function collect_data_from_form() {
 }
 
 function fill_categories() {
+  categories = {}
   for (let i = 0; i < orgs.length; i++) {
     const e = orgs[i];
     const name = e[1];
