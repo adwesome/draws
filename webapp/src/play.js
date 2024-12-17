@@ -128,7 +128,7 @@ async function create_drawings_list() {
           else if (brand == "Ювелир Pride")
             html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в любой "Ювелир Pride" в г. Сегежа (пр-д. Монтажников, 1, бул. Советов, 5, ул. Севреная 6, часы работы: пн-пт 10-19, сб-вс 11-18), назовите код: <b>${gift}</b> &mdash; и получите скидку 1 тыс. руб на любую покупку!</p>`;
         }
-        // html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://t.me/share/url?url=https://t.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+        html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://t.me/share/url?url=https://t.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
@@ -139,7 +139,7 @@ async function create_drawings_list() {
       html_just = html_past + '</p>';
       if (wins) {
         //const uid = localStorage.getItem('uid');
-        html_just += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+        //html_just += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
       }
 
       html_past = ''; // in order not to duplicate yesterday's status in history (looks weird)
