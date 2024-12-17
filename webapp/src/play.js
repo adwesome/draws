@@ -156,8 +156,8 @@ async function create_drawings_list() {
   //html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
   //if (uid != 1730926893589)
   
-  if (may_need_to_sync && past_counter == 0)
-    html_past = '<p class="transfer-data-hint">❇️ Если вы участвовали в розыгрыше 15-16 ноября из браузера, то вы можете перенести всю свою историю и настройки сюда. Для этого, откройте <a href="https://adwesome.github.io/draws/webapp/index.html" target="_blank">https://adwesome.github.io/draws/webapp</a> в браузере, в котором вы участвовали, и следуйте инструкциям.</p>' + html_past;
+  //if (may_need_to_sync && past_counter == 0)
+  //  html_past = '<p class="transfer-data-hint">❇️ Если вы участвовали в розыгрыше 15-16 ноября из браузера, то вы можете перенести всю свою историю и настройки сюда. Для этого, откройте <a href="https://adwesome.github.io/draws/webapp/index.html" target="_blank">https://adwesome.github.io/draws/webapp</a> в браузере, в котором вы участвовали, и следуйте инструкциям.</p>' + html_past;
 
 
   if (html_just)
