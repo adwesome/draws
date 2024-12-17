@@ -479,8 +479,12 @@ async function play() {
     return;
   }
 
-  if (!localStorage.getItem('onboarding_complete'))
-    document.getElementById('js-canvas-explain').style.display = 'block';
+  if (!localStorage.getItem('onboarding_complete')) {
+    const explain = document.getElementById('js-canvas-explain');
+    explain.style.display = 'block';
+    explain.style.background = 'white';
+    explain.style.top = 0;
+  }
 
   var ad = campaign[1];
 
@@ -619,7 +623,7 @@ async function play() {
     
     e.preventDefault();
     //document.getElementById('js-canvas-explain').classList.add('animate');
-    document.getElementById('js-canvas-explain').style.background = 'white';
+    //document.getElementById('js-canvas-explain').style.background = 'white';
 
     var currentPoint = getMouse(e, canvas),
         dist = distanceBetween(lastPoint, currentPoint),
