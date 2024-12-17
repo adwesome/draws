@@ -60,6 +60,11 @@ async function create_drawings_list() {
   const date_yesterday = yesterday();
   const date_tomorrow = tomorrow();
   const history = await get_participation_history() || [];
+  if (history.length == 1) {
+    document.getElementById('past').style.display = 'none';
+    document.getElementById('past_header').style.display = 'none';
+  }
+
   let may_need_to_sync = true;
   for (let i = 0; i < history.length; i++) {
     const campaign = history[i];
