@@ -327,6 +327,8 @@ def get_campaigns_for_player():
   bid = secrets.choice(bids)
   if bid == 55 and (84 in bids):  # add new chance for pride
     bid = secrets.choice([55, 84])
+  if bid == 55 and (107 in bids):  # add new chance for magnet
+    bid = secrets.choice([55, 107])
 
   campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
   # print(pid, bid, campaigns)
