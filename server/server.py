@@ -580,7 +580,8 @@ def calc_churned():
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT DISTINCT pid FROM par WHERE date >= {}".format(TIMESTAMP_BEGINNING)
+  query = "SELECT DISTINCT p.pid FROM par p WHERE p.date >= {} ".format(TIMESTAMP_BEGINNING)
+  query += "UNION SELECT rowid FROM players WHERE rowid NOT IN (SELECT DISTINCT p.pid FROM par p WHERE p.date >= {}) AND tguid != -1".format(TIMESTAMP_BEGINNING)  # started bot but not participated
   pids_unique = db_read(query)
 
   bid = int(request.args.get('bid'))
