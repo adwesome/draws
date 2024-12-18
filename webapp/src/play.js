@@ -492,6 +492,8 @@ async function play() {
   }
 
   var ad = campaign[1];
+  if (ad == 'img/ads/ad-lenta-pro.jpg' && is_newcomer())
+    ad = 'img/ads/ad-lenta.jpg';
 
   const percent = campaign[2];
   ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
