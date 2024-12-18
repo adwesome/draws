@@ -578,6 +578,35 @@ def calc_churned():
   return db_read(query)[0]
 
 
+def get_participation_chart():
+  now = get_today_epoch2()
+  result = {"business_days": [], "weekends": [], "today": []}
+  for day in list(reversed(range(8))):
+    midnight = get_start_of_the_day_epoch(day) - 4 * 3600 - 1800
+    weekday = datetime.datetime.fromtimestamp(midnight).strftime("%A")  # https://stackoverflow.com/questions/26232658/python-convert-epoch-time-to-day-of-the-week
+    r = []
+    for hour in range(24):
+      time_from = midnight + hour * 3600
+      time_to = midnight + (hour + 1) * 3600 - 1
+      query = "SELECT COUNT(*) FROM par WHERE date BETWEEN {} AND {}".format(time_from, time_to)
+      participants = db_read(query)
+      r.append(participants[0][0])
+
+      if time_to >= now:
+        break
+
+    if day == 0:
+      result["today"].append(r)
+    else:
+      if weekday in ['Saturday', 'Sunday']:
+        result["weekends"].append(r)
+      else:
+        result["business_days"].append(r)
+
+  # print(result)
+  return result
+
+
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
   query = "SELECT DISTINCT p.pid FROM par p WHERE p.date >= {} ".format(TIMESTAMP_BEGINNING)
@@ -613,6 +642,9 @@ def get_control_data():
       "par_today": calc_players_brand_today(bid, 0),
       "par_yesterday": calc_players_brand_today(bid, 1),
     },
-    "cohorts": cohorts
+    "cohorts": cohorts,
+    "charts": {
+      "participation": get_participation_chart()
+    }
   }
   return send_response(result)
