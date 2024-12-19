@@ -580,7 +580,7 @@ def calc_churned():
   return db_read(query)[0]
 
 
-def get_participation_chart():
+def get_participation_chart(bid):
   now = get_today_epoch2()
   result = {"business_days": [], "weekends": [], "today": []}
   for day in list(reversed(range(8))):
@@ -590,7 +590,10 @@ def get_participation_chart():
     for hour in range(24):
       time_from = midnight + hour * 3600
       time_to = midnight + (hour + 1) * 3600 - 1
-      query = "SELECT COUNT(*) FROM par WHERE date BETWEEN {} AND {}".format(time_from, time_to)
+      query = "SELECT COUNT(*) FROM par WHERE 1=1 "
+      if bid != -1:
+        query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {})) ".format(bid)
+      query += "AND date BETWEEN {} AND {}".format(time_from, time_to)
       participants = db_read(query)
       r.append(participants[0][0])
 
@@ -646,7 +649,7 @@ def get_control_data():
     },
     "cohorts": cohorts,
     "charts": {
-      "participation": get_participation_chart()
+      "participation": get_participation_chart(bid)
     }
   }
   return send_response(result)
