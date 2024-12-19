@@ -156,7 +156,7 @@ function draw_orgs() {
 
   // temp
   const orgs_available = [55, 107, 119, 84, ];
-  const orgs_preparing = [203, ];
+  const orgs_preparing = []; //[203, ];
   const orgs_not_available = [43, 57, 59, 67, 68, 70, 112, 116, 120, 123, 144, 205, 204, 81, ];
 
   for (key in c) {

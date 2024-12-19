@@ -58,7 +58,7 @@ def db_write(command):
 def db_read(command):
   con = sqlite3.connect(DB_NAME)
   cur = con.cursor()
-  print(command)
+  # print(command)
   res = cur.execute(command)
   result = res.fetchall()
   con.close()
@@ -326,9 +326,11 @@ def get_campaigns_for_player():
   # add brands weights here
   bid = secrets.choice(bids)
   if bid == 55 and (84 in bids):  # add new chance for pride
-    bid = secrets.choice([55, 84])
-  if bid == 55 and (107 in bids):  # add new chance for magnet
+    bid = 84  # secrets.choice([55, 84])
+  elif bid == 55 and (107 in bids):  # add more chance for magnet
     bid = secrets.choice([55, 107])
+  # if 84 in bids:
+  #   bid = 84
 
   campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
   # print(pid, bid, campaigns)
@@ -410,14 +412,14 @@ def submit_vote():
 
 @app.route('/orgs/all', methods=['GET'])
 def get_orgs():
-  orgs = db_read("SELECT rowid, * FROM orgs ORDER BY address")
+  orgs = db_read("SELECT rowid, * FROM orgs")
   result = {"code": 200, "orgs": orgs}
   return send_response(result)
 
 
 @app.route('/votes/all', methods=['GET'])
 def get_votes():
-  votes = db_read("SELECT rowid, * FROM players WHERE bids != ''")
+  votes = db_read("SELECT rowid, * FROM players WHERE tguid != -1 and bids != ''")
   result = {"code": 200, "votes": votes}
   return send_response(result)
 
@@ -582,7 +584,7 @@ def get_participation_chart():
   now = get_today_epoch2()
   result = {"business_days": [], "weekends": [], "today": []}
   for day in list(reversed(range(8))):
-    midnight = get_start_of_the_day_epoch(day) - 4 * 3600 - 1800
+    midnight = get_start_of_the_day_epoch(day) - 5 * 3600 - 1800
     weekday = datetime.datetime.fromtimestamp(midnight).strftime("%A")  # https://stackoverflow.com/questions/26232658/python-convert-epoch-time-to-day-of-the-week
     r = []
     for hour in range(24):
