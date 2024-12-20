@@ -586,7 +586,7 @@ def calc_churned():
 
 def get_participation_chart(bid):
   now = get_today_epoch2()
-  result = {"business_days": [], "weekends": [], "today": []}
+  result = {"business_days": [], "weekends": [], "today": [], "yesterday": [], "same_day_week_ago": []}
   for day in list(reversed(range(8))):
     midnight = get_start_of_the_day_epoch(day) - 4 * 3600 - 1800
     weekday = datetime.datetime.fromtimestamp(midnight).strftime("%A")  # https://stackoverflow.com/questions/26232658/python-convert-epoch-time-to-day-of-the-week
@@ -606,7 +606,12 @@ def get_participation_chart(bid):
 
     if day == 0:
       result["today"].append(r)
-    else:
+    elif day == 1:
+      result["yesterday"].append(r)
+    elif day == 7:
+      result["same_day_week_ago"].append(r)
+    
+    if day != 0:  # do not include today in stats
       if weekday in ['Saturday', 'Sunday']:
         result["weekends"].append(r)
       else:
