@@ -489,6 +489,8 @@ async function play() {
     explain.style.display = 'block';
     explain.style.background = 'white';
     explain.style.top = 0;
+    explain.style.fontSize = '0.9em'
+    explain.style.setProperty("padding", "20px", "important")
   }
 
   var ad = campaign[1];
