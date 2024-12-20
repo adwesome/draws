@@ -41,6 +41,11 @@ async function create_drawings_list() {
 
       if (ch.brands.length == 3 && ch.demography.city == 11)
         document.getElementById('fill_data').innerHTML += '<div class="alert alert-primary" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
+
+      if (ch.demography.city != 11) {
+        document.getElementById('brands').style.display = 'unset';
+        document.getElementById('brands').innerHTML = '<br>⚠️ Раздел "Бренды" доступен пока только для жителей г. Сегежа. Если вы хотите выбирать бренды, и у вас есть возможность лично (или через друзей и родственников) получить подарки в Сегеже до 31 декабря 2024, вы можете временно выбрать город Сегежа, установить нужные галки для брендов, и затем вернуть свой город на настоящее значение.';
+      }
     }
   }
 
