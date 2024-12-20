@@ -325,12 +325,16 @@ def get_campaigns_for_player():
 
   # add brands weights here
   bid = secrets.choice(bids)
-  if bid == 55 and (84 in bids):  # add new chance for pride
-    bid = 84  # secrets.choice([55, 84])
-  elif bid == 55 and (107 in bids):  # add more chance for magnet
+  # if bid == 55 and (84 in bids):  # add new chance for pride
+  #  bid = secrets.choice([55, 84])
+  if bid == 55 and (107 in bids):  # add more chance for magnet
     bid = secrets.choice([55, 107])
-  # if 84 in bids:
-  #   bid = 84
+
+  query = "SELECT count(*) FROM par WHERE cid = 32 AND pid = {}".format(pid)
+  up = db_read(query)
+  # print(up, bids, len(up) == 1, up[0][0] == 0, 84 in bids)
+  if len(up) == 1 and up[0][0] == 0 and 84 in bids:
+    bid = 84
 
   campaigns = get_campaigns_for_brand_and_pid_for_today(pid, bid)
   # print(pid, bid, campaigns)
