@@ -330,6 +330,7 @@ def get_campaigns_for_player():
   if bid == 55 and (107 in bids):  # add more chance for magnet
     bid = secrets.choice([55, 107])
 
+  # not participated for pride, go on
   query = "SELECT count(*) FROM par WHERE cid = 32 AND pid = {}".format(pid)
   up = db_read(query)
   # print(up, bids, len(up) == 1, up[0][0] == 0, 84 in bids)
