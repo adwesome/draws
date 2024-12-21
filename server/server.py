@@ -320,11 +320,18 @@ def get_campaigns_for_player():
     return send_response(result)
 
   bids = []
+  weights = []
   for each in brands:
     bids.append(each[0])
+    if each[0] == 107:
+      weights.append(3)
+    else:
+      weights.append(1)
 
   # add brands weights here
-  bid = secrets.choice(bids)
+  # bid = secrets.choice(bids)
+  bid = random.choices(bids, weights, k=1)[0]
+
   # if bid == 55 and (84 in bids):  # add new chance for pride
   #  bid = secrets.choice([55, 84])
   if bid == 55 and (107 in bids):  # add more chance for magnet
