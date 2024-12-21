@@ -4,6 +4,7 @@ import sqlite3
 import secrets
 import datetime
 from flask import Flask, request, jsonify
+import random
 
 app = Flask(__name__)
 DB_NAME = 'adte.db'
