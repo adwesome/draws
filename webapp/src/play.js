@@ -169,8 +169,16 @@ async function create_drawings_list() {
     html_past = `<p class="stats-clarify">Вы выиграли ${wins} из ${wins + lost} раз, когда вы участвовали (т.е., на данный момент, вы выигрываете, в среднем, в ${Math.round(wins * 100 / (wins + lost))}% случаев, если участвуете)</p>` + html_past;
   else if (lost && past_counter <= 3)
     html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. Участвуйте ещё!</p>` + html_past;
-  else if (lost && past_counter > 3)
-    html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. <b>На данный момент, почти со 100% вероятностью выигрывают за 14-16 дней участий подряд.</b> Просто продолжайте участвовать &mdash; и вы выиграете!</p>` + html_past;
+  else if (lost && past_counter > 3) {
+    let p = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. `;
+    if (ch.demography.region != -1)
+      p += `Нужно больше участий. <b>На данный момент, почти со 100% вероятностью выигрывают за 14-16 дней участий подряд.</b> Просто продолжайте участвовать &mdash; и вы выиграете!`;
+    else
+      p += `Чтобы увеличить ваши шансы на выигрыш, заполните разделы "О вас" и "Бренды" в "Настройках" ниже.`;
+    p += `</p>`;
+    html_past = p + html_past;
+  }
+  
 
   //const stats = await get_players_stats();
   //html_past = `<p>Общее количество участников на данный момент ${stats.total}, которые все вместе за все время выиграли ${times(stats.total_winners)}. Вчера из ${stats.yesterday} участников ${stats.yesterday_winners} выиграли. Сегодня на данный момент участвуют&nbsp;${stats.today}.</p>` + html_past;
