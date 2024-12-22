@@ -39,7 +39,7 @@ async function create_drawings_list() {
       if (ch.demography.region == 10 && ch.demography.city == 11)
         init_orgs_poll();
 
-      if (ch.brands.length == 3 && ch.demography.city == 11)
+      if ([1,2,3,4,5].includes(ch.brands.length) && ch.demography.city == 11)
         document.getElementById('fill_data').innerHTML += '<div class="alert alert-primary" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
 
       if (ch.demography.city != 11) {
