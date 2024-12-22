@@ -53,13 +53,16 @@ async function create_drawings_list() {
   let html_now = '';
   let html_past = '';
   let html_just = '';
+  let html_last_participated = '';
 
   let wins = 0;
   let lost = 0;
   let not = 0;
   let participates_today = false;
+  let participated_yesterday = false;
 
   let past_counter = 0;
+
 
   const date_today = today();
   const date_yesterday = yesterday();
@@ -141,6 +144,7 @@ async function create_drawings_list() {
     }
 
     if (date_participated == date_yesterday) {
+      participated_yesterday = true;
       html_just = html_past + '</p>';
       if (wins) {
         //const uid = localStorage.getItem('uid');
@@ -149,7 +153,13 @@ async function create_drawings_list() {
 
       html_past = ''; // in order not to duplicate yesterday's status in history (looks weird)
     }
+
+    if (past_counter == 1)
+      html_last_participated = html_past;
   }
+
+  if (!participated_yesterday)
+    html_just = html_last_participated;
 
   html_past += '</div>';
   if (past_counter)
