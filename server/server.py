@@ -691,3 +691,34 @@ def get_draws_codes():
   codes = get_codes()
   return send_response(codes)
 
+
+def check_code(code):
+  print("SQL injection")
+  query = "SELECT p.gift, p.status, p.comment, p.date_gifted from par p where 1=1 "
+  query += "AND gift = '{}'".format(code)
+  return db_read(query)
+
+
+@app.route('/draws/code/check', methods=['GET'])
+def draws_code_check():
+  code = request.args.get('code')
+  result = check_code(code)
+  if not result:
+    return send_response({'code': 404, 'result': []})
+  return send_response({'code': 200, 'result': result})
+
+
+def update_code(code):
+  print("SQL injection")
+  oid = 107
+  query = "UPDATE par SET status = 2 WHERE gift = '{}' ".format(code)
+  query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
+  return db_write(query)
+
+
+@app.route('/draws/code/update', methods=['POST'])
+def draws_code_update():
+  data = convert_to_dict(request.data)
+  code = data['code']
+  update_code(code)
+  return send_response({'code': 200})
