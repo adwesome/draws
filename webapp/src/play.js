@@ -123,20 +123,33 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
       if (status >= 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status >= 1) {
+      if (status == 1) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
         }
         else {
           if (brand == "Магнит Косметик")
-            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в "Магнит Косметик" (участвует только магазин по адресу: Сегежа, бул. Советов, 3, часы работы: ежедневно с 9:30 до 21:30), назовите код: <b>${gift}</b> &mdash; и получите подарок!</p>`;
+            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в "Магнит Косметик" (участвует только магазин по адресу: Сегежа, бул. Советов, 3, часы работы: ежедневно с 9:30 до 21:30), покажите на телефоне код: <b>${gift}</b> &mdash; и получите подарок! Если подарок будете получать не вы, а кто-то за вас, сообщите нам об этом в чат бота.</p>`;
           else if (brand == "SBS Восточные сладости")
             html_past += `<p><b style="color: red;">Подарок просрочен.</b> <b>Чтобы получить подарок</b>, необходимо было прийти до 15 декабря (включительно) на кассу в "Восточные сладости" (участвовал только магазин по адресу: Сегежа, бул. Советов, 5А, часы работы: ежедневно с 9:00 до 19:00), назвать код, который был здесь &mdash; и получить подарок.</p>`;
           else if (brand == "Ювелир Pride")
-            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в любой "Ювелир Pride" в г. Сегежа (пр-д. Монтажников, 1, бул. Советов, 5, ул. Севреная 6, часы работы: пн-пт 10-19, сб-вс 11-18), назовите код: <b>${gift}</b> &mdash; и получите скидку 1 тыс. руб на любую покупку!</p>`;
+            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в любой "Ювелир Pride" в г. Сегежа (пр-д. Монтажников, 1, бул. Советов, 5, ул. Севреная 6, часы работы: пн-пт 10-19, сб-вс 11-18), покажите на телефоне код: <b>${gift}</b> &mdash; и получите скидку 1 тыс. руб на любую покупку!</p>`;
         }
+        let html_past_ = `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
+          <label class="btn btn-outline-primary" for="btnradio1">Я приду</label>
+
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btnradio3">Придет кто-то за меня</label>
+          
+          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+          <label class="btn btn-outline-primary" for="btnradio2">Я не приду</label>
+        </div>`;
         html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+      }
+      else if (status == 2) {  // gifted
+        html_past += '<p>✅ Подарок вручен</p>'
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688

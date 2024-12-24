@@ -8,7 +8,7 @@ import random
 
 app = Flask(__name__)
 DB_NAME = 'adte.db'
-TIMESTAMP_BEGINNING = 1732843800
+TIMESTAMP_BEGINNING = 1732843800  # November 29, 2024 1:30:00 AM
 
 
 def get_start_of_the_day_epoch(days_offset):  # incorrect, but fine to go
@@ -59,7 +59,7 @@ def db_write(command):
 def db_read(command):
   con = sqlite3.connect(DB_NAME)
   cur = con.cursor()
-  # print(command)
+  print(command)
   res = cur.execute(command)
   result = res.fetchall()
   con.close()
@@ -206,14 +206,11 @@ def create_player_participation(data):  # fix this get_today_epoch2
     return
   chance = get_chance_from_cam_by_cid(cid)
   status = get_status_by_chance(chance)
-  gift = ''
-  if status == 1:
-    gift = 'https://card.digift.ru/card/show/code/bb898d955afe898e5596abd0311e5b49'
   # temporary manual
   status = 0
   gift = ''
   date_now = get_today_epoch2()
-  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
+  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}', '', NULL)".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
   db_write(command)
 
 
@@ -558,7 +555,7 @@ def get_cohorts(bid):
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
     if bid != -1:
       query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-    query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
+    # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
     q = db_read(query)
     pids = get_values_from_query(q)
 
@@ -671,3 +668,26 @@ def get_control_data():
     }
   }
   return send_response(result)
+
+
+##
+# DRAWS CODES
+##
+def get_codes():
+  #if tguid in [1731725782227, 1730926893589]:
+  oid = 107
+
+  query = "SELECT p.gift, p.status, p.comment, p.date_gifted from par p where 1=1 "
+  query += "AND status >= 1 "
+  query += "AND date >= 1733707800 "  # 9 Dec 2024
+  query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
+  codes = db_read(query)
+  return codes
+
+
+@app.route('/get/draws/codes', methods=['GET'])
+def get_draws_codes():
+  # tguid = int(request.args.get('tguid'))
+  codes = get_codes()
+  return send_response(codes)
+
