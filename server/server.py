@@ -708,10 +708,13 @@ def draws_code_check():
   return send_response({'code': 200, 'result': result})
 
 
-def update_code(code):
+def update_code(data):
   print("SQL injection")
   oid = 107
-  query = "UPDATE par SET status = 2 WHERE gift = '{}' ".format(code)
+  code = data['code']
+  comment = data['comment']
+  date_now = get_today_epoch2()
+  query = "UPDATE par SET status = 2, comment = '{}', date_gifted = {} WHERE gift = '{}' ".format(comment, date_now, code)
   query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
   return db_write(query)
 
@@ -719,6 +722,5 @@ def update_code(code):
 @app.route('/draws/code/update', methods=['POST'])
 def draws_code_update():
   data = convert_to_dict(request.data)
-  code = data['code']
-  update_code(code)
+  update_code(data)
   return send_response({'code': 200})
