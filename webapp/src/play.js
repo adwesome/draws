@@ -136,27 +136,29 @@ async function create_drawings_list() {
             html_past += `<p><b style="color: red;">Подарок просрочен.</b> <b>Чтобы получить подарок</b>, необходимо было прийти до 15 декабря (включительно) на кассу в "Восточные сладости" (участвовал только магазин по адресу: Сегежа, бул. Советов, 5А, часы работы: ежедневно с 9:00 до 19:00), назвать код, который был здесь &mdash; и получить подарок.</p>`;
           else if (brand == "Ювелир Pride")
             html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в любой "Ювелир Pride" в г. Сегежа (пр-д. Монтажников, 1, бул. Советов, 5, ул. Севреная 6, часы работы: пн-пт 10-19, сб-вс 11-18), покажите на телефоне код: <b>${gift}</b> &mdash; и получите скидку 1 тыс. руб на любую покупку!</p>`;
-        }
-        html_past += `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-3" autocomplete="off" value="${id}-3" `;
-          if (status == 3)
-            html_past += 'checked';
-        html_past += `>
-          <label class="btn btn-outline-success" for="btnradio-${id}-3">Приду</label>
+        
+          html_past += `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-3" autocomplete="off" value="${id}-3" `;
+            if (status == 3)
+              html_past += 'checked';
+          html_past += `>
+            <label class="btn btn-outline-success" for="btnradio-${id}-3">Приду</label>
 
-          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-4" autocomplete="off" value="${id}-4" `;
-          if (status == 4)
-            html_past += 'checked';
-        html_past += `>
-          <label class="btn btn-outline-success" for="btnradio-${id}-4">Придет кто-то за меня</label>
-          
-          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-5" autocomplete="off" value="${id}-5" `;
-          if (status == 5)
-            html_past += 'checked';
-        html_past += `>          
-          <label class="btn btn-outline-success" for="btnradio-${id}-5">Не приду</label>
-        </div>`;
+            <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-4" autocomplete="off" value="${id}-4" `;
+            if (status == 4)
+              html_past += 'checked';
+          html_past += `>
+            <label class="btn btn-outline-success" for="btnradio-${id}-4">Придет кто-то за меня</label>
+            
+            <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-5" autocomplete="off" value="${id}-5" `;
+            if (status == 5)
+              html_past += 'checked';
+          html_past += `>          
+            <label class="btn btn-outline-success" for="btnradio-${id}-5">Не приду</label>
+          </div>`;
+        }
         html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+        
       }
       else if (status == 2) {  // gifted
         html_past += '<p>✅ Подарок вручен</p>'
