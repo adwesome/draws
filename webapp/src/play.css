@@ -319,3 +319,11 @@ h4 {
 #rating_header, #rating_intro {
   display: none;
 }
+
+.btn-outline-success {
+  --bs-btn-color: #000000;
+  --bs-btn-border-color: #32cd32;
+  --bs-btn-active-color: #000;
+  --bs-btn-active-bg: #32cd32;
+  --bs-btn-active-border-color: #32cd32;
+}

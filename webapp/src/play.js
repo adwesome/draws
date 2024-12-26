@@ -87,6 +87,7 @@ async function create_drawings_list() {
     const brand = campaign[3];
     const status = campaign[4];
     const gift = campaign[6];
+    const id = campaign[7];
 
     if (parseInt(campaign[5]) <= 1731806999)  // end of test campaign, i.e. if has data then no need for sync
       may_need_to_sync = false;
@@ -123,28 +124,37 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
       if (status >= 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status == 1) {
+      if (status != 2) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
         }
         else {
           if (brand == "Магнит Косметик")
-            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в "Магнит Косметик" (участвует только магазин по адресу: Сегежа, бул. Советов, 3, часы работы: ежедневно с 9:30 до 21:30), покажите на телефоне код: <b>${gift}</b> &mdash; и получите подарок! Если подарок будете получать не вы, а кто-то за вас, сообщите нам об этом в чат бота.</p>`;
+            html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в "Магнит Косметик" (участвует только магазин по адресу: Сегежа, бул. Советов, 3, часы работы: ежедневно с 9:30 до 21:30), покажите на телефоне код: <b>${gift}</b> &mdash; и получите подарок!</p><p>✳️ Сообщите нам, пожалуйста, придете ли&nbsp;вы за подарком:</p>`;
           else if (brand == "SBS Восточные сладости")
             html_past += `<p><b style="color: red;">Подарок просрочен.</b> <b>Чтобы получить подарок</b>, необходимо было прийти до 15 декабря (включительно) на кассу в "Восточные сладости" (участвовал только магазин по адресу: Сегежа, бул. Советов, 5А, часы работы: ежедневно с 9:00 до 19:00), назвать код, который был здесь &mdash; и получить подарок.</p>`;
           else if (brand == "Ювелир Pride")
             html_past += `<p><b>Чтобы получить подарок</b>, приходите до 31 декабря 2024 (включительно) на кассу в любой "Ювелир Pride" в г. Сегежа (пр-д. Монтажников, 1, бул. Советов, 5, ул. Севреная 6, часы работы: пн-пт 10-19, сб-вс 11-18), покажите на телефоне код: <b>${gift}</b> &mdash; и получите скидку 1 тыс. руб на любую покупку!</p>`;
         }
-        let html_past_ = `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off" checked>
-          <label class="btn btn-outline-primary" for="btnradio1">Я приду</label>
+        html_past += `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
+          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-3" autocomplete="off" value="${id}-3" `;
+          if (status == 3)
+            html_past += 'checked';
+        html_past += `>
+          <label class="btn btn-outline-success" for="btnradio-${id}-3">Приду</label>
 
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btnradio3">Придет кто-то за меня</label>
+          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-4" autocomplete="off" value="${id}-4" `;
+          if (status == 4)
+            html_past += 'checked';
+        html_past += `>
+          <label class="btn btn-outline-success" for="btnradio-${id}-4">Придет кто-то за меня</label>
           
-          <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
-          <label class="btn btn-outline-primary" for="btnradio2">Я не приду</label>
+          <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-5" autocomplete="off" value="${id}-5" `;
+          if (status == 5)
+            html_past += 'checked';
+        html_past += `>          
+          <label class="btn btn-outline-success" for="btnradio-${id}-5">Не приду</label>
         </div>`;
         html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
       }
@@ -245,6 +255,16 @@ async function create_drawings_list() {
     document.getElementById('rating_intro').innerHTML = 'Чтобы кратно повысить ваши шансы на выигрыш, заполните секцию "О вас" и "Бренды" (если она появится) в разделе "Настройки" ниже';
   }
 
+  enable_radio_listeners();
+}
+
+function enable_radio_listeners() {
+  const gift_feedback_radios = document.querySelectorAll('input[type="radio"]');
+  gift_feedback_radios.forEach((radio) => {
+    radio.addEventListener('change', async function(e) {
+      save_into_remote_storage('/draws/codes/feedback', JSON.stringify(e.target.value.split('-')));
+    });  
+  });
 }
 
 

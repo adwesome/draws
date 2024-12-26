@@ -210,7 +210,7 @@ def create_player_participation(data):  # fix this get_today_epoch2
   status = 0
   gift = ''
   date_now = get_today_epoch2()
-  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}', '', NULL)".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
+  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}', NULL, '')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
   db_write(command)
 
 
@@ -359,7 +359,7 @@ def get_campaigns_for_player():
 # PARTICIPATION HISTORY
 ##
 def get_campaigns_history_for_pid(pid):
-  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date, p.gift FROM par p \
+  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date, p.gift, p.rowid FROM par p \
            JOIN cam c on p.cid = c.rowid \
            JOIN orgs o ON o.rowid = c.oid \
            JOIN brands b ON b.rowid = o.bid \
@@ -712,7 +712,7 @@ def update_code(data):
   print("SQL injection")
   oid = 107
   code = data['code']
-  comment = data['comment']
+  comment = data.get('comment', '').strip()
   date_now = get_today_epoch2()
   query = "UPDATE par SET status = 2, comment = '{}', date_gifted = {} WHERE gift = '{}' ".format(comment, date_now, code)
   query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
@@ -723,4 +723,29 @@ def update_code(data):
 def draws_code_update():
   data = convert_to_dict(request.data)
   update_code(data)
+  return send_response({'code': 200})
+
+
+def get_comments(oid):
+  query = "SELECT DISTINCT comment FROM par p WHERE cid IN (SELECT rowid FROM cam WHERE oid = {}) AND status = 2 AND comment != '' ORDER BY 1".format(oid)
+  return db_read(query)
+
+
+@app.route('/get/draws/codes/comments', methods=['GET'])
+def draws_codes_comments():
+  oid = 107
+  return send_response({'code': 200, 'result': get_comments(oid)})
+
+
+def update_code_status(data):
+  rowid = int(data[0])
+  status = int(data[1])
+  query = "UPDATE par SET status = {} WHERE rowid = {}".format(status, rowid)
+  db_write(query)
+
+
+@app.route('/draws/codes/feedback', methods=['POST'])
+def draws_codes_feedback():
+  data = convert_to_dict(request.data)
+  update_code_status(data)
   return send_response({'code': 200})
