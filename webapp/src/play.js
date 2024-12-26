@@ -124,7 +124,7 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
       if (status >= 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status != 2) {
+      if (status == 1 || status >= 3) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
