@@ -594,7 +594,7 @@ def get_participation_chart(bid):
   now = get_today_epoch2()
   result = {"business_days": [], "weekends": [], "today": [], "yesterday": [], "same_day_week_ago": []}
   for day in list(reversed(range(8))):
-    midnight = get_start_of_the_day_epoch(day) - 4 * 3600 - 1800
+    midnight = get_start_of_the_day_epoch(day) - 4 * 3600 - 1800  # i don't understand this shift (but it affects chart)
     weekday = datetime.datetime.fromtimestamp(midnight).strftime("%A")  # https://stackoverflow.com/questions/26232658/python-convert-epoch-time-to-day-of-the-week
     r = []
     for hour in range(24):
