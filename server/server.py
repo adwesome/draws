@@ -655,7 +655,7 @@ def get_control_data():
       "players_day_before_yesterday": calc_players(bid, 2, 1)[0][0],
       "players_week": calc_players(bid, 7)[0][0],
       "players_month": calc_players(bid, 30)[0][0],
-      "players_quarter": calc_players(bid, 90)[0][0],
+      # "players_quarter": calc_players(bid, 90)[0][0],
     },
     "campaign": {
       "par_total": calc_players_brand_total(bid),
