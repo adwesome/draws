@@ -576,7 +576,7 @@ async function play() {
         v.width = window.innerWidth;
 
       document.getElementById('ad_explain').style.color = 'white';
-      sleep(1000);
+      sleep(3000);
       v.muted = !v.muted;
     }, false);
     enable_swipe();
