@@ -489,6 +489,7 @@ function tell_em() {
 
 function on_holidays() {
   let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся 👍</p>';
+  content += '<button class="btn btn-light btn-sm-" onclick="v=document.getElementById(`video`);v.muted = !v.muted;">🎵</button>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
@@ -567,7 +568,7 @@ async function play() {
     explain.style.display = 'block';
 
     const v = document.getElementById('video');
-    v.addEventListener('loadeddata', async function() {
+    v.addEventListener('loadeddata', function() {
       const video_dimensions = {'w': 576, 'h': 1024};
       const video_dimensions_rate = video_dimensions.w / video_dimensions.h;
       if (window.innerWidth / window.innerHeight < video_dimensions_rate)
@@ -576,8 +577,6 @@ async function play() {
         v.width = window.innerWidth;
 
       document.getElementById('ad_explain').style.color = 'white';
-      await sleep(3000);
-      v.muted = !v.muted;
     }, false);
     enable_swipe();
     create_drawings_list();
