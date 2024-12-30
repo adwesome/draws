@@ -555,13 +555,13 @@ async function play() {
   */
   
   //if (campaign.length == 0) {
-  if (tguid == 359070623) {
+  if (tguid == 359070623 || tguid == 1096170666) {
     on_holidays();
     const explain = document.getElementById('js-canvas-explain');
     explain.style.transform = 'unset';
     explain.style.top = 'unset';
     explain.style.left = '-25px';
-    explain.innerHTML = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" playsinline oncontextmenu="return false;" preload="auto">\
+    explain.innerHTML = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" muted defaultMuted playsinline oncontextmenu="return false;" preload="auto">\
       <source src="https://www.dropbox.com/s/l48qpima7jge13i/shale.mp4?raw=1" type="video/mp4">\
       </video>';
     explain.style.display = 'block';
