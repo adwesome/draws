@@ -569,7 +569,7 @@ async function play() {
     const v = document.getElementById('video');
     v.addEventListener('loadeddata', function() {
       //v.height = window.innerHeight;
-      v.width = window.innerWidth;
+      v.width = window.innerWidth + 10;
     }, false);
     enable_swipe();
     create_drawings_list();
