@@ -567,7 +567,7 @@ async function play() {
     explain.style.display = 'block';
 
     const v = document.getElementById('video');
-    v.addEventListener('loadeddata', function() {
+    v.addEventListener('loadeddata', async function() {
       const video_dimensions = {'w': 576, 'h': 1024};
       const video_dimensions_rate = video_dimensions.w / video_dimensions.h;
       if (window.innerWidth / window.innerHeight < video_dimensions_rate)
@@ -576,7 +576,7 @@ async function play() {
         v.width = window.innerWidth;
 
       document.getElementById('ad_explain').style.color = 'white';
-      sleep(3000);
+      await sleep(1000);
       v.muted = !v.muted;
     }, false);
     enable_swipe();
