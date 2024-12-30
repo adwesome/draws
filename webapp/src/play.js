@@ -124,7 +124,7 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
       if (status >= 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status == 1 || status >= 3) {
+      if (status == 1 || (status >= 3 && status <= 5)) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
@@ -162,6 +162,12 @@ async function create_drawings_list() {
       }
       else if (status == 2) {  // gifted
         html_past += '<p>✅ Подарок вручен</p>'
+      }
+      else if (status == 6) {
+        html_past += '<p>❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок.</p>';
+      }
+      else if (status == 7) {
+        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы отказались от получения.</p>';
       }
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
