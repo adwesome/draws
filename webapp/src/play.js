@@ -560,7 +560,7 @@ async function play() {
     const explain = document.getElementById('js-canvas-explain');
     explain.style.transform = 'unset';
     explain.style.top = 'unset';
-    explain.style.left = '-20px';
+    explain.style.left = '-25px';
     explain.innerHTML = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" muted defaultMuted playsinline oncontextmenu="return false;" preload="auto">\
       <source src="https://www.dropbox.com/s/l48qpima7jge13i/shale.mp4?raw=1" type="video/mp4">\
       </video>';
@@ -568,8 +568,8 @@ async function play() {
 
     const v = document.getElementById('video');
     v.addEventListener('loadeddata', function() {
-      v.height = window.innerHeight;
-      v.height = window.innerHeight;
+      //v.height = window.innerHeight;
+      v.width = window.innerWidth;
     }, false);
     enable_swipe();
     create_drawings_list();
