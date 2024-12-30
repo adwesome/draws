@@ -568,8 +568,13 @@ async function play() {
 
     const v = document.getElementById('video');
     v.addEventListener('loadeddata', function() {
-      v.height = window.innerHeight;
-      //v.width = window.innerWidth + 10;
+      const video_dimensions = {'w': 576, 'h': 1024};
+      const video_dimensions_rate = video_dimensions.w / video_dimensions.h;
+      if (window.innerWidth / window.innerHeight < video_dimensions_rate)
+        v.height = window.innerHeight;
+      else
+        v.width = window.innerWidth;
+
       document.getElementById('ad_explain').style.color = 'white';
     }, false);
     enable_swipe();
