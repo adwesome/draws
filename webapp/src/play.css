@@ -212,12 +212,13 @@ h3 {
 
 #ad_explain {
   position: absolute;
-  color: white;
+  color-: white;
   z-index: 50;
   top: 16vh;
   text-align: center;
+  width: 100%;
   padding-: 0 5%;
-  font-size: 0.85em;
+  font-size: 1em;
   visibility: hidden;
   height-: 50vh;
   overflow-y-: scroll;

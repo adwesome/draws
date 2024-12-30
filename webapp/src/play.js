@@ -161,7 +161,7 @@ async function create_drawings_list() {
         
       }
       else if (status == 2) {  // gifted
-        html_past += '<p>✅ Подарок вручен</p>'
+        html_past += '<p style="margin-bottom: 1em;">✅ Подарок получен.</p>'
       }
       else if (status == 6) {
         html_past += '<p>❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок.</p>';
@@ -487,6 +487,14 @@ function tell_em() {
   document.getElementById('ad_explain').innerHTML = content;
 }
 
+function on_holidays() {
+  let content = '<p style="margin-top: 2em; color: black; text-align: center;">Розыгрышей не будет<br>примерно до 14 января 2025.</p><p>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся.</p><p>С Новым Годом!</p>';
+  const explain = document.getElementById('ad_explain');
+  explain.innerHTML = content;
+  explain.style.visibility = 'unset';
+  //explain.style.zIndex = '150';
+}
+
 
 async function play() {
   'use strict';
@@ -528,12 +536,10 @@ async function play() {
     return;
   }
 
-
-  //await get_all('campaigns', 'uid=' + uid); // need some stub if no ad
-  await get_campaign_for_me_today();
+  //await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
-  //await get_all('winners', 'uid=' + uid);
-  
+
+  /*
   if (campaign.length == 0) {
     const explain = document.getElementById('js-canvas-explain');
     explain.innerHTML = '<b>На сегодня нет розыгрышей (среди выбранных вами брендов), в которых вы ещё не участвовали</b><p style="margin-top: 10px;">Но вы всё ещё можете пройти в "Настройки" (это последний экран) и отметить там бренды, выделенные зеленым цветом (а также другие ваши любимые бренды), а затем закрыть это мини-приложение и снова нажать в боте на кнопку "Играть" 👍</p>';
@@ -541,9 +547,28 @@ async function play() {
     explain.style.color = 'black';
     //explain.style.paddingTop = '95vh';
     enable_swipe();
+    create_drawings_list();
     await sleep(3000);
     swiper_outer.slideTo(1, 2000, false);
-    //await get_all('participants');
+    return;
+  }
+  */
+  
+  //if (campaign.length == 0) {
+  if (tguid == 359070623) {
+    on_holidays();
+    const explain = document.getElementById('js-canvas-explain');
+    explain.style.top = 'unset';
+    explain.style.left = 'unset';
+    explain.innerHTML = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" muted defaultMuted playsinline oncontextmenu="return false;" preload="auto">\
+      <source src="https://www.dropbox.com/s/l48qpima7jge13i/shale.mp4?raw=1" type="video/mp4">\
+      </video>';
+    explain.style.display = 'block';
+
+    document.getElementById('video').addEventListener('loadeddata', function() {
+      ;
+    }, false);
+    enable_swipe();
     create_drawings_list();
     return;
   }
