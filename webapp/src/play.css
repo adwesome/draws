@@ -328,3 +328,8 @@ h4 {
   --bs-btn-active-bg: #32cd32;
   --bs-btn-active-border-color: #32cd32;
 }
+
+#toggle-sound {
+  visibility: hidden;
+  margin-top: 5px;
+}
