@@ -558,15 +558,18 @@ async function play() {
   if (tguid == 359070623) {
     on_holidays();
     const explain = document.getElementById('js-canvas-explain');
+    explain.style.transform = 'unset';
     explain.style.top = 'unset';
-    explain.style.left = 'unset';
+    explain.style.left = '-20px';
     explain.innerHTML = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" muted defaultMuted playsinline oncontextmenu="return false;" preload="auto">\
       <source src="https://www.dropbox.com/s/l48qpima7jge13i/shale.mp4?raw=1" type="video/mp4">\
       </video>';
     explain.style.display = 'block';
 
-    document.getElementById('video').addEventListener('loadeddata', function() {
-      ;
+    const v = document.getElementById('video');
+    v.addEventListener('loadeddata', function() {
+      v.height = window.innerHeight;
+      v.height = window.innerHeight;
     }, false);
     enable_swipe();
     create_drawings_list();
