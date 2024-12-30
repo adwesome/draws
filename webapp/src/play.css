@@ -213,13 +213,13 @@ h3 {
 #ad_explain {
   position: absolute;
   color-: white;
-  z-index: 50;
-  top: 16vh;
+  z-index: 150;
+  bottom: 10vh;
   text-align: center;
   width: 100%;
-  padding-: 0 5%;
-  font-size: 1em;
-  visibility: hidden;
+  padding: 0 5%;
+  font-size: 0.8em;
+  visibility: visible;
   height-: 50vh;
   overflow-y-: scroll;
   background: #003b96;

@@ -488,7 +488,7 @@ function tell_em() {
 }
 
 function on_holidays() {
-  let content = '<p style="margin-top: 2em; color: black; text-align: center;">Розыгрышей не будет<br>примерно до 14 января 2025.</p><p>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся.</p><p>С Новым Годом!</p>';
+  let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся.</p>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
@@ -568,8 +568,9 @@ async function play() {
 
     const v = document.getElementById('video');
     v.addEventListener('loadeddata', function() {
-      //v.height = window.innerHeight;
-      v.width = window.innerWidth + 10;
+      v.height = window.innerHeight;
+      //v.width = window.innerWidth + 10;
+      document.getElementById('ad_explain').style.color = 'white';
     }, false);
     enable_swipe();
     create_drawings_list();
