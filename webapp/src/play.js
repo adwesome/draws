@@ -555,8 +555,8 @@ async function play() {
   }
   */
   
-  //if (campaign.length == 0) {
-  if (tguid == 359070623 || tguid == 1096170666) {
+  if (campaign.length == 0) {
+  //if (tguid == 359070623 || tguid == 1096170666) {
     on_holidays();
     const explain = document.getElementById('js-canvas-explain');
     explain.style.transform = 'unset';
