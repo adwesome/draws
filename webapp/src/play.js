@@ -583,6 +583,7 @@ async function play() {
 
       document.getElementById('ad_explain').style.color = 'white';
       document.getElementById('toggle-sound').style.visibility = 'visible';
+      swiper_outer.slideTo(0, 2000, false);
       log('loaded');
     }, false);
     enable_swipe();
