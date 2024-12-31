@@ -308,9 +308,9 @@ async function play_demo() {
 }
 
 // just to know people used it
-async function log_unmute() {
+async function log(type) {
   const tguid = get_tguid_from_url();
-  const response = await fetch(SERVER_HOSTNAME + `/unmute?tguid=${tguid}`, {});
+  fetch(SERVER_HOSTNAME + `/${type}?tguid=${tguid}`, {});
 }
 
 async function submit_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
@@ -494,7 +494,7 @@ function tell_em() {
 
 function on_holidays() {
   let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся 👍</p>';
-  content += '<button id="toggle-sound" class="btn btn-light btn-sm" onclick="v=document.getElementById(`video`);v.muted = !v.muted;log_unmute();">🎵</button>';
+  content += '<button id="toggle-sound" class="btn btn-light btn-sm" onclick="v=document.getElementById(`video`);v.muted = !v.muted;log(`unmute`);">🎵</button>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
@@ -583,6 +583,7 @@ async function play() {
 
       document.getElementById('ad_explain').style.color = 'white';
       document.getElementById('toggle-sound').style.visibility = 'visible';
+      log('loaded');
     }, false);
     enable_swipe();
     create_drawings_list();
