@@ -307,6 +307,11 @@ async function play_demo() {
   swiper_outer.slideTo(0, 2000, false);
 }
 
+// just to know people used it
+async function log_unmute() {
+  const tguid = get_tguid_from_url();
+  const response = await fetch(SERVER_HOSTNAME + `/unmute?tguid=${tguid}`, {});
+}
 
 async function submit_participation(data) {  // https://stackoverflow.com/questions/29775797/fetch-post-json-data
   const response = await fetch(SERVER_HOSTNAME + '/register/player/participation', {
@@ -489,7 +494,7 @@ function tell_em() {
 
 function on_holidays() {
   let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся 👍</p>';
-  content += '<button id="toggle-sound" class="btn btn-light btn-sm" onclick="v=document.getElementById(`video`);v.muted = !v.muted;">🎵</button>';
+  content += '<button id="toggle-sound" class="btn btn-light btn-sm" onclick="v=document.getElementById(`video`);v.muted = !v.muted;log_unmute();">🎵</button>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
