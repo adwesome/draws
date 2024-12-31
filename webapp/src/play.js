@@ -488,7 +488,7 @@ function tell_em() {
 }
 
 function on_holidays() {
-  let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся.</p>';
+  let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся 👍</p>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
@@ -554,8 +554,8 @@ async function play() {
   }
   */
   
-  //if (campaign.length == 0) {
-  if (tguid == 359070623 || tguid == 1096170666) {
+  if (campaign.length == 0) {
+  //if (tguid == 359070623 || tguid == 1096170666) {
     on_holidays();
     const explain = document.getElementById('js-canvas-explain');
     explain.style.transform = 'unset';
@@ -576,6 +576,7 @@ async function play() {
         v.width = window.innerWidth;
 
       document.getElementById('ad_explain').style.color = 'white';
+      v.muted = !v.muted;
     }, false);
     enable_swipe();
     create_drawings_list();
