@@ -174,14 +174,9 @@ async function create_drawings_list() {
       // 3. https://vk.com/segezhadays?w=wall-78535365_59596
     }
 
-    if (date_participated == date_yesterday) {
+    if (date_participated == date_yesterday || i == 0) {  // || i == 0 fixes bug: user didn't participate 1+ days and won and now has won in yesterday+ and history sections but feedback radio has the same id for both sections and thus doesn't work consistently
       participated_yesterday = true;
       html_just = html_past + '</p>';
-      if (wins) {
-        //const uid = localStorage.getItem('uid');
-        //html_just += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot" target="_blank">@adte_bot</a>. Спасибо!</p>`;
-      }
-
       html_past = ''; // in order not to duplicate yesterday's status in history (looks weird)
     }
 
@@ -559,7 +554,7 @@ async function play() {
     return;
   }
   */
-  
+
   if (campaign.length == 0) {
   //if (tguid == 359070623 || tguid == 1096170666) {
     on_holidays();
