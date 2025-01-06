@@ -498,7 +498,6 @@ function on_holidays() {
 
 
 async function play() {
-  'use strict';
   start_countdown();
 
   const this_screen = document.getElementById('third_screen');
@@ -536,6 +535,9 @@ async function play() {
 
     return;
   }
+
+  if (tguid == 359070623)
+    await get_campaign_for_me_today();
 
   //await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
@@ -609,8 +611,8 @@ async function play() {
   document.getElementById('percent').innerHTML = percent;
   // const percent = campaign[3];
 
-  if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
-    tell_em();
+  //if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
+  //  tell_em();
 
   var canvas = document.getElementById('js-canvas');
   const canvas_container = document.getElementById('js-container');
