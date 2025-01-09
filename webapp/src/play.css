@@ -213,7 +213,7 @@ h3 {
 #ad_marker {
   position: absolute;
   z-index: 200;
-  top: 5%;
+  top: 10%;
   text-align: center;
   color: white;
   border: 1px solid;
