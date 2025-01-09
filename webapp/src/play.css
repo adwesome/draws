@@ -214,8 +214,8 @@ h3 {
   z-index: 0;
 }
 .modal {
-  margin-top: 5vh;
-  height: calc(100vh - 5vh - 36px);
+  margin-top: 8vh;
+  height: calc(100vh - 8vh - 36px);
 }
 
 #ad_marker {
@@ -228,7 +228,7 @@ h3 {
   border: 1px solid;
   background: transparent;
   left: 10%;
-  left: 0.5rem;
+  left: 2%;
   padding: 2px 8px;
   border-radius: 15px;
   transform-: translate(-50%, 0%);
