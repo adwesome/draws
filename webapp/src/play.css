@@ -213,7 +213,7 @@ h3 {
 #ad_marker {
   position: absolute;
   z-index: 200;
-  top: 40px;
+  top: 45px;
   text-align: center;
   color: white;
   border: 1px solid;
@@ -221,6 +221,7 @@ h3 {
   padding: 2px 8px;
   border-radius: 15px;
   transform: translate(-50%, -50%);
+  backdrop-filter: blur(5px);
 }
 
 #ad_explain {
