@@ -213,16 +213,22 @@ h3 {
 .modal-backdrop {
   z-index: 0;
 }
+.modal {
+  margin-top: 5vh;
+  height: calc(100vh - 5vh - 36px);
+}
 
 #ad_marker {
   position: absolute;
   z-index: 200;
-  top: 4.2vh;
+  top-: 4.2vh;
+  bottom: 0.5rem;
   text-align: center;
   color: white;
   border: 1px solid;
   background: transparent;
   left: 10%;
+  left: 0.5rem;
   padding: 2px 8px;
   border-radius: 15px;
   transform-: translate(-50%, 0%);
@@ -233,7 +239,7 @@ h3 {
   position: absolute;
   color-: white;
   z-index: 150;
-  bottom: 5vh;
+  bottom: 10vh;
   text-align: center;
   width: 100%;
   padding: 0 5%;
