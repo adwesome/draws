@@ -488,8 +488,8 @@ function tell_em() {
 }
 
 function on_holidays() {
-  let content = '<p style=""><b>До встречи в новом году!</b></p><p>Розыгрышей не будет до 14 января 2025.<br>Мы пришлем вам уведомление в боте, <br>когда розыгрыши начнутся 👍</p>';
-  content += '<button id="toggle-sound" class="btn btn-light btn-sm-" onclick="v=document.getElementById(`video`);v.muted = !v.muted;log(`unmute`);">вкл. 🎵</button>';
+  let content = '<p style="font-size: 1.2em"><b>Розыгрышей сейчас нет, т.к. мы готовим систему и организации к новым розыгрышам</b></p><p>Примерная дата начала розыгрышей: 27 января 2025. Мы пришлем вам уведомление в боте, когда розыгрыши снова начнутся 👍</p>';
+  content += '<button id="toggle-sound" class="btn btn-light btn-sm-" onclick="v=document.getElementById(`video`);v.muted = !v.muted;log(`unmute`);">вкл./выкл. 🎵</button>';
   const explain = document.getElementById('ad_explain');
   explain.innerHTML = content;
   explain.style.visibility = 'unset';
