@@ -221,14 +221,15 @@ h3 {
 #ad_marker {
   position: absolute;
   z-index: 200;
-  top-: 4.2vh;
-  bottom: 0.5rem;
+  top: 4.2vh;
+  bottom-: 0.5rem;
   text-align: center;
   color: white;
   border: 1px solid;
   background: transparent;
-  left: 10%;
-  left: 2%;
+  left-: 10%;
+  left-: 2%;
+  right: 80px;
   padding: 2px 8px;
   border-radius: 15px;
   transform-: translate(-50%, 0%);
