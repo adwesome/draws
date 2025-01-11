@@ -2,6 +2,15 @@ var SERVER_HOSTNAME = 'http://127.0.0.1:5000';
 if (location.hostname)
   SERVER_HOSTNAME = 'https://scratchit.cards';
 
+function get_os() {
+  const ua = navigator.userAgent.toLowerCase();
+  if (ua.indexOf('android') > -1)
+    return 'android';
+  if (ua.indexOf('iphone') > -1)
+    return 'iphone';
+  return ua;
+}
+
 function choice(length) {
   return Math.floor(Math.random() * length);
 }

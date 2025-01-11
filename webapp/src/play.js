@@ -506,6 +506,11 @@ async function play() {
 
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
+  const ad_marker = document.getElementById('ad_marker');
+  if (get_os() == 'android') {
+    ad_marker.style.top = '6vh';
+    ad_marker.style.right = '90px';
+  }
 
   const tguid = get_tguid_from_url();
   let participates = await get_participation({'uid': uid, 'tguid': tguid});
