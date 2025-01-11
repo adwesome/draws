@@ -508,7 +508,7 @@ async function play() {
   const ad_explain = document.getElementById('ad_explain');
   const ad_marker = document.getElementById('ad_marker');
   if (get_os() == 'android') {
-    ad_marker.style.top = '6vh';
+    ad_marker.style.top = '70px';
     ad_marker.style.right = '90px';
   }
 
