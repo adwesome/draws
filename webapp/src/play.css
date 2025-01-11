@@ -230,9 +230,10 @@ h3 {
   left: 50%;
   left-: 2%;
   right-: 100px;
-  padding: 2px 12px;
+  padding: 3px 12px;
   border-radius: 15px;
-  font-size: 0.95em;
+  font-family: system-ui;
+  font-size: 0.9em;
   transform: translate(-50%, 50%);
   backdrop-filter: blur(15px) contrast(100%) brightness(120%);
   -webkit-backdrop-filter: blur(15px) contrast(100%) brightness(120%);
