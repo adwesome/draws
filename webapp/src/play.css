@@ -220,7 +220,7 @@ h3 {
 
 #ad_marker {
   position: absolute;
-  z-index: 97;
+  z-index: 200;
   top-: 50px;
   bottom: 50px;
   text-align: center;
