@@ -230,11 +230,12 @@ h3 {
   left: 50%;
   left-: 2%;
   right-: 100px;
-  padding: 2px 12px;
+  padding: 3px 12px;
   border-radius: 15px;
+  font-size: 0.9em;
   transform: translate(-50%, 50%);
-  backdrop-filter: blur(15px) contrast(60%);
-  -webkit-backdrop-filter: blur(15px) contrast(60%);
+  backdrop-filter: blur(15px) contrast(40%);
+  -webkit-backdrop-filter: blur(15px) contrast(40%);
 }
 
 #ad_explain {
