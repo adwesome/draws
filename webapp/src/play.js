@@ -506,11 +506,13 @@ async function play() {
 
   const ad_element = document.getElementById('ad');
   const ad_explain = document.getElementById('ad_explain');
+  /*
   const ad_marker = document.getElementById('ad_marker');
   if (get_os() == 'android') {
-    ad_marker.style.top = '70px';
+    ad_marker.style.top = '5%';
     ad_marker.style.right = '90px';
   }
+  */
 
   const tguid = get_tguid_from_url();
   let participates = await get_participation({'uid': uid, 'tguid': tguid});
@@ -569,6 +571,7 @@ async function play() {
     explain.style.transform = 'unset';
     explain.style.top = 'unset';
     explain.style.left = '-20px';
+    explain.style.zIndex = '95';
     let c = '<video id="video" width="auto" height="auto" autoplay="autoplay" loop="loop" muted defaultMuted playsinline oncontextmenu="return false;" preload="auto">';
     //explain.innerHTML += '<source src="https://www.dropbox.com/s/l48qpima7jge13i/shale.mp4?raw=1" type="video/mp4">';
     c += '<source src="https://s3-portfolio-files.s3.eu-west-1.amazonaws.com/portfolio/shale.mp4" type="video/mp4">';

@@ -40,7 +40,7 @@ h3 {
 .canvas {
   position: absolute;
   top: 0;
-  z-index: 100;
+  z-index: 98;
   object-fit: fill;
   height: 100vh;
   width: 100%;
@@ -220,26 +220,27 @@ h3 {
 
 #ad_marker {
   position: absolute;
-  z-index: 200;
-  top: 4.2vh;
-  bottom-: 0.5rem;
+  z-index: 97;
+  top-: 50px;
+  bottom: 50px;
   text-align: center;
   color: white;
-  border: 1px solid;
+  border: 0px solid;
   background: transparent;
-  left-: 10%;
+  left: 50%;
   left-: 2%;
-  right: 100px;
-  padding: 2px 8px;
+  right-: 100px;
+  padding: 2px 12px;
   border-radius: 15px;
-  transform-: translate(-50%, 0%);
+  transform: translate(-50%, 50%);
   backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 #ad_explain {
   position: absolute;
   color-: white;
-  z-index: 150;
+  z-index: 98;
   bottom: 10vh;
   text-align: center;
   width: 100%;
