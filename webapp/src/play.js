@@ -476,7 +476,7 @@ function enable_swipe() {
 
 function remove_canvas() {
   ['js-canvas', 'js-canvas-explain'].forEach((id) => {
-    document.getElementById(id).remove();  
+    document.getElementById(id).remove();
   });
 }
 
@@ -579,6 +579,7 @@ async function play() {
     explain.innerHTML = c;
     explain.style.display = 'block';
 
+    document.getElementById('js-canvas').remove();
     const v = document.getElementById('video');
     v.addEventListener('loadeddata', function() {
       const video_dimensions = {'w': 576, 'h': 1024};
