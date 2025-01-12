@@ -236,8 +236,12 @@ h3 {
   font-weight: 600;
   font-size: 0.8em;
   transform: translate(-50%, 50%);
-  backdrop-filter: blur(15px) contrast(80%) brightness(130%);
-  -webkit-backdrop-filter: blur(15px) contrast(80%) brightness(130%);
+  backdrop-filter: blur(15px) contrast(80%) brightness(150%);
+  -webkit-backdrop-filter: blur(15px) contrast(80%) brightness(150%);
+}
+
+.dropup .dropdown-toggle::after {
+  display: none;
 }
 
 #ad_explain {

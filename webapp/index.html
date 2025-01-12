@@ -40,17 +40,17 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
-    <link rel="stylesheet" href="src/first_screen.css?v=01112153"/>
-    <link rel="stylesheet" href="src/second_screen.css?v=01112153"/>
+    <link rel="stylesheet" href="src/first_screen.css?v=01112155"/>
+    <link rel="stylesheet" href="src/second_screen.css?v=01112155"/>
 
-    <link rel="stylesheet" href="src/play.css?v=01112153"/>
+    <link rel="stylesheet" href="src/play.css?v=01112155"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=01112153"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=01112153"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=01112153"></script-->
-    <script type="text/javascript" src="src/poll.js?v=01112153"></script>
-    <script type="text/javascript" src="src/play.js?v=01112153"></script>
+    <script type="text/javascript" src="src/common.js?v=01112155"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=01112155"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=01112155"></script-->
+    <script type="text/javascript" src="src/poll.js?v=01112155"></script>
+    <script type="text/javascript" src="src/play.js?v=01112155"></script>
     <script type="text/javascript">
       window.onload = async function() {
         //'use strict';
@@ -175,11 +175,23 @@
                       <div id="ad"></div>
                       <div id="ad_explain"></div>
 
-                      <button id="ad_marker" data-bs-toggle="modal" data-bs-target="#exampleModal">Реклама &nbsp; 
+<div class="btn-group dropdown-center dropup" style="left: 50%;">
+  <button id="ad_marker" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+    Реклама <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+    </svg>
+  </button>
+  <ul class="dropdown-menu">
+    <li><p class="dropdown-item" href="#" style="text-align: center; margin-top: 5px;">ERID: 000000</p></li>
+    <li><p><a class="dropdown-item-" href="#">О&nbsp;рекламодателе</a></p></li>
+  </ul>
+</div>
+
+                      <!--button id="ad_marker" data-bs-toggle="modal" data-bs-target="#exampleModal">Реклама &nbsp; 
                         <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
                         </svg>
-                      </button>
+                      </button-->
                     </div>
                   </div>
 
