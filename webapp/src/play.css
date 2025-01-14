@@ -109,12 +109,17 @@ h3 {
 }
 
 #flipdown {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 43%;
-  left: 50%;
-  backface-visibility: hidden;
-  width: max-content;
+  position-: absolute;
+  transform-: translate(-50%, -50%);
+  top-: 43%;
+  left-: 50%;
+  backface-visibility-: hidden;
+  width-: max-content;
+  scale-: 0.8;
+  margin-left: -12px;
+  scale: 0.8;
+  width-: max-content !important;
+  display: none;
 }
 #flipdown_header {
   position: absolute;

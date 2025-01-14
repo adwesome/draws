@@ -40,17 +40,17 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
-    <link rel="stylesheet" href="src/first_screen.css?v=01112159"/>
-    <link rel="stylesheet" href="src/second_screen.css?v=01112159"/>
+    <link rel="stylesheet" href="src/first_screen.css?v=01142"/>
+    <link rel="stylesheet" href="src/second_screen.css?v=01142"/>
 
-    <link rel="stylesheet" href="src/play.css?v=01112159"/>
+    <link rel="stylesheet" href="src/play.css?v=01142"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=01112159"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=01112159"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=01112159"></script-->
-    <script type="text/javascript" src="src/poll.js?v=01112159"></script>
-    <script type="text/javascript" src="src/play.js?v=01112159"></script>
+    <script type="text/javascript" src="src/common.js?v=01142"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=01142"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=01142"></script-->
+    <script type="text/javascript" src="src/poll.js?v=01142"></script>
+    <script type="text/javascript" src="src/play.js?v=01142"></script>
     <script type="text/javascript">
       window.onload = async function() {
         //'use strict';
@@ -175,33 +175,27 @@
                       <div id="ad"></div>
                       <div id="ad_explain"></div>
 
-<div class="btn-group dropdown-center dropup" style="left: 50%;">
-  <button id="ad_marker" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-    Реклама <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
-    </svg>
-  </button>
-  <ul class="dropdown-menu">
-    <li><p class="dropdown-item" href="#" style="text-align: center; margin-top: 5px;">ERID: 000000</p></li>
-    <li><p><a class="dropdown-item-" href="#">О&nbsp;рекламодателе</a></p></li>
-  </ul>
-</div>
-
-                      <!--button id="ad_marker" data-bs-toggle="modal" data-bs-target="#exampleModal">Реклама &nbsp; 
-                        <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                          <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
-                        </svg>
-                      </button-->
+                      <div class="btn-group dropdown-center dropup" style="left: 50%;">
+                        <button id="ad_marker" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                          Реклама <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+                          </svg>
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li><p class="dropdown-item" href="#" style="text-align: center; margin-top: 5px;">ERID: <span id="erid">000000</span></p></li>
+                          <li><p><a href="#">О&nbsp;рекламодателе</a></p></li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
 
-                  <div class="swiper-slide non-white-bg center">
+                  <!--div class="swiper-slide non-white-bg center">
                     <p id="flipdown_header">Через</p>
                     <div id="flipdown" class="flipdown"></div>
                     <div id="flipdown_explain">
                       <p><span class="conditions"><span id="percent"></span>%</span> участников выиграют подарок от <span class="conditions" id="who"></span>. Вы участвуете&nbsp;👍</p>
                     </div>
-                  </div>              
+                  </div-->              
 
                 </div>
                 <div class="swiper-pagination swiper-inner-pagination"></div>
@@ -217,6 +211,7 @@
                 </div>
                 <h3>Сегодня</h3>
                 <div id="now"><p>Нет</p></div>
+                <div id="flipdown" class="flipdown"></div>
                 <h3>Завтра (и до 27 января)</h3>
                 <div id="next"><p>Нет</p></div>
 

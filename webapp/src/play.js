@@ -286,13 +286,14 @@ function start_countdown(time) {  // https://flaviocopes.com/how-to-get-tomorrow
   }).start();
 
   document.getElementsByClassName('rotor-group')[0].style.display = 'none';
+  document.getElementById('flipdown').style.display = 'block';
 }
 
 async function play_demo() {
-  swiper_inner.slideTo(1, 2000, false);
-  await sleep(2000);
-  swiper_inner.slideTo(0, 2000, false);
-  await sleep(2000);
+  //swiper_inner.slideTo(1, 2000, false);
+  //await sleep(2000);
+  //swiper_inner.slideTo(0, 2000, false);
+  //await sleep(2000);
   swiper_outer.slideTo(1, 2000, false);
   await sleep(2000);
   //swiper_outer.slideTo(2, 2000, false);
@@ -407,7 +408,7 @@ async function run_progress_bar(seconds) {
     if (i > 100) {
       clearInterval(interval);
       enable_swipe();
-      enable_flip();
+      //enable_flip();
       await sleep(500);
 
       if (is_newcomer()) {
@@ -415,9 +416,9 @@ async function run_progress_bar(seconds) {
         return;
       }
 
-      swiper_inner.slideTo(1, 2000, false);
+      //swiper_inner.slideTo(1, 2000, false);
       ad.style.opacity = 1;
-      await sleep(4200);
+      //await sleep(4200);
       swiper_outer.slideTo(1, 2000, false);
 
       /*
@@ -524,7 +525,7 @@ async function play() {
     ad_explain.style.visibility = 'visible';
     //await calculate_percent(cid);
     enable_swipe();
-    enable_flip();
+    //enable_flip();
     remove_canvas();
 
     const campaign = participates.result[0];
@@ -616,8 +617,8 @@ async function play() {
   ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
   const cid = campaign[0];
   const who = campaign[3];
-  document.getElementById('who').innerHTML = who;
-  document.getElementById('percent').innerHTML = percent;
+  //document.getElementById('who').innerHTML = who;
+  //document.getElementById('percent').innerHTML = percent;
   // const percent = campaign[3];
 
   //if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
