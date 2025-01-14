@@ -86,6 +86,7 @@ h3 {
 .swiper-pagination {
   background-: rgba(255, 255, 255, 0.6) !important;
   border-radius: 20px;
+  z-index: 200;
   backdrop-filter: blur(15px) contrast(80%) brightness(150%);
   -webkit-backdrop-filter: blur(15px) contrast(80%) brightness(150%);
 }
