@@ -499,7 +499,7 @@ function on_holidays() {
 
 
 async function play() {
-  start_countdown();
+  //start_countdown();
 
   const this_screen = document.getElementById('third_screen');
   if (this_screen.style.display != 'block')
