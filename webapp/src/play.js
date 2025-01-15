@@ -408,7 +408,7 @@ async function run_progress_bar(seconds) {
     if (i > 100) {
       clearInterval(interval);
       enable_swipe();
-      //enable_flip();
+      enable_flip();
       await sleep(500);
 
       if (is_newcomer()) {
@@ -499,7 +499,7 @@ function on_holidays() {
 
 
 async function play() {
-  //start_countdown();
+  start_countdown();
 
   const this_screen = document.getElementById('third_screen');
   if (this_screen.style.display != 'block')
@@ -525,7 +525,7 @@ async function play() {
     ad_explain.style.visibility = 'visible';
     //await calculate_percent(cid);
     enable_swipe();
-    //enable_flip();
+    enable_flip();
     remove_canvas();
 
     const campaign = participates.result[0];
@@ -596,6 +596,7 @@ async function play() {
       //log('loaded');
     }, false);
     enable_swipe();
+    enable_flip();
     create_drawings_list();
     return;
   }

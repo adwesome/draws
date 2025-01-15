@@ -40,17 +40,17 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
-    <link rel="stylesheet" href="src/first_screen.css?v=01144"/>
-    <link rel="stylesheet" href="src/second_screen.css?v=01144"/>
+    <link rel="stylesheet" href="src/first_screen.css?v=01146"/>
+    <link rel="stylesheet" href="src/second_screen.css?v=01146"/>
 
-    <link rel="stylesheet" href="src/play.css?v=01144"/>
+    <link rel="stylesheet" href="src/play.css?v=01146"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=01144"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=01144"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=01144"></script-->
-    <script type="text/javascript" src="src/poll.js?v=01144"></script>
-    <script type="text/javascript" src="src/play.js?v=01144"></script>
+    <script type="text/javascript" src="src/common.js?v=01146"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=01146"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=01146"></script-->
+    <script type="text/javascript" src="src/poll.js?v=01146"></script>
+    <script type="text/javascript" src="src/play.js?v=01146"></script>
     <script type="text/javascript">
       window.onload = async function() {
         //'use strict';
@@ -189,13 +189,50 @@
                     </div>
                   </div>
 
-                  <!--div class="swiper-slide non-white-bg center">
-                    <p id="flipdown_header">Через</p>
+                  <div class="swiper-slide non-white-bg">
+                    <!--p id="flipdown_header">Через</p>
                     <div id="flipdown" class="flipdown"></div>
                     <div id="flipdown_explain">
                       <p><span class="conditions"><span id="percent"></span>%</span> участников выиграют подарок от <span class="conditions" id="who"></span>. Вы участвуете&nbsp;👍</p>
+                    </div-->
+
+                    <h2 style="margin-top: 11vh;">Ваши настройки</h2>
+                    <p>На основе данных, указанными вами ниже, система предлагает наиболее интересные вам розыгрыши, а владельцы брендов узнают, какая аудитория их поддерживает &mdash; и придумывают для вас лучшие предложения и подарки.</p>
+                    <p id="fill_data"></p>
+
+                    <div class="accordion" id="accordionExample">
+                      <div style="margin-bottom: 5px;">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                              О вас
+                            </button>
+                          </h2>
+                          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                              <div id="mini_app_settings"></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="brands">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                              Бренды
+                            </button>
+                          </h2>
+                          <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                              <p>Выберите бренды, которые вы любите, точки продаж которых вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать. Цветами выделены бренды, которые <span class="available">сейчас участвуют</span> (либо в данный момент на паузе, но могут начать участвовать в любой момент), <span class="preparing">готовятся к участию</span> или <span class="not-available">пока не заинтересованы участвовать</span> в розыгрышах.</p>
+                              <p style="font-size: 0.85em;">Если вы заметили, что какого-то бренда не хватает, или его больше нет, или вы хозяин бренда и хотите поучаствовать в розыгрышах, то, пожалуйста, <a href="https://telegram.me/adt_bot" target="_blank">сообщите нам об этом</a> прямо в боте.</p>
+                              <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div-->              
+                  </div>
 
                 </div>
                 <div class="swiper-pagination swiper-inner-pagination"></div>
@@ -230,42 +267,7 @@
             <!--/div>
 
             <div class="swiper-slide non-white-bg list-"-->
-              <h2>Ваши настройки</h2>
-              <p>На основе данных, указанными вами ниже, система предлагает наиболее интересные вам розыгрыши, а владельцы брендов узнают, какая аудитория их поддерживает &mdash; и придумывают для вас лучшие предложения и подарки.</p>
-              <p id="fill_data"></p>
 
-              <div class="accordion" id="accordionExample">
-                <div style="margin-bottom: 5px;">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                        О вас
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <div id="mini_app_settings"></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div id="brands">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                        Бренды
-                      </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <p>Выберите бренды, которые вы любите, точки продаж которых вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать. Цветами выделены бренды, которые <span class="available">сейчас участвуют</span> (либо в данный момент на паузе, но могут начать участвовать в любой момент), <span class="preparing">готовятся к участию</span> или <span class="not-available">пока не заинтересованы участвовать</span> в розыгрышах.</p>
-                        <p style="font-size: 0.85em;">Если вы заметили, что какого-то бренда не хватает, или его больше нет, или вы хозяин бренда и хотите поучаствовать в розыгрышах, то, пожалуйста, <a href="https://telegram.me/adt_bot" target="_blank">сообщите нам об этом</a> прямо в боте.</p>
-                        <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
           <div class="swiper-pagination swiper-outer-pagination"></div>
