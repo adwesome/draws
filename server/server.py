@@ -130,7 +130,7 @@ def update_player(data):
   command = ""
   uid = int(data['uid'])
   bids = data.get('brands', '')
-  command = "UPDATE players SET region = {region}, city = {city}, sex = {sex}, age = {age} ".format(
+  command = "UPDATE players SET region_id = {region}, city_id = {city}, sex = {sex}, age = {age} ".format(
     region = int(data['demography']['region']),
     city = int(data['demography']['city']),
     sex = int(data['demography']['sex']),
@@ -210,8 +210,8 @@ def create_player_participation(data):  # fix this get_today_epoch2
   status = 0
   gift = ''
   date_now = get_today_epoch2()
-  command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}', NULL, '')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
-  if pid != 389:  # temp, debug
+  command = "INSERT INTO par (cid, pid, status_system, created_at, gift) VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
+  if pid != -384:  # temp, debug
     db_write(command)
 
 
@@ -403,7 +403,7 @@ def submit_vote():
   now = int(datetime.datetime.now(tz=datetime.timezone.utc).timestamp() * 1000)
   uid = data['uid']
   region = data['demography'][0]
-  if region == 10:
+  if region == 1:
     city = data['demography'][1]
   else:
     city = -1
@@ -415,7 +415,7 @@ def submit_vote():
   if not re.match(r'[\d+\,]+', bids) and bids != '':
     return
 
-  command = "UPDATE players SET region = {}, city = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
+  command = "UPDATE players SET region_id = {}, city_id = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
   db_write(command)
   result = {"code": 200}
   return send_response(result)
@@ -716,7 +716,7 @@ def update_code(data):
   code = data['code']
   comment = data.get('comment', '').strip()
   date_now = get_today_epoch2()
-  query = "UPDATE par SET status = 2, comment = '{}', date_gifted = {} WHERE gift = '{}' ".format(comment, date_now, code)
+  query = "UPDATE par SET status_system = 2, comment = '{}', date_gifted = {} WHERE gift = '{}' ".format(comment, date_now, code)
   query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
   return db_write(query)
 
@@ -742,7 +742,7 @@ def draws_codes_comments():
 def update_code_status(data):
   rowid = int(data[0])
   status = int(data[1])
-  query = "UPDATE par SET status = {} WHERE rowid = {}".format(status, rowid)
+  query = "UPDATE par SET status_system = {} WHERE rowid = {}".format(status, rowid)
   db_write(query)
 
 

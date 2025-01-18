@@ -534,18 +534,18 @@ async function play() {
     ad_element.style.background = `no-repeat center url("${ad}?v=${percent}")`;
     const cid = campaign[0];
     const who = campaign[3];
-    document.getElementById('who').innerHTML = who;
-    document.getElementById('percent').innerHTML = percent;
+    //document.getElementById('who').innerHTML = who;
+    //document.getElementById('percent').innerHTML = percent;
     create_drawings_list();
 
-    if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
-      tell_em();
+    //if (ad == 'img/ads/ad-lenta-pro.jpg' && !is_newcomer())
+    //  tell_em();
 
     return;
   }
 
-  //if (tguid == 359070623)
-  //  await get_campaign_for_me_today();
+  if (tguid == 359070623)
+    await get_campaign_for_me_today();
 
   //await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
