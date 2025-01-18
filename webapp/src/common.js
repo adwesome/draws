@@ -127,7 +127,7 @@ async function collect_demography_data_from_form() {
   if (tguid)
     r['tguid'] = tguid;
 
-  if (d.region == 10 && d.city == 11)
+  if (d.region == 1 && d.city == 1)
     init_orgs_poll();
 
   const result = JSON.stringify(r);

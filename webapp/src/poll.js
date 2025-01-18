@@ -176,7 +176,7 @@ function draw_orgs() {
       if (new_existing_choices.brands.includes(e[0]))
         result += ' checked';
 
-      result += `> <b>${e[1]}</b> (${e[2]}) <br><span class="address">${e[3]}</span></label></li>`;
+      result += `> <b>${e[3]}</b> (${e[2]}) <br><span class="address">${e[9]}</span></label></li>`;
     });
     result += '</ul>';
   }
@@ -267,9 +267,9 @@ function fill_categories() {
   categories = {}
   for (let i = 0; i < orgs.length; i++) {
     const e = orgs[i];
-    const name = e[1];
+    const name = e[3];
     const type = e[2];
-    const addr = e[3];
+    const addr = e[9];
     for (cat in c) {
       if (c[cat].includes(type)) {
         if (cat in categories)

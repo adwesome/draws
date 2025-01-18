@@ -211,7 +211,8 @@ def create_player_participation(data):  # fix this get_today_epoch2
   gift = ''
   date_now = get_today_epoch2()
   command = "INSERT INTO par VALUES ({cid}, {pid}, {status}, {date_now}, '{gift}', NULL, '')".format(cid = cid, pid = pid, date_now = date_now, status = status, gift = gift)
-  db_write(command)
+  if pid != 389:  # temp, debug
+    db_write(command)
 
 
 def check_if_pid_participates_in_non_repeatable_cid(pid, cid):
@@ -229,8 +230,8 @@ def check_if_pid_participates_today(pid):
   # date_finish = date_start + 86400 - 1  # UTC bug hidden by this comment: I register in UTC but check participation in UTC+1.5, need to fix participation time and then fix this code
   # print(get_today_datetime(), date_start, datetime.datetime.utcfromtimestamp(date_start).strftime('%Y-%m-%d %H:%M:%S'))
   # print(date_finish, datetime.datetime.utcfromtimestamp(date_finish).strftime('%Y-%m-%d %H:%M:%S'))
-  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.date >= {date_start} ".format(pid = pid, date_start = date_start)
-  # command += "AND p.date < {date_finish}".format(date_finish = date_finish)
+  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.created_at >= {date_start} ".format(pid = pid, date_start = date_start)
+  # command += "AND p.created_at < {date_finish}".format(date_finish = date_finish)
   return db_read(command)
 
 
@@ -359,12 +360,12 @@ def get_campaigns_for_player():
 # PARTICIPATION HISTORY
 ##
 def get_campaigns_history_for_pid(pid):
-  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status, p.date, p.gift, p.rowid FROM par p \
+  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status_system, p.created_at, p.gift, p.rowid FROM par p \
            JOIN cam c on p.cid = c.rowid \
            JOIN orgs o ON o.rowid = c.oid \
            JOIN brands b ON b.rowid = o.bid \
            WHERE p.pid = {pid} \
-           ORDER BY p.date DESC".format(pid = pid)
+           ORDER BY p.created_at DESC".format(pid = pid)
   return db_read(query)
 
 
@@ -454,15 +455,16 @@ def get_uid():
 def get_player_choices():
   uid = request.args.get('uid')
   player = read_player({'uid': uid})
+  print(player)
   bids = []
-  if player[0][8]:
-    bids = list(map(int, re.sub(r'^,', '', player[0][8]).split(',')))  # https://stackoverflow.com/questions/6429638/how-to-split-a-string-of-space-separated-numbers-into-integers
+  if player[0][11]:
+    bids = list(map(int, re.sub(r'^,', '', player[0][11]).split(',')))  # https://stackoverflow.com/questions/6429638/how-to-split-a-string-of-space-separated-numbers-into-integers
   result = {"code": 200, "result": {
     "demography": {
-      "region": player[0][3],
-      "city": player[0][4],
+      "region": player[0][9],
+      "city": player[0][10],
       "sex": player[0][5],
-      "age": player[0][6],
+      "age": player[0][4],
     }, 
     "brands": bids
     }
@@ -497,10 +499,10 @@ def get_stats_players():
 def calc_players(bid, days_offset_old, days_offset_new = None):
   print(days_offset_old, days_offset_new)
   offset_old = get_start_of_the_day_epoch(days_offset_old)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.created_at >= {offset_old} ".format(offset_old = offset_old)
   if days_offset_new is not None:
     offset_new = get_start_of_the_day_epoch(days_offset_new)
-    query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
+    query += "AND p.created_at < {offset_new} ".format(offset_new = offset_new)
   query += "AND date >= {} ".format(TIMESTAMP_BEGINNING)
   query += "AND pid IN ("
   query += "SELECT rowid FROM players p WHERE 1=1 "
@@ -527,9 +529,9 @@ def calc_players_brand_today(bid, offset):  # check that optimal
   if offset:
     offset_new = get_start_of_the_day_epoch(offset - 1)
 
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.date >= {offset_old} ".format(offset_old = offset_old)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE p.created_at >= {offset_old} ".format(offset_old = offset_old)
   if offset:
-    query += "AND p.date < {offset_new} ".format(offset_new = offset_new)
+    query += "AND p.created_at < {offset_new} ".format(offset_new = offset_new)
   if bid != -1:
     query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid}))".format(bid = bid)
   query += ")"
@@ -629,8 +631,8 @@ def get_participation_chart(bid):
 
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
-  query = "SELECT DISTINCT p.pid FROM par p WHERE p.date >= {} ".format(TIMESTAMP_BEGINNING)
-  query += "UNION SELECT rowid FROM players WHERE rowid NOT IN (SELECT DISTINCT p.pid FROM par p WHERE p.date >= {}) AND tguid != -1".format(TIMESTAMP_BEGINNING)  # started bot but not participated
+  query = "SELECT DISTINCT p.pid FROM par p WHERE p.created_at >= {} ".format(TIMESTAMP_BEGINNING)
+  query += "UNION SELECT rowid FROM players WHERE rowid NOT IN (SELECT DISTINCT p.pid FROM par p WHERE p.created_at >= {}) AND tguid != -1".format(TIMESTAMP_BEGINNING)  # started bot but not participated
   pids_unique = db_read(query)
 
   bid = int(request.args.get('bid'))
@@ -677,7 +679,7 @@ def get_codes():
   #if tguid in [1731725782227, 1730926893589]:
   oid = 107
 
-  query = "SELECT p.gift, p.status, p.comment, p.date_gifted from par p where 1=1 "
+  query = "SELECT p.gift, p.status_system, p.comment, p.date_gifted from par p where 1=1 "
   query += "AND status >= 1 "
   query += "AND date >= 1733707800 "  # 9 Dec 2024
   query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
@@ -694,7 +696,7 @@ def get_draws_codes():
 
 def check_code(code):
   print("SQL injection")
-  query = "SELECT p.gift, p.status, p.comment, p.date_gifted from par p where 1=1 "
+  query = "SELECT p.gift, p.status_system, p.comment, p.date_gifted from par p where 1=1 "
   query += "AND gift = '{}'".format(code)
   return db_read(query)
 

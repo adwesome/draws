@@ -8,32 +8,36 @@ function draw_demography_poll(target) {
   <label>Регион, в котором вы живете:</label>\
   <select id="region" class="form-select">\
     <option value="-1" selected>- выберите -</option>\
-    <option value="51">Мурманская обл.</option>\
-    <option value="10">респ. Карелия</option>\
-    <option value="29">Архангельская обл.</option>\
-    <option value="47">г. Санкт-Петербург и ЛО</option>\
-    <option value="35">Вологодская обл.</option>\
-    <option value="53">Новгородская обл.</option>\
-    <option value="50">г. Москва и МО</option>\
+    <option value="2">Мурманская обл.</option>\
+    <option value="1">респ. Карелия</option>\
+    <option value="3">Архангельская обл.</option>\
+    <option value="5">г. Санкт-Петербург и ЛО</option>\
+    <option value="4">Вологодская обл.</option>\
     <option value="-2">- другой -</option>\
   </select>\
   \
   <label id="city_label" style="display: none;">Город, в котором вы живете:</label>\
   <select id="city" class="form-select" style="display: none;">\
     <option value="-1" selected>- выберите -</option>\
-    <option value="1">Беломорск</option>\
-    <option value="2">Кемь</option>\
-    <option value="3">Кондопога</option>\
-    <option value="4">Костомукша</option>\
-    <option value="5">Лахденпохья</option>\
+    <option value="6">Беломорск</option>\
+    <option value="17">Калевала</option>\
+    <option value="9">Кемь</option>\
+    <option value="5">Кондопога</option>\
+    <option value="3">Костомукша</option>\
+    <option value="11">Лахденпохья</option>\
+    <option value="16">Лоухи</option>\
     <option value="6">Медвежьегорск</option>\
-    <option value="7">Олонец</option>\
-    <option value="8">Петрозаводск</option>\
-    <option value="9">Питкяранта</option>\
-    <option value="10">Пудож</option>\
-    <option value="11">Сегежа</option>\
-    <option value="12">Сортавала</option>\
-    <option value="13">Суоярви</option>\
+    <option value="18">Муезерский</option>\
+    <option value="13">Надвоицы</option>\
+    <option value="8">Олонец</option>\
+    <option value="2">Петрозаводск</option>\
+    <option value="10">Питкяранта</option>\
+    <option value="15">Пряжа</option>\
+    <option value="12">Пудож</option>\
+    <option value="1">Сегежа</option>\
+    <option value="4">Сортавала</option>\
+    <option value="7">Суоярви</option>\
+    <option value="14">Чупа</option>\
     <option value="-2">- другой -</option>\
   </select>\
   \

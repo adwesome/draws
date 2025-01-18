@@ -32,17 +32,17 @@ async function create_drawings_list() {
     if (ch.demography) {
       if (ch.demography.region == -1 || ch.demography.sex == -1 || ch.demography.age == -1)
         document.getElementById('fill_data').innerHTML = '<div class="alert alert-danger" role="alert">Заполните, пожалуйста, форму в разделе "О вас". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
-      if (ch.demography.region == 10) {
+      if (ch.demography.region == 1) {
         document.getElementById('city').style.display = 'unset';
         document.getElementById('city_label').style.display = 'unset';
       }
-      if (ch.demography.region == 10 && ch.demography.city == 11)
+      if (ch.demography.region == 1 && ch.demography.city == 1)
         init_orgs_poll();
 
-      if ([1,2,3,4,5].includes(ch.brands.length) && ch.demography.city == 11)
+      if ([1,2,3,4,5].includes(ch.brands.length) && ch.demography.city == 1)
         document.getElementById('fill_data').innerHTML += '<div class="alert alert-primary" role="alert">Заполните, пожалуйста, форму в разделе "Бренды". Это анонимно и на данном этапе очень важно для будущего этого проекта. Спасибо!</div>';
 
-      if (ch.demography.city != 11) {
+      if (ch.demography.city != 1) {
         document.getElementById('brands').style.display = 'unset';
         document.getElementById('brands').innerHTML = '<br>⚠️ Раздел "Бренды" доступен пока только для жителей г. Сегежа. Если вы хотите выбирать бренды, и у вас есть возможность лично (или через друзей и родственников) получить подарки в Сегеже до 31 декабря 2024, вы можете временно выбрать город Сегежа, установить нужные галки для брендов, и затем вернуть свой город на настоящее значение.';
       }
@@ -247,7 +247,7 @@ async function create_drawings_list() {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
   }
-  else if (past_counter >= 11 && !wins && ch.demography.region == 10) {
+  else if (past_counter >= 11 && !wins && ch.demography.region == 1) {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
     document.getElementById('rating_intro').innerHTML = 'Мы видим, что вы давно играете и не выигрывали. Выигрыши сейчас, как раз, идут, в основном, среди таких людей, как вы. Если вы просто продолжите играть, то в ближайшие дни выиграете! Просто хотим вас поблагодарить за ваше упорство и поддержать 🤗'
@@ -544,8 +544,8 @@ async function play() {
     return;
   }
 
-  if (tguid == 359070623)
-    await get_campaign_for_me_today();
+  //if (tguid == 359070623)
+  //  await get_campaign_for_me_today();
 
   //await get_campaign_for_me_today();
   const campaign = category_map['campaigns'];
