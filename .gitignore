@@ -2,3 +2,5 @@
 *.pyc
 **/*.db*
 *.sh
+.idea
+*.sql
