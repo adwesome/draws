@@ -174,7 +174,8 @@ async function create_drawings_list() {
       // 3. https://vk.com/segezhadays?w=wall-78535365_59596
     }
 
-    if (date_participated == date_yesterday || i == 0) {  // || i == 0 fixes bug: user didn't participate 1+ days and won and now has won in yesterday+ and history sections but feedback radio has the same id for both sections and thus doesn't work consistently
+    //if (date_participated == date_yesterday || i == 0) {  // || i == 0 fixes bug: user didn't participate 1+ days and won and now has won in yesterday+ and history sections but feedback radio has the same id for both sections and thus doesn't work consistently
+    if (date_participated == date_yesterday) {
       participated_yesterday = true;
       html_just = html_past + '</p>';
       html_past = ''; // in order not to duplicate yesterday's status in history (looks weird)
@@ -184,8 +185,10 @@ async function create_drawings_list() {
       html_last_participated = html_past;
   }
 
-  if (!participated_yesterday)
+  if (!participated_yesterday) {
+    document.getElementById('yesterday_or_earlier_header').innerHTML = 'Последний ранее';
     html_just = html_last_participated;
+  }
 
   html_past += '</div>';
   if (past_counter)
@@ -499,7 +502,7 @@ function on_holidays() {
 
 
 async function play() {
-  start_countdown();
+  //start_countdown();
 
   const this_screen = document.getElementById('third_screen');
   if (this_screen.style.display != 'block')
