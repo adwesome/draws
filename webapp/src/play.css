@@ -375,3 +375,20 @@ h4 {
   visibility: hidden;
   margin-top: 5px;
 }
+
+#chances_to_win_container {
+  border-: 1px solid gray;
+  background: antiquewhite;
+  border-radius: 8px;
+  margin: 0 20px;
+  height: 32px;
+}
+#chances_to_win_bar {
+  border-radius: 7px;
+  height: 32px;
+  width: 50%;
+  background: limegreen;
+}
+#chances_to_win_explain {
+  margin-top: 10px;
+}
