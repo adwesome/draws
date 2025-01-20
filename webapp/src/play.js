@@ -243,8 +243,8 @@ async function create_drawings_list() {
     document.getElementById('past').innerHTML = html_past;
   else if (html_past)
     document.getElementById('past').innerHTML = document.getElementById('past').innerHTML + html_past;
-  if (wins || lost || not)
-    draw_chart(wins, lost, not);
+  //if (wins || lost || not)
+  //  draw_chart(wins, lost, not);
 
   if (past_counter >= 2 && past_counter < 6) {
     document.getElementById('rating_header').style.display = 'block';

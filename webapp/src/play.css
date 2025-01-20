@@ -213,9 +213,11 @@ h3 {
 #chart-stats {
   max-width: 430px;
   max-height: 430px;
+  display: none;
 }
 .stats-clarify {
-  margin-bottom: 1.5em;
+  margin-bottom-: 1.5em;
+  margin-bottom: 0;
 }
 
 .modal-backdrop {
