@@ -479,14 +479,14 @@ def get_player_choices():
 def get_stats_players():
   p_total = db_read("SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par)")
   today = get_start_of_the_day_epoch(0)
-  query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today}".format(today = today)
+  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND date < {today}".format(today = today)
   w_total = db_read(query)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {today})".format(today = today)
   p_today = db_read(query)
   yesterday = get_start_of_the_day_epoch(1)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {yesterday} AND date < {today})".format(today = today, yesterday = yesterday)
   p_yesterday = db_read(query)
-  query = "SELECT COUNT(*) FROM par WHERE status > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
+  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
   w_yesterday = db_read(query)
   result = {"code": 200, "result": {"total": p_total, "total_winners": w_total, "today": p_today, "yesterday": p_yesterday, "yesterday_winners": w_yesterday}}
   return send_response(result)
@@ -680,7 +680,7 @@ def get_codes():
   oid = 107
 
   query = "SELECT p.gift, p.status_system, p.comment, p.date_gifted from par p where 1=1 "
-  query += "AND status >= 1 "
+  query += "AND status_system >= 1 "
   query += "AND date >= 1733707800 "  # 9 Dec 2024
   query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
   codes = db_read(query)
@@ -729,7 +729,7 @@ def draws_code_update():
 
 
 def get_comments(oid):
-  query = "SELECT DISTINCT comment FROM par p WHERE cid IN (SELECT rowid FROM cam WHERE oid = {}) AND status = 2 AND comment != '' ORDER BY 1".format(oid)
+  query = "SELECT DISTINCT comment FROM par p WHERE cid IN (SELECT rowid FROM cam WHERE oid = {}) AND status_system = 2 AND comment != '' ORDER BY 1".format(oid)
   return db_read(query)
 
 
