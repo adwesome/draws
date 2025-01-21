@@ -232,7 +232,8 @@ h3 {
   position: absolute;
   z-index: 197;
   top-: 50px;
-  bottom: 64px;
+  bottom-: 64px;
+  bottom: 40px;
   text-align: center;
   color: white;
   border: 0px solid;
@@ -240,7 +241,7 @@ h3 {
   left: 50%;
   left-: 2%;
   right-: 100px;
-  padding: 5px 12px 5px 12px;
+  padding: 6px 12px 6px 12px;
   border-radius: 15px;
   font-family: system-ui;
   font-weight: 600;
@@ -258,7 +259,8 @@ h3 {
   position: absolute;
   color-: white;
   z-index: 198;
-  bottom: 80px;
+  bottom-: 80px;
+  bottom: 55px;
   text-align: center;
   width: 100%;
   padding: 0 5%;
