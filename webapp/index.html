@@ -40,17 +40,18 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
-    <link rel="stylesheet" href="src/first_screen.css?v=01148"/>
-    <link rel="stylesheet" href="src/second_screen.css?v=01148"/>
+    <link rel="stylesheet" href="src/first_screen.css?v=01149"/>
+    <link rel="stylesheet" href="src/second_screen.css?v=01149"/>
 
-    <link rel="stylesheet" href="src/play.css?v=01148"/>
+    <link rel="stylesheet" href="src/play.css?v=01149"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=01148"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=01148"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=01148"></script-->
-    <script type="text/javascript" src="src/poll.js?v=01148"></script>
-    <script type="text/javascript" src="src/play.js?v=01148"></script>
+    <script type="text/javascript" src="src/common.js?v=01149"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=01149"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=01149"></script-->
+    <script type="text/javascript" src="src/poll.js?v=01149"></script>
+    <script type="text/javascript" src="src/yandex.js?v=01149"></script>
+    <script type="text/javascript" src="src/play.js?v=01149"></script>
     <script type="text/javascript">
       window.onload = async function() {
         //'use strict';
@@ -163,29 +164,67 @@
         <div id="third_screen" class="swiper-outer" pagination="true">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
+
+              <!-- https://codepen.io/Totati/pen/pPXrJV -->
+              <!-- https://github.com/andreruffert/scratchie.js -->
+              <div class="container-" id="js-container">
+                <p id="js-canvas-explain"><b>Полностью</b> сотрите защитный слой и дождитесь, когда экран перевернется, и на нем появится обратный отсчет &mdash; так ваше участие в розыгрыше будет засчитано</p>
+                <canvas class="canvas" id="js-canvas"></canvas>
+                <div id="ad"></div>
+                <div id="ad_explain"></div>
+
+                <div class="btn-group dropdown-center dropup" style="left: 50%;">
+                  <button id="ad_marker" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                    Реклама <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+                    </svg>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><p class="dropdown-item" href="#" style="text-align: center; margin-top: 5px;">ERID: <span id="erid">000000</span></p></li>
+                    <li><p><a href="#">О&nbsp;рекламодателе</a></p></li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+            <div class="swiper-slide non-white-bg list-">
               <div class="swiper-inner">
                 <div class="swiper-wrapper">
-
                   <div class="swiper-slide">
-                    <!-- https://codepen.io/Totati/pen/pPXrJV -->
-                    <!-- https://github.com/andreruffert/scratchie.js -->
-                    <div class="container-" id="js-container">
-                      <p id="js-canvas-explain"><b>Полностью</b> сотрите защитный слой и дождитесь, когда экран перевернется, и на нем появится обратный отсчет &mdash; так ваше участие в розыгрыше будет засчитано</p>
-                      <canvas class="canvas" id="js-canvas"></canvas>
-                      <div id="ad"></div>
-                      <div id="ad_explain"></div>
 
-                      <div class="btn-group dropdown-center dropup" style="left: 50%;">
-                        <button id="ad_marker" type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                          Реклама <svg style="vertical-align: sub;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-up" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
-                          </svg>
-                        </button>
-                        <ul class="dropdown-menu">
-                          <li><p class="dropdown-item" href="#" style="text-align: center; margin-top: 5px;">ERID: <span id="erid">000000</span></p></li>
-                          <li><p><a href="#">О&nbsp;рекламодателе</a></p></li>
-                        </ul>
+                    <h2 style="margin-top: 11vh;">Ваши розыгрыши</h2>
+                    <div id="drawings_list">
+                      <div id="yesterday">
+                        <!--h3>Вчера и позавчера</h3-->
+                        <h3 id="yesterday_or_earlier_header">Вчера</h3>
+                        <div id="just"><p>Не было вовсе, не было по вашим настройкам, либо вы просто вчера не участвовали</p></div>  
                       </div>
+                      <h3>Сегодня</h3>
+                      <div id="now"><p>Нет</p></div>
+                      <div id="flipdown" class="flipdown"></div>
+                      <h3>Завтра (и до 27 января)</h3>
+                      <div id="next"><p>Нет</p></div>
+
+                      <h2 style="margin: 1.5em 0 0.3em 0">Ваши шансы на выигрыш</h2>
+                      <p>Ваши шансы на выигрыш сегодня или в ближайшие дни: <b>средние</b></p>
+                      <div id="chances_to_win_container">
+                        <div id="chances_to_win_bar"></div>
+                      </div>
+                      <div id="chances_to_win_explain">
+                        <p><a href="#">Как увеличить шансы?</a></p>
+                      </div>
+
+                      <h2 style="margin: 1.5em 0 0.3em 0" id="rating_header">⭐️ Ваш рейтинг</h2>
+                      <p id="rating_intro">Скоро здесь будет информация о вашем "рейтинге" &mdash; вашей вероятности побеждать в розыгрышах по отношению к другим участникам. На рейтинг влияют такие показатели, как: заполнили ли вы разделы "О вас" и "Ваши бренды", сколько раз подряд вы уже участвуете, давно ли вы не выигрывали, и т.д. Если вы постоянно участвуете, заполнили свой профиль, давно не выигрывали &mdash; то ваши шансы на выигрыш в ближайшее время будут самыми высокими, и наоборот.</p>
+
+                      <h2 style="margin: 1.5em 0 0.3em 0;" id="invite_others">Пригласить других</h2>
+                      <p>Пригласите к участию своих родных и близких: <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=irfr" target="_blank">@adte_bot</a> &mdash; и выигрывайте больше подарков вместе!</p>
+
+                      <h2 style="margin: 1.5em 0 0.3em 0;" id="past_header">Ваша история и аналитика</h2>
+                      <div id="past">
+                        <p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать.</p>
+                      </div>
+                      <br>
                     </div>
                   </div>
 
@@ -233,54 +272,12 @@
                       </div>
                     </div>
                   </div>
-
                 </div>
-                <div class="swiper-pagination swiper-inner-pagination"></div>
               </div>
-            </div>
-            <div class="swiper-slide non-white-bg list-">
-              <h2 style="margin-top: 11vh;">Ваши розыгрыши</h2>
-              <div id="drawings_list">
-                <div id="yesterday">
-                  <!--h3>Вчера и позавчера</h3-->
-                  <h3 id="yesterday_or_earlier_header">Вчера</h3>
-                  <div id="just"><p>Не было вовсе, не было по вашим настройкам, либо вы просто вчера не участвовали</p></div>  
-                </div>
-                <h3>Сегодня</h3>
-                <div id="now"><p>Нет</p></div>
-                <div id="flipdown" class="flipdown"></div>
-                <h3>Завтра (и до 27 января)</h3>
-                <div id="next"><p>Нет</p></div>
-
-                <h2 style="margin: 1.5em 0 0.3em 0">Шансы на выигрыш</h2>
-                <p>Ваши шансы на выигрыш сегодня или в ближайшие дни: <b>средние</b></p>
-                <div id="chances_to_win_container">
-                  <div id="chances_to_win_bar"></div>
-                </div>
-                <div id="chances_to_win_explain">
-                  <p><a href="#">Как увеличить шансы?</a></p>
-                </div>
-
-                <h2 style="margin: 1.5em 0 0.3em 0" id="rating_header">⭐️ Ваш рейтинг</h2>
-                <p id="rating_intro">Скоро здесь будет информация о вашем "рейтинге" &mdash; вашей вероятности побеждать в розыгрышах по отношению к другим участникам. На рейтинг влияют такие показатели, как: заполнили ли вы разделы "О вас" и "Ваши бренды", сколько раз подряд вы уже участвуете, давно ли вы не выигрывали, и т.д. Если вы постоянно участвуете, заполнили свой профиль, давно не выигрывали &mdash; то ваши шансы на выигрыш в ближайшее время будут самыми высокими, и наоборот.</p>
-
-                <h2 style="margin: 1.5em 0 0.3em 0;" id="invite_others">Пригласить других</h2>
-                <p>Пригласите к участию своих родных и близких: <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=irfr" target="_blank">@adte_bot</a> &mdash; и выигрывайте больше подарков вместе!</p>
-
-                <h2 style="margin: 1.5em 0 0.3em 0;" id="past_header">Ваша история и аналитика</h2>
-                <div id="past">
-                  <p>Здесь будет история и аналитика по всем розыгрышам, в которых вы будете участвовать.</p>
-                </div>
-                <br>
-              </div>
-            <!--/div>
-
-            <div class="swiper-slide non-white-bg list-"-->
-
+              <div class="swiper-pagination swiper-inner-pagination"></div>
             </div>
           </div>
           <div class="swiper-pagination swiper-outer-pagination"></div>
-        </div>
       </div>
     </div>
 
