@@ -70,7 +70,7 @@ function draw_demography(target) {
 
   const region = document.getElementById('region');
   region.addEventListener('change', function() {
-    if (region.value == '10')
+    if (region.value == '1')
       set_cities_display_attr('unset');
     else
       set_cities_display_attr('none');
