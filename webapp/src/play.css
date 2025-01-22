@@ -321,6 +321,7 @@ h4 {
 }
 .accordion-body {
   padding: 15px 0;
+  padding-top: 1px;
 }
 .accordion-button {
   padding: 5px 20px;
