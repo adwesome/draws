@@ -77,7 +77,7 @@ def send_response(result):
 
 def read_player(data):
   uid = int(data['uid'])
-  query = "SELECT rowid, * FROM players WHERE uid = {uid}".format(uid = uid)
+  query = "SELECT id, * FROM players WHERE uid = {uid}".format(uid = uid)
   return db_read(query)
 
 
@@ -151,7 +151,7 @@ def create_or_update_player_brands(data):
   if not re.match(r'[\d+\,]+', new_brands):
     return
 
-  query = "SELECT rowid FROM brands WHERE rowid IN ({new_brands})".format(new_brands = new_brands)
+  query = "SELECT id FROM brands WHERE id IN ({new_brands})".format(new_brands = new_brands)
   allowed_brands = db_read(query)
   
   bids = []
@@ -159,7 +159,7 @@ def create_or_update_player_brands(data):
     bids.append(str(bid[0]))
   bids = ','.join(bids)
 
-  command = "UPDATE players SET bids = '{bids}' WHERE rowid = {pid}".format(
+  command = "UPDATE players SET bids = '{bids}' WHERE id = {pid}".format(
     pid = pid,
     bids = bids,
   )
@@ -193,7 +193,7 @@ def get_status_by_chance(chance):
 
 
 def get_chance_from_cam_by_cid(cid):
-  query = "SELECT chance FROM cam WHERE rowid = {cid}".format(cid = cid)
+  query = "SELECT chance FROM cam WHERE id = {cid}".format(cid = cid)
   return db_read(query)[0][0]
 
 
@@ -217,7 +217,7 @@ def create_player_participation(data):  # fix this get_today_epoch2
 
 def check_if_pid_participates_in_non_repeatable_cid(pid, cid):
   # type = 0 - non-repeatable, 1 - repeatable
-  command = "SELECT * FROM par WHERE pid = {pid} AND cid IN (SELECT rowid FROM cam WHERE rowid = {cid} AND type = 0)".format(pid = pid, cid = cid)
+  command = "SELECT * FROM par WHERE pid = {pid} AND cid IN (SELECT id FROM cam WHERE id = {cid} AND type = 0)".format(pid = pid, cid = cid)
   participants = db_read(command)
   if not participants:
     return False
@@ -230,7 +230,7 @@ def check_if_pid_participates_today(pid):
   # date_finish = date_start + 86400 - 1  # UTC bug hidden by this comment: I register in UTC but check participation in UTC+1.5, need to fix participation time and then fix this code
   # print(get_today_datetime(), date_start, datetime.datetime.utcfromtimestamp(date_start).strftime('%Y-%m-%d %H:%M:%S'))
   # print(date_finish, datetime.datetime.utcfromtimestamp(date_finish).strftime('%Y-%m-%d %H:%M:%S'))
-  command = "SELECT c.rowid, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.rowid JOIN orgs o ON o.rowid = c.oid WHERE p.pid = {pid} AND p.created_at >= {date_start} ".format(pid = pid, date_start = date_start)
+  command = "SELECT c.id, c.ad, c.chance, o.name FROM par p JOIN cam c on p.cid = c.id JOIN orgs o ON o.id = c.oid WHERE p.pid = {pid} AND p.created_at >= {date_start} ".format(pid = pid, date_start = date_start)
   # command += "AND p.created_at < {date_finish}".format(date_finish = date_finish)
   return db_read(command)
 
@@ -288,20 +288,20 @@ def get_chances_to_win(pid):
 ##
 def get_brands_for_me_for_today(pid):
   date_now = get_today_epoch2()
-  query = "SELECT bids FROM players WHERE rowid = {pid}".format(pid = pid)
+  query = "SELECT bids FROM players WHERE id = {pid}".format(pid = pid)
   bids = db_read(query)[0][0]
   if not bids:
     return
 
-  query = "SELECT DISTINCT b.rowid, b.name FROM cam c \
-          JOIN orgs o ON o.rowid = c.oid \
-          JOIN brands b ON b.rowid = o.bid \
+  query = "SELECT DISTINCT b.id, b.name FROM cam c \
+          JOIN orgs o ON o.id = c.oid \
+          JOIN brands b ON b.id = o.bid \
           WHERE 1=1 \
-          AND c.rowid NOT IN (\
-            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.type = 0 AND p.pid = {pid}\
+          AND c.id NOT IN (\
+            SELECT p.cid FROM par p JOIN cam c ON c.id = p.cid WHERE c.type = 0 AND p.pid = {pid}\
           ) ".format(pid = pid)
   
-  query += "AND b.rowid IN ({bids}) ".format(bids = bids)
+  query += "AND b.id IN ({bids}) ".format(bids = bids)
   query += "AND c.date_start <= {date_now} \
             AND c.date_end > {date_now} ".format(date_now = date_now)
   return db_read(query)
@@ -309,14 +309,14 @@ def get_brands_for_me_for_today(pid):
 
 def get_campaigns_for_brand_and_pid_for_today(pid, bid):
   date_now = get_today_epoch2()
-  query = "SELECT c.rowid, c.ad, c.chance, o.name FROM cam c \
-          JOIN orgs o ON c.oid = o.rowid \
+  query = "SELECT c.id, c.ad, c.chance, o.name FROM cam c \
+          JOIN orgs o ON c.oid = o.id \
           WHERE 1=1 \
           and c.date_start <= {date_now} \
           and c.date_end > {date_now} \
           AND o.bid = {bid} \
-          AND c.rowid NOT IN (\
-            SELECT p.cid FROM par p JOIN cam c ON c.rowid = p.cid WHERE c.type = 0 AND p.pid = {pid}\
+          AND c.id NOT IN (\
+            SELECT p.cid FROM par p JOIN cam c ON c.id = p.cid WHERE c.type = 0 AND p.pid = {pid}\
           )".format(pid = pid, bid = bid, date_now = date_now)
   return db_read(query)
 
@@ -376,10 +376,10 @@ def get_campaigns_for_player():
 # PARTICIPATION HISTORY
 ##
 def get_campaigns_history_for_pid(pid):
-  query = "SELECT c.rowid, c.ad, c.chance, b.name, p.status_system, p.created_at, p.gift, p.rowid FROM par p \
-           JOIN cam c on p.cid = c.rowid \
-           JOIN orgs o ON o.rowid = c.oid \
-           JOIN brands b ON b.rowid = o.bid \
+  query = "SELECT c.id, c.ad, c.chance, b.name, p.status_system, p.created_at, p.gift, p.id, p.gifted_at, p.status_player, c.date_end FROM par p \
+           JOIN cam c on p.cid = c.id \
+           JOIN orgs o ON o.id = c.oid \
+           JOIN brands b ON b.id = o.bid \
            WHERE p.pid = {pid} \
            ORDER BY p.created_at DESC".format(pid = pid)
   return db_read(query)
@@ -431,7 +431,7 @@ def submit_vote():
   if not re.match(r'[\d+\,]+', bids) and bids != '':
     return
 
-  command = "UPDATE players SET region_id = {}, city_id = {}, sex = {}, age = {}, bids = '{}' WHERE rowid = {}".format(region, city, sex, age, bids, pid)
+  command = "UPDATE players SET region_id = {}, city_id = {}, sex = {}, age = {}, bids = '{}' WHERE id = {}".format(region, city, sex, age, bids, pid)
   db_write(command)
   result = {"code": 200}
   return send_response(result)
@@ -439,14 +439,14 @@ def submit_vote():
 
 @app.route('/orgs/all', methods=['GET'])
 def get_orgs():
-  orgs = db_read("SELECT rowid, * FROM orgs")
+  orgs = db_read("SELECT id, * FROM orgs")
   result = {"code": 200, "orgs": orgs}
   return send_response(result)
 
 
 @app.route('/votes/all', methods=['GET'])
 def get_votes():
-  votes = db_read("SELECT rowid, * FROM players WHERE tguid != -1 and bids != ''")
+  votes = db_read("SELECT id, * FROM players WHERE tguid != -1 and bids != ''")
   result = {"code": 200, "votes": votes}
   return send_response(result)
 
@@ -521,7 +521,7 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
     query += "AND p.created_at < {offset_new} ".format(offset_new = offset_new)
   query += "AND created_at >= {} ".format(TIMESTAMP_BEGINNING)
   query += "AND pid IN ("
-  query += "SELECT rowid FROM players p WHERE 1=1 "
+  query += "SELECT id FROM players p WHERE 1=1 "
   query += "AND churned_since IS NULL "
   if bid != -1:
     query += "AND p.bids LIKE '%,{bid},%' OR p.bids LIKE '{bid},%' OR p.bids LIKE '%,{bid}'".format(bid = bid)
@@ -533,9 +533,9 @@ def calc_players_brand_total(bid):
   date_begin_9_dec = 1733707800
   # offset_old = get_start_of_the_day_epoch(0)
   query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par p WHERE 1=1 "
-  query += "AND cid IN (SELECT rowid FROM cam WHERE date_start >= {date_start} ".format(date_start = date_begin_9_dec)
+  query += "AND cid IN (SELECT id FROM cam WHERE date_start >= {date_start} ".format(date_start = date_begin_9_dec)
   if bid != -1:
-    query += "AND oid IN (SELECT rowid FROM orgs WHERE 1=1 AND bid = {bid}) ".format(bid = bid)
+    query += "AND oid IN (SELECT id FROM orgs WHERE 1=1 AND bid = {bid}) ".format(bid = bid)
   query += "))"
   return db_read(query)
 
@@ -549,7 +549,7 @@ def calc_players_brand_today(bid, offset):  # check that optimal
   if offset:
     query += "AND p.created_at < {offset_new} ".format(offset_new = offset_new)
   if bid != -1:
-    query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {bid}))".format(bid = bid)
+    query += "AND cid IN (SELECT id FROM cam WHERE oid IN (SELECT id FROM orgs WHERE bid = {bid}))".format(bid = bid)
   query += ")"
   return db_read(query)
 
@@ -572,8 +572,8 @@ def get_cohorts(bid):
     query = "SELECT DISTINCT pid FROM par WHERE created_at >= {date_start} AND created_at < {date_end} ".format(date_start = date_start, date_end = date_end)
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
     if bid != -1:
-      query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-    # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
+      query += "AND pid IN (SELECT id FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
+    # query += "AND pid NOT IN (SELECT id FROM players WHERE churned_since IS NOT NULL) "
     q = db_read(query)
     pids = get_values_from_query(q)
 
@@ -589,8 +589,8 @@ def get_cohorts(bid):
       query = "SELECT DISTINCT pid FROM par WHERE created_at >= {date_start2} AND created_at < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
       query += "AND pid in ({}) ".format(','.join(map(str, new_pids)))
       if bid != -1:
-        query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-      # query += "AND pid NOT IN (SELECT rowid FROM players WHERE churned_since IS NOT NULL) "
+        query += "AND pid IN (SELECT id FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
+      # query += "AND pid NOT IN (SELECT id FROM players WHERE churned_since IS NOT NULL) "
       q = db_read(query)
       pids2 = get_values_from_query(q)
       cohort.append(len(pids2))
@@ -620,7 +620,7 @@ def get_participation_chart(bid):
       time_to = midnight + (hour + 1) * 3600 - 1
       query = "SELECT COUNT(*) FROM par WHERE 1=1 "
       if bid != -1:
-        query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {})) ".format(bid)
+        query += "AND cid IN (SELECT id FROM cam WHERE oid IN (SELECT id FROM orgs WHERE bid = {})) ".format(bid)
       query += "AND created_at BETWEEN {} AND {}".format(time_from, time_to)
       participants = db_read(query)
       r.append(participants[0][0])
@@ -648,14 +648,14 @@ def get_participation_chart(bid):
 @app.route('/get/control', methods=['GET'])
 def get_control_data():
   query = "SELECT DISTINCT p.pid FROM par p WHERE p.created_at >= {} ".format(TIMESTAMP_BEGINNING)
-  query += "UNION SELECT rowid FROM players WHERE rowid NOT IN (SELECT DISTINCT p.pid FROM par p WHERE p.created_at >= {}) AND tguid != -1".format(TIMESTAMP_BEGINNING)  # started bot but not participated
+  query += "UNION SELECT id FROM players WHERE id NOT IN (SELECT DISTINCT p.pid FROM par p WHERE p.created_at >= {}) AND tguid != -1".format(TIMESTAMP_BEGINNING)  # started bot but not participated
   pids_unique = db_read(query)
 
   bid = int(request.args.get('bid'))
   query = "SELECT COUNT(*) FROM players WHERE 1=1 "
   if bid != -1:
     query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE created_at >= {}) ".format(TIMESTAMP_BEGINNING)
+  query += "AND id IN (SELECT DISTINCT pid FROM par WHERE created_at >= {}) ".format(TIMESTAMP_BEGINNING)
   query += "AND churned_since IS NULL "
   players_brand = db_read(query)
 
@@ -698,7 +698,7 @@ def get_codes():
   query = "SELECT p.gift, p.status_system, p.comment, p.gifted_at from par p where 1=1 "
   query += "AND status_system >= 1 "
   query += "AND created_at >= 1733707800 "  # 9 Dec 2024
-  query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {}) ".format(oid)
+  query += "AND cid in (SELECT c.id from cam c WHERE c.oid = {}) ".format(oid)
   query += "AND gift NOT LIKE 'http%'"
   codes = db_read(query)
   return codes
@@ -733,8 +733,8 @@ def update_code(data):
   code = data['code']
   comment = data.get('comment', '').strip()
   date_now = get_today_epoch2()
-  query = "UPDATE par SET status_system = 2, comment = '{}', gifted_at = {} WHERE gift = '{}' ".format(comment, date_now, code)
-  query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
+  query = "UPDATE par SET comment = '{}', gifted_at = {} WHERE gift = '{}' ".format(comment, date_now, code)
+  query += "AND cid IN (SELECT c.id from cam c WHERE c.oid = {})".format(oid)
   return db_write(query)
 
 
@@ -746,7 +746,7 @@ def draws_code_update():
 
 
 def get_comments(oid):
-  query = "SELECT DISTINCT comment FROM par p WHERE cid IN (SELECT rowid FROM cam WHERE oid = {}) AND status_system = 2 AND comment != '' ORDER BY 1".format(oid)
+  query = "SELECT DISTINCT comment FROM par p WHERE cid IN (SELECT id FROM cam WHERE oid = {}) AND status_system = 2 AND comment != '' ORDER BY 1".format(oid)
   return db_read(query)
 
 
@@ -756,15 +756,15 @@ def draws_codes_comments():
   return send_response({'code': 200, 'result': get_comments(oid)})
 
 
-def update_code_status(data):
-  rowid = int(data[0])
+def update_status_player(data):
+  id = int(data[0])
   status = int(data[1])
-  query = "UPDATE par SET status_system = {} WHERE rowid = {}".format(status, rowid)
+  query = "UPDATE par SET status_player = {} WHERE id = {}".format(status, id)
   db_write(query)
 
 
 @app.route('/draws/codes/feedback', methods=['POST'])
 def draws_codes_feedback():
   data = convert_to_dict(request.data)
-  update_code_status(data)
+  update_status_player(data)
   return send_response({'code': 200})

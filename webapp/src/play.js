@@ -85,9 +85,13 @@ async function create_drawings_list() {
     const day = date_participated.split('-')[2];
     const chance = campaign[2];
     const brand = campaign[3];
-    const status = campaign[4];
+    const status_system = campaign[4];
+    const status_player = campaign[9];
     const gift = campaign[6];
+    const gifted_at = campaign[8];
     const id = campaign[7];
+    const deadline = campaign[10];
+    const campaign_passed = deadline < parseInt(new Date().getTime() / 1000);
 
     if (parseInt(campaign[5]) <= 1731806999)  // end of test campaign, i.e. if has data then no need for sync
       may_need_to_sync = false;
@@ -104,12 +108,12 @@ async function create_drawings_list() {
 
       html_past += `<p>${day}.${month} <span class="status `;
 
-      if (status >= 1) {
+      if (status_system == 1) {
         html_past += 'won">🎉 Вы выиграли';
         wins += 1;
       }
       else {
-        if (status == 0) {
+        if (status_system == 0) {
           html_past += 'lost">🙁 Вы не выиграли';
           lost += 1;
         }
@@ -122,9 +126,9 @@ async function create_drawings_list() {
     if (date_participated < date_today) {
       html_past += `</span>`;
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
-      if (status >= 1)
+      if (status_system == 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status == 1 || (status >= 3 && status <= 5)) {
+      if (status_system == 1 && !gifted_at && !campaign_passed) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
@@ -139,19 +143,19 @@ async function create_drawings_list() {
         
           html_past += `<div class="btn-group btn-group-sm" style="margin: 0 0 10px 18px;" role="group" aria-label="Basic radio toggle button group">
             <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-3" autocomplete="off" value="${id}-3" `;
-            if (status == 3)
+            if (status_player == 3)
               html_past += 'checked';
           html_past += `>
             <label class="btn btn-outline-success" for="btnradio-${id}-3">Приду</label>
 
             <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-4" autocomplete="off" value="${id}-4" `;
-            if (status == 4)
+            if (status_player == 4)
               html_past += 'checked';
           html_past += `>
             <label class="btn btn-outline-success" for="btnradio-${id}-4">Придет кто-то за меня</label>
             
             <input type="radio" class="btn-check" name="gift-feedback-radio-${id}" id="btnradio-${id}-5" autocomplete="off" value="${id}-5" `;
-            if (status == 5)
+            if (status_player == 5)
               html_past += 'checked';
           html_past += `>          
             <label class="btn btn-outline-success" for="btnradio-${id}-5">Не приду</label>
@@ -160,15 +164,19 @@ async function create_drawings_list() {
         html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
         
       }
-      else if (status == 2) {  // gifted
-        html_past += '<p style="margin-bottom: 1em;">✅ Подарок получен.</p>'
+      else if (gifted_at) {  // gifted
+        html_past += '<p style="margin-bottom: 1em;">✅ Подарок получен</p>'
       }
-      else if (status == 6) {
-        html_past += '<p>❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок.</p>';
+      else if (status_player == 6) {
+        html_past += '<p>❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок и не пришли за ним</p>';
       }
-      else if (status == 7) {
-        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы отказались от получения.</p>';
+      else if (status_player == 7) {
+        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы отказались от получения</p>';
       }
+      else if (campaign_passed && status_system == 1 && !gifted_at || status_player == 8) {
+        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы не пришли за подарком до даты окончания вручения подарков</p>';
+      }
+      
       // 1. https://vk.com/segezhadays?w=wall-78535365_59304
       // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
       // 3. https://vk.com/segezhadays?w=wall-78535365_59596
@@ -501,19 +509,15 @@ function on_holidays() {
 }
 
 function adjust_chance_to_win(ctw) {
-  ctw = ctw * 100; // %
+  ctw = ctw * 100;  // convert to %
   document.getElementById('chances_to_win_bar').style.width = ctw + '%';
-  let ctw_word = 'средние';
-  if (ctw < 10)
-    ctw_word = 'очень низкие';
-  else if (ctw < 30)
+
+  let ctw_word = 'высокие';
+  if (ctw < 34)
     ctw_word = 'низкие';
-  else if (ctw < 60)
+  else if (ctw < 67)
     ctw_word = 'средние';
-  else if (ctw < 80)
-    ctw_word = 'высокие';
-  else
-    ctw_word = 'очень высокие';
+
   document.getElementById('chances_to_win_word').innerHTML = ctw_word;
 }
 

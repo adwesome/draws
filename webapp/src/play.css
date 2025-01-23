@@ -389,7 +389,7 @@ h4 {
   height: 32px;
 }
 #chances_to_win_bar {
-  border-radius: 7px;
+  border-radius: 7px 0 0 7px;
   height: 32px;
   width: 50%;
   background: limegreen;
