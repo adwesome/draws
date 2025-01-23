@@ -695,7 +695,7 @@ def get_codes():
   #if tguid in [1731725782227, 1730926893589]:
   oid = 107
 
-  query = "SELECT p.gift, p.status_system, p.comment, p.gifted_at from par p where 1=1 "
+  query = "SELECT p.gift, p.status_system, p.comment, p.gifted_at, p.status_player from par p where 1=1 "
   query += "AND status_system >= 1 "
   query += "AND created_at >= 1733707800 "  # 9 Dec 2024
   query += "AND cid in (SELECT c.id from cam c WHERE c.oid = {}) ".format(oid)
