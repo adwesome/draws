@@ -510,6 +510,8 @@ function on_holidays() {
 
 function adjust_chance_to_win(ctw) {
   ctw = ctw * 100;  // convert to %
+  if (ctw > 98)
+    ctw = 98;  // to make chances_to_win_bar look pretty when full due to "border-radius: 7px 0 0 7px;"
   document.getElementById('chances_to_win_bar').style.width = ctw + '%';
 
   let ctw_word = 'высокие';
