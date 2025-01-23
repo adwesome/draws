@@ -264,8 +264,24 @@ def get_player_participation():
     result = {"code": 205, "description": "Reset content", "uid": get_uid_by_tguid(tguid)}
     return send_response(result)
 
-  result = {"code": 200, "result": check_if_pid_participates_today(pid)}
+  result = {"code": 200, "result": check_if_pid_participates_today(pid), "ctw": get_chances_to_win(pid)}
   return send_response(result)
+
+# don't want to be a separate request, so I include it into get_player_participation()
+def get_chances_to_win(pid):
+  query = "select pid, tguid from ("
+  query += "SELECT sum(p.status_system) AS 'wins', round(100.0 * (sum(p.status_system) + 1) / count(*), 2) AS 'pbb', p.pid, p.cid, p2.tguid "
+  query += "FROM par p JOIN players p2 ON p2.id = p.pid WHERE 1 = 1 "
+  query += "AND p2.churned_since IS NULL AND p2.tguid != -1 "
+  query += "GROUP BY p.pid ORDER BY pbb ASC, wins asc)"
+  chances = db_read(query)
+  c = 1
+  for each in chances:
+    if each[0] == pid:
+      break
+    c += 1
+  return 1 - c / len(chances)
+
 
 ##
 # CAMPAIGNS

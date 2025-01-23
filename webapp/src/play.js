@@ -500,6 +500,22 @@ function on_holidays() {
   //explain.style.zIndex = '150';
 }
 
+function adjust_chance_to_win(ctw) {
+  ctw = ctw * 100; // %
+  document.getElementById('chances_to_win_bar').style.width = ctw + '%';
+  let ctw_word = 'средние';
+  if (ctw < 10)
+    ctw_word = 'очень низкие';
+  else if (ctw < 30)
+    ctw_word = 'низкие';
+  else if (ctw < 60)
+    ctw_word = 'средние';
+  else if (ctw < 80)
+    ctw_word = 'высокие';
+  else
+    ctw_word = 'очень высокие';
+  document.getElementById('chances_to_win_word').innerHTML = ctw_word;
+}
 
 async function play() {
   //start_countdown();
@@ -522,6 +538,8 @@ async function play() {
   let participates = await get_participation({'uid': uid, 'tguid': tguid});
   if (participates.code == 205)
     return reset_uid_and_restart(participates.uid, tguid);
+
+  adjust_chance_to_win(participates.ctw);
 
   if (participates.result.length && participates.result.length != 0) {  // if participated already
     ad_element.style.visibility = 'visible';
