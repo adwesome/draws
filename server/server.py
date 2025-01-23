@@ -384,7 +384,7 @@ def get_participation_campaigns_for_player():
   """
   # demo
   if pid == 2:
-    query = "DELETE FROM par WHERE pid = 2 and date >= 1732505317";
+    query = "DELETE FROM par WHERE pid = 2 and created_at >= 1732505317";
     db_write(query)
   """
   return send_response(result)
@@ -479,14 +479,14 @@ def get_player_choices():
 def get_stats_players():
   p_total = db_read("SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par)")
   today = get_start_of_the_day_epoch(0)
-  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND date < {today}".format(today = today)
+  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND created_at < {today}".format(today = today)
   w_total = db_read(query)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {today})".format(today = today)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE created_at >= {today})".format(today = today)
   p_today = db_read(query)
   yesterday = get_start_of_the_day_epoch(1)
-  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE date >= {yesterday} AND date < {today})".format(today = today, yesterday = yesterday)
+  query = "SELECT COUNT(*) FROM (SELECT DISTINCT pid FROM par WHERE created_at >= {yesterday} AND created_at < {today})".format(today = today, yesterday = yesterday)
   p_yesterday = db_read(query)
-  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND date < {today} AND date > {yesterday}".format(today = today, yesterday = yesterday)
+  query = "SELECT COUNT(*) FROM par WHERE status_system > 0 AND created_at < {today} AND created_at > {yesterday}".format(today = today, yesterday = yesterday)
   w_yesterday = db_read(query)
   result = {"code": 200, "result": {"total": p_total, "total_winners": w_total, "today": p_today, "yesterday": p_yesterday, "yesterday_winners": w_yesterday}}
   return send_response(result)
@@ -503,7 +503,7 @@ def calc_players(bid, days_offset_old, days_offset_new = None):
   if days_offset_new is not None:
     offset_new = get_start_of_the_day_epoch(days_offset_new)
     query += "AND p.created_at < {offset_new} ".format(offset_new = offset_new)
-  query += "AND date >= {} ".format(TIMESTAMP_BEGINNING)
+  query += "AND created_at >= {} ".format(TIMESTAMP_BEGINNING)
   query += "AND pid IN ("
   query += "SELECT rowid FROM players p WHERE 1=1 "
   query += "AND churned_since IS NULL "
@@ -553,7 +553,7 @@ def get_cohorts(bid):
   pids_existing = []
   while date_start < date_final + step:
     date_end = date_start + step
-    query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start} AND date < {date_end} ".format(date_start = date_start, date_end = date_end)
+    query = "SELECT DISTINCT pid FROM par WHERE created_at >= {date_start} AND created_at < {date_end} ".format(date_start = date_start, date_end = date_end)
     query += "AND pid NOT IN ({}) ".format(','.join(map(str, pids_existing)))
     if bid != -1:
       query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
@@ -570,7 +570,7 @@ def get_cohorts(bid):
     date_start2 = date_start
     while date_start2 < date_final + step:
       date_end2 = date_start2 + step
-      query = "SELECT DISTINCT pid FROM par WHERE date >= {date_start2} AND date < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
+      query = "SELECT DISTINCT pid FROM par WHERE created_at >= {date_start2} AND created_at < {date_end2} ".format(date_start2 = date_start2, date_end2 = date_end2)
       query += "AND pid in ({}) ".format(','.join(map(str, new_pids)))
       if bid != -1:
         query += "AND pid IN (SELECT rowid FROM players WHERE bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
@@ -605,7 +605,7 @@ def get_participation_chart(bid):
       query = "SELECT COUNT(*) FROM par WHERE 1=1 "
       if bid != -1:
         query += "AND cid IN (SELECT rowid FROM cam WHERE oid IN (SELECT rowid FROM orgs WHERE bid = {})) ".format(bid)
-      query += "AND date BETWEEN {} AND {}".format(time_from, time_to)
+      query += "AND created_at BETWEEN {} AND {}".format(time_from, time_to)
       participants = db_read(query)
       r.append(participants[0][0])
 
@@ -639,7 +639,7 @@ def get_control_data():
   query = "SELECT COUNT(*) FROM players WHERE 1=1 "
   if bid != -1:
     query += "AND (bids LIKE '{bid},%' OR bids LIKE '%,{bid}' OR bids LIKE '%,{bid},%' OR bids = '{bid}') ".format(bid = bid)
-  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE date >= {}) ".format(TIMESTAMP_BEGINNING)
+  query += "AND rowid IN (SELECT DISTINCT pid FROM par WHERE created_at >= {}) ".format(TIMESTAMP_BEGINNING)
   query += "AND churned_since IS NULL "
   players_brand = db_read(query)
 
@@ -679,10 +679,11 @@ def get_codes():
   #if tguid in [1731725782227, 1730926893589]:
   oid = 107
 
-  query = "SELECT p.gift, p.status_system, p.comment, p.date_gifted from par p where 1=1 "
+  query = "SELECT p.gift, p.status_system, p.comment, p.gifted_at from par p where 1=1 "
   query += "AND status_system >= 1 "
-  query += "AND date >= 1733707800 "  # 9 Dec 2024
-  query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
+  query += "AND created_at >= 1733707800 "  # 9 Dec 2024
+  query += "AND cid in (SELECT c.rowid from cam c WHERE c.oid = {}) ".format(oid)
+  query += "AND gift NOT LIKE 'http%'"
   codes = db_read(query)
   return codes
 
@@ -696,7 +697,7 @@ def get_draws_codes():
 
 def check_code(code):
   print("SQL injection")
-  query = "SELECT p.gift, p.status_system, p.comment, p.date_gifted from par p where 1=1 "
+  query = "SELECT p.gift, p.status_system, p.comment, p.gifted_at from par p where 1=1 "
   query += "AND gift = '{}'".format(code)
   return db_read(query)
 
@@ -716,7 +717,7 @@ def update_code(data):
   code = data['code']
   comment = data.get('comment', '').strip()
   date_now = get_today_epoch2()
-  query = "UPDATE par SET status_system = 2, comment = '{}', date_gifted = {} WHERE gift = '{}' ".format(comment, date_now, code)
+  query = "UPDATE par SET status_system = 2, comment = '{}', gifted_at = {} WHERE gift = '{}' ".format(comment, date_now, code)
   query += "AND cid IN (SELECT c.rowid from cam c WHERE c.oid = {})".format(oid)
   return db_write(query)
 
