@@ -165,18 +165,18 @@ function draw_orgs() {
     const em = categories[key];
     em.forEach((e) => {
       result += `<li><label`
-      if (orgs_available.includes(e[0]))
+      if (orgs_available.includes(e[1]))
         result += ' class="available"';
-      else if (orgs_preparing.includes(e[0]))
+      else if (orgs_preparing.includes(e[1]))
         result += ' class="preparing"';
-      else if (orgs_not_available.includes(e[0]))
+      else if (orgs_not_available.includes(e[1]))
         result += ' class="not-available"';
-      result += `><input type="checkbox" id="orgs-${e[0]}" value="${e[0]}"`;
+      result += `><input type="checkbox" id="orgs-${e[1]}" value="${e[1]}"`;
 
-      if (new_existing_choices.brands.includes(e[0]))
+      if (new_existing_choices.brands.includes(e[1]))
         result += ' checked';
 
-      result += `> <b>${e[3]}</b> (${e[2]}) <br><span class="address">${e[9]}</span></label></li>`;
+      result += `> <b>${e[3]}</b> (${e[4]}) <br><span class="address">${e[11]}</span></label></li>`;
     });
     result += '</ul>';
   }
@@ -268,8 +268,8 @@ function fill_categories() {
   for (let i = 0; i < orgs.length; i++) {
     const e = orgs[i];
     const name = e[3];
-    const type = e[2];
-    const addr = e[9];
+    const type = e[4];
+    const addr = e[11];
     for (cat in c) {
       if (c[cat].includes(type)) {
         if (cat in categories)
