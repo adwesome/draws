@@ -200,7 +200,7 @@ async function create_drawings_list() {
     html_past = '<div id="chart-wrapper"><canvas id="chart-stats"></canvas></div>' + html_past;
 
   if (wins)
-    html_past = `<p class="stats-clarify">Вы выиграли ${wins} из ${wins + lost} раз, когда вы участвовали. Это примерно ${Math.round(wins * 100 / (wins + lost))}% участий. В среднем, на данный момент выигрывают в ...% участий.</p>` + html_past;
+    html_past = `<p class="stats-clarify">Вы выиграли ${wins} из ${wins + lost} раз, когда вы участвовали. Это примерно ${Math.round(wins * 100 / (wins + lost))}% участий.</p>` + html_past;
   else if (lost && past_counter <= 3)
     html_past = `<p class="stats-clarify">Вы участвовали в розыгрыше ${times(lost)}, но пока ни разу не выиграли. Нужно больше участий. Участвуйте ещё!</p>` + html_past;
   else if (lost && past_counter > 3) {
