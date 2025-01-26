@@ -128,7 +128,7 @@ async function create_drawings_list() {
       html_past += `${chance}% участников выиграли подарки от <b>${brand}</b>`
       if (status_system == 1)
         html_past += `, и среди них &mdash; вы! `;
-      if (status_system == 1 && !gifted_at && !campaign_passed) {
+      if (status_system == 1 && !gifted_at && !campaign_passed || status_system == 1 && gift.includes('https')) {
         if (gift.includes("https")) {
           html_past += `<a href="${gift}" target="_blank">Открыть подарок</a>`;
           html_past += '<p class="congrats">Поздравляем! Вы &mdash; счастливчик!</p>';
@@ -173,13 +173,10 @@ async function create_drawings_list() {
       else if (status_player == 7) {
         html_past += '<p>❌ <b>Подарок аннулирован:</b> вы отказались от получения</p>';
       }
-      else if (campaign_passed && status_system == 1 && !gifted_at || status_player == 8) {
+      else if (campaign_passed && status_system == 1 && !gifted_at && !gift.includes('https') || status_player == 8) {
         html_past += '<p>❌ <b>Подарок аннулирован:</b> вы не пришли за подарком до даты окончания вручения подарков</p>';
       }
-      
-      // 1. https://vk.com/segezhadays?w=wall-78535365_59304
-      // 2. https://vk.com/segezhadays?w=wall-78535365_59466, https://vk.com/podslushano_sgz?w=wall-60427812_762688
-      // 3. https://vk.com/segezhadays?w=wall-78535365_59596
+
     }
 
     //if (date_participated == date_yesterday || i == 0) {  // || i == 0 fixes bug: user didn't participate 1+ days and won and now has won in yesterday+ and history sections but feedback radio has the same id for both sections and thus doesn't work consistently
