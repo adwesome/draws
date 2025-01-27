@@ -103,7 +103,7 @@ async function create_drawings_list() {
     }
     else {
       past_counter += 1;
-      if (past_counter == 4)
+      if (past_counter == 3)
         html_past += '<p id="show_history"><a href="#" onclick="show_history();">Открыть всю историю</a></p> <div id="hidden-history">';
 
       html_past += `<p>${day}.${month} <span class="status `;
