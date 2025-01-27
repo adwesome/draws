@@ -168,13 +168,13 @@ async function create_drawings_list() {
         html_past += '<p style="margin-bottom: 1em;">✅ Подарок получен</p>'
       }
       else if (status_player == 6) {
-        html_past += '<p>❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок и не пришли за ним</p>';
+        html_past += '<p class="congrats" style="margin-bottom: 1em;">❌ <b>Подарок аннулирован:</b> в течение 3 дней не подтвердили желание получить подарок и не пришли за ним</p>';
       }
       else if (status_player == 7) {
-        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы отказались от получения</p>';
+        html_past += '<p class="congrats" style="margin-bottom: 1em;">❌ <b>Подарок аннулирован:</b> вы отказались от получения</p>';
       }
       else if (campaign_passed && status_system == 1 && !gifted_at && !gift.includes('https') || status_player == 8) {
-        html_past += '<p>❌ <b>Подарок аннулирован:</b> вы не пришли за подарком до даты окончания вручения подарков</p>';
+        html_past += '<p class="congrats" style="margin-bottom: 1em;">❌ <b>Подарок аннулирован:</b> вы не пришли за подарком до даты окончания вручения подарков</p>';
       }
 
     }
