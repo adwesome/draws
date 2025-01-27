@@ -532,7 +532,7 @@ function modal_explain_chances_to_win() {
     <p class="p-margin">&nbsp;&nbsp;&nbsp;Ваши <b>шансы на выигрыш падают</b> после выигрыша &mdash; так система повышает шансы на выигрыш для тех, кто давно играют и, при этом, давно (по сравнению с другими участниками) не выигрывали.</p>\
     <p class="p-margin">&nbsp;&nbsp;&nbsp;Поэтому, <b>если вы хотите выигрывать и выигрывать часто</b>, то все, что вам нужно делать &mdash; это регулярно играть. Так вы максимизируете свои шансы на выигрыш и выиграете больше подарков за один и тот же срок, чем те участники, которые играют не регулярно.</p>\
     <p class="p-margin">&nbsp;&nbsp;&nbsp;Желаем вам удачи в розыгрышах!</p>\
-    <p class="p-margin" style="font-size: 0.85em; margin-top: 2em;">&nbsp;&nbsp;&nbsp;Если у вас остались вопросы, пожалуйста, задавайте их прямо в <a href="https://telegram.me/adte_bot" target="_blank">чате бота @adte_bot</a>.</p>';
+    <p class="p-margin" style="font-size: 0.85em; margin-top: 1.5em;">&nbsp;&nbsp;&nbsp;Если у вас остались вопросы, пожалуйста, задавайте их прямо в <a href="https://telegram.me/adte_bot" target="_blank">чате бота @adte_bot</a>.</p>';
   document.getElementById('modal-body').innerHTML = content;
 }
 function modal_explain_rules() {

@@ -237,14 +237,11 @@ h3 {
   background-color: floralwhite;
 }
 .modal-body {
-  padding: 0 0 50px 0;
+  padding: 0 20px 50px 20px;
 }
 
-.p-margin, .modal-body h3 {
-  padding: 0 20px !important;
-}
 .h-offset {
-  margin: 11vh 20px 1em 20px;
+  margin: 11vh 0px 1em 0px;
 }
 
 #ad_marker {
