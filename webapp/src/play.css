@@ -236,6 +236,16 @@ h3 {
   border: 0px;
   background-color: floralwhite;
 }
+.modal-body {
+  padding: 0;
+}
+
+.p-margin, .modal-body h3 {
+  padding: 0 20px !important;
+}
+.h-offset {
+  margin-top: 11vh;
+}
 
 #ad_marker {
   position: absolute;

@@ -524,18 +524,18 @@ function clean_modal() {
   document.getElementById('modal-body').innerHTML = '';
 }
 function modal_explain_chances_to_win() {
-  let content = '<h3 style="margin-top: 11vh;">Как работают шансы на выигрыш</h3>';
-  content += '<p>Описание</p>';
+  let content = '<h3 class="h-offset">Как работают шансы на выигрыш</h3>';
+  content += '<p class="p-margin">Описание</p>';
   document.getElementById('modal-body').innerHTML = content;
 }
 function modal_explain_rules() {
-  let content = '<h3 style="margin-top: 11vh;">Правила розыгрышей</h3>';
-  content += '<p>Описание</p>';
+  let content = '<h3 class="h-offset">Правила розыгрышей</h3>';
+  content += '<p class="p-margin">Описание</p>';
   document.getElementById('modal-body').innerHTML = content;
 }
 function modal_explain_settings() {
-  let content = '<h3 style="margin-top: 11vh;">Как работают настройки</h3>';
-  content += '<p>Описание</p>';
+  let content = '<h3 class="h-offset">Как работают настройки</h3>';
+  content += '<p class="p-margin">Описание</p>';
   document.getElementById('modal-body').innerHTML = content;
 }
 
