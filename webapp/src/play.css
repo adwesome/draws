@@ -227,6 +227,15 @@ h3 {
   margin-top-: 9vh;
   height-: calc(100vh - 9vh - 36px);
 }
+.modal-dialog {
+  margin: 0;
+  height: 100%;
+}
+.modal-content {
+  border-radius: 0;
+  border: 0px;
+  background-color: floralwhite;
+}
 
 #ad_marker {
   position: absolute;
