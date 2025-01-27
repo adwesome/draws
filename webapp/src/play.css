@@ -297,7 +297,7 @@ h3 {
 }
 
 #mini_app_settings {
-  padding: 0 20px !important;
+  padding: 15px 20px !important;
 }
 
 
@@ -412,4 +412,14 @@ h4 {
 }
 #chances_to_win_explain {
   margin-top: 10px;
+}
+
+li.nav-item {
+  margin-bottom: unset;
+}
+.nav-pills {
+  margin: 0 20px;
+}
+.nav-pills .nav-link.active {
+  background-color-: unset;
 }

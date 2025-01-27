@@ -40,18 +40,18 @@
     <link rel="stylesheet" href="src/flipdown/flipdown.min.css"/>
     <script type="text/javascript" src="src/flipdown/flipdown.min.js"></script>
     
-    <link rel="stylesheet" href="src/first_screen.css?v=01271"/>
-    <link rel="stylesheet" href="src/second_screen.css?v=01271"/>
+    <link rel="stylesheet" href="src/first_screen.css?v=01272"/>
+    <link rel="stylesheet" href="src/second_screen.css?v=01272"/>
 
-    <link rel="stylesheet" href="src/play.css?v=01271"/>
+    <link rel="stylesheet" href="src/play.css?v=01272"/>
     <style type="text/css"></style>
 
-    <script type="text/javascript" src="src/common.js?v=01271"></script>
-    <script type="text/javascript" src="src/first_screen.js?v=01271"></script>
-    <!--script type="text/javascript" src="src/second_screen.js?v=01271"></script-->
-    <script type="text/javascript" src="src/poll.js?v=01271"></script>
-    <script type="text/javascript" src="src/yandex/geosuggest.js?v=01271"></script>
-    <script type="text/javascript" src="src/play.js?v=01271"></script>
+    <script type="text/javascript" src="src/common.js?v=01272"></script>
+    <script type="text/javascript" src="src/first_screen.js?v=01272"></script>
+    <!--script type="text/javascript" src="src/second_screen.js?v=01272"></script-->
+    <script type="text/javascript" src="src/poll.js?v=01272"></script>
+    <script type="text/javascript" src="src/yandex/geosuggest.js?v=01272"></script>
+    <script type="text/javascript" src="src/play.js?v=01272"></script>
     <script type="text/javascript">
       window.onload = async function() {
         //'use strict';
@@ -241,12 +241,25 @@
                       <p><span class="conditions"><span id="percent"></span>%</span> участников выиграют подарок от <span class="conditions" id="who"></span>. Вы участвуете&nbsp;👍</p>
                     </div-->
 
-                    <h2 class="h-offset">Ваши настройки</h2>
-                    <p><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="modal_explain_settings()">Как и на что влияют настройки?</a></p>
+                    <h2 class="h-offset" style="margin-bottom: 0.3em;">Ваши настройки</h2>
+                    <p style="margin-bottom: 1em;"><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="modal_explain_settings()">Как и на что влияют настройки?</a></p>
                     <!--p>На основе данных, указанными вами ниже, система предлагает наиболее интересные вам розыгрыши, а владельцы брендов узнают, какая аудитория их поддерживает &mdash; и придумывают для вас лучшие предложения и подарки.</p-->
                     <p id="fill_data"></p>
 
-                    <div class="accordion" id="accordionExample">
+                    <ul class="nav nav-pills" id="myTab" role="tablist">
+                      <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">О вас</button>
+                      </li>
+                      <li class="nav-item" role="presentation" id="brands">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Бренды</button>
+                      </li>
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                      <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0"><div id="mini_app_settings"></div></div>
+                      <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0"><div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div></div>
+                    </div>
+
+                    <!--div class="accordion" id="accordionExample">
                       <div style="margin-bottom: 5px;">
                         <div class="accordion-item">
                           <h2 class="accordion-header">
@@ -270,14 +283,14 @@
                           </h2>
                           <div id="collapseTwo" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                             <div class="accordion-body">
-                              <!--p>Выберите бренды, которые вы любите, точки продаж которых вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать. Цветами выделены бренды, которые <span class="available">сейчас участвуют</span> (либо в данный момент на паузе, но могут начать участвовать в любой момент), <span class="preparing">готовятся к участию</span> или <span class="not-available">пока не заинтересованы участвовать</span> в розыгрышах.</p>
-                              <p style="font-size: 0.85em;">Если вы заметили, что какого-то бренда не хватает, или его больше нет, или вы хозяин бренда и хотите поучаствовать в розыгрышах, то, пожалуйста, <a href="https://telegram.me/adt_bot" target="_blank">сообщите нам об этом</a> прямо в боте.</p-->
+                              <!-p>Выберите бренды, которые вы любите, точки продаж которых вы чаще всего посещаете, в розыгрыше подарков от которых вы хотели бы участвовать. Цветами выделены бренды, которые <span class="available">сейчас участвуют</span> (либо в данный момент на паузе, но могут начать участвовать в любой момент), <span class="preparing">готовятся к участию</span> или <span class="not-available">пока не заинтересованы участвовать</span> в розыгрышах.</p>
+                              <p style="font-size: 0.85em;">Если вы заметили, что какого-то бренда не хватает, или его больше нет, или вы хозяин бренда и хотите поучаствовать в розыгрышах, то, пожалуйста, <a href="https://telegram.me/adt_bot" target="_blank">сообщите нам об этом</a> прямо в боте.</p->
                               <div id="list" class="section"><p><b>Пожалуйста, подождите, список организаций загружается...</b></p></div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div-->
                   </div>
                 </div>
               </div>
