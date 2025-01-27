@@ -161,7 +161,7 @@ async function create_drawings_list() {
             <label class="btn btn-outline-success" for="btnradio-${id}-5">Не приду</label>
           </div>`;
         }
-        html_past += `<p class="congrats">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
+        html_past += `<p class="congrats" style="margin-bottom: 1em;">У нас к вам маленькая просьба: похвастайтесь, пожалуйста, своим выигрышем вашим родным, друзьям и коллегам? Чтобы они тоже сюда пришли, и больше таких же людей, как вы, участвовали! Этот бот легко найти и переслать в телеграм по названию <a href="https://telegram.me/share/url?url=https://telegram.me/adte_bot?start=wrfr" target="_blank">@adte_bot</a>. Спасибо!</p>`;
         
       }
       else if (gifted_at) {  // gifted
