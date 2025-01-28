@@ -252,6 +252,7 @@ async function create_drawings_list() {
   //if (wins || lost || not)
   //  draw_chart(wins, lost, not);
 
+  /*
   if (past_counter >= 2 && past_counter < 6) {
     document.getElementById('rating_header').style.display = 'block';
     document.getElementById('rating_intro').style.display = 'block';
@@ -266,6 +267,7 @@ async function create_drawings_list() {
     document.getElementById('rating_intro').style.display = 'block';
     document.getElementById('rating_intro').innerHTML = 'Чтобы кратно повысить ваши шансы на выигрыш, заполните секцию "О вас" и "Бренды" (если она появится) в разделе "Настройки" ниже';
   }
+  */
 
   enable_radio_listeners();
 }
