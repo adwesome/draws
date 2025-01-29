@@ -646,10 +646,15 @@ async function play() {
     v.addEventListener('loadeddata', function() {
       const video_dimensions = {'w': 576, 'h': 1024};
       const video_dimensions_rate = video_dimensions.w / video_dimensions.h;
-      if (window.innerWidth / window.innerHeight < video_dimensions_rate)
+      if (window.innerWidth < window.innerHeight) {
+        if (window.innerWidth / window.innerHeight < video_dimensions_rate)
+          v.height = window.innerHeight;
+        else
+          v.width = window.innerWidth;
+      }
+      else {
         v.height = window.innerHeight;
-      else
-        v.width = window.innerWidth;
+      }
 
       document.getElementById('ad_explain').style.color = 'white';
       document.getElementById('toggle-sound').style.visibility = 'visible';
